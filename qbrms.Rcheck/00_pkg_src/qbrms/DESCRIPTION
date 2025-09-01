@@ -1,0 +1,28 @@
+Package: qbrms
+Title: Quick Bayesian Regression Models Using 'INLA' with 'brms'
+Version: 0.9
+Authors@R: person(given = "Tony",
+                  family = "Myers", 
+                  role = c("aut", "cre"),
+                  email = "admyers@aol.com",
+                  comment = c(ORCID = "0000-0003-4516-4829"))
+Maintainer: Tony Myers <admyers@aol.com>
+Description: Provides a brms-like interface for fitting Bayesian regression models 
+    using INLA (Integrated Nested Laplace Approximations). The package offers 
+    faster model fitting while maintaining familiar brms syntax and output formats.
+    Supports fixed and mixed effects models, multiple probability distributions, 
+    conditional effects plots, and posterior predictive checks with summary methods compatible with brms. Methods are based on Rue et al. (2009) <doi:10.1111/j.1467-9868.2008.00700.x> "Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations", BÃ¼rkner (2017) <doi:10.18637/jss.v080.i01> "brms: An R Package for Bayesian Multilevel Models using Stan", and Kruschke (2014, ISBN:9780124058880) "Doing Bayesian Data Analysis: A Tutorial with R, JAGS, and Stan".
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: R (>= 4.0.0)
+Imports: stats, utils, MASS, quantreg
+Suggests: INLA (>= 22.05.07), brms (>= 2.19.0), ggplot2, testthat (>=
+        3.0.0), rmarkdown, sn, knitr, methods
+URL: https://github.com/Tony-Myers/qbrms
+BugReports: https://github.com/Tony-Myers/qbrms/issues
+Additional_repositories: https://inla.r-inla-download.org/R/stable
+NeedsCompilation: no
+Packaged: 2025-09-01 12:23:23 UTC; user
+Author: Tony Myers [aut, cre] (<https://orcid.org/0000-0003-4516-4829>)

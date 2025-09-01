@@ -1,0 +1,419 @@
+* using log directory ‘/Users/user/Desktop/qbrms/qbrms.Rcheck’
+* using R version 4.4.3 (2025-02-28)
+* using platform: aarch64-apple-darwin20
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Sequoia 15.4
+* using session charset: UTF-8
+* using option ‘--as-cran’
+* checking for file ‘qbrms/DESCRIPTION’ ... OK
+* this is package ‘qbrms’ version ‘0.9’
+* package encoding: UTF-8
+* checking CRAN incoming feasibility ... [3s/19s] NOTE
+Maintainer: ‘Tony Myers <admyers@aol.com>’
+
+New submission
+
+Suggests or Enhances not in mainstream repositories:
+  INLA
+Availability using Additional_repositories specification:
+  INLA   yes   https://inla.r-inla-download.org/R/stable
+
+Found the following (possibly) invalid URLs:
+  URL: https://github.com/Tony-Myers/qbrm
+    From: man/qbrms-package.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://github.com/Tony-Myers/qbrm/issues
+    From: man/qbrms-package.Rd
+    Status: 404
+    Message: Not Found
+  URL: https://github.com/Tony-Myers/qbrms
+    From: DESCRIPTION
+    Status: 404
+    Message: Not Found
+  URL: https://github.com/Tony-Myers/qbrms/issues
+    From: DESCRIPTION
+    Status: 404
+    Message: Not Found
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘qbrms’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking code files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking use of S3 registration ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... OK
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... [12s/13s] OK
+  Running ‘testthat.R’ [12s/13s]
+* checking PDF version of manual ... OK
+* checking HTML version of manual ... NOTE
+Found the following HTML validation problems:
+conditional_effects.html:15:44 (conditional_effects.Rd:5): Error: <main> is not recognized!
+conditional_effects.html:15:44 (conditional_effects.Rd:5): Warning: discarding unexpected <main>
+conditional_effects.html:52:1 (conditional_effects.Rd:15): Warning: discarding unexpected </main>
+conditional_effects.html:4:1 (conditional_effects.Rd:5): Warning: <link> inserting "type" attribute
+conditional_effects.html:12:1 (conditional_effects.Rd:5): Warning: <script> proprietary attribute "onload"
+conditional_effects.html:12:1 (conditional_effects.Rd:5): Warning: <script> inserting "type" attribute
+conditional_effects.html:17:1 (conditional_effects.Rd:5): Warning: <table> lacks "summary" attribute
+conditional_effects.html:35:1 (conditional_effects.Rd:10): Warning: <table> lacks "summary" attribute
+conditional_effects.html:40:14 (conditional_effects.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+conditional_effects.qbrms_fit.html:15:44 (conditional_effects.qbrms_fit.Rd:5): Error: <main> is not recognized!
+conditional_effects.qbrms_fit.html:15:44 (conditional_effects.qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+conditional_effects.qbrms_fit.html:101:1 (conditional_effects.qbrms_fit.Rd:45): Warning: discarding unexpected </main>
+conditional_effects.qbrms_fit.html:4:1 (conditional_effects.qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+conditional_effects.qbrms_fit.html:12:1 (conditional_effects.qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+conditional_effects.qbrms_fit.html:12:1 (conditional_effects.qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+conditional_effects.qbrms_fit.html:17:1 (conditional_effects.qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+conditional_effects.qbrms_fit.html:48:1 (conditional_effects.qbrms_fit.Rd:22): Warning: <table> lacks "summary" attribute
+conditional_effects.qbrms_fit.html:89:14 (conditional_effects.qbrms_fit.Rd:42): Warning: <code> attribute "id" has invalid value "..."
+convert_binomial_formula.html:15:44 (convert_binomial_formula.Rd:5): Error: <main> is not recognized!
+convert_binomial_formula.html:15:44 (convert_binomial_formula.Rd:5): Warning: discarding unexpected <main>
+convert_binomial_formula.html:32:1 (convert_binomial_formula.Rd:7): Warning: discarding unexpected </main>
+convert_binomial_formula.html:4:1 (convert_binomial_formula.Rd:5): Warning: <link> inserting "type" attribute
+convert_binomial_formula.html:12:1 (convert_binomial_formula.Rd:5): Warning: <script> proprietary attribute "onload"
+convert_binomial_formula.html:12:1 (convert_binomial_formula.Rd:5): Warning: <script> inserting "type" attribute
+convert_binomial_formula.html:17:1 (convert_binomial_formula.Rd:5): Warning: <table> lacks "summary" attribute
+create_dummy_data_for_priors.html:15:44 (create_dummy_data_for_priors.Rd:5): Error: <main> is not recognized!
+create_dummy_data_for_priors.html:15:44 (create_dummy_data_for_priors.Rd:5): Warning: discarding unexpected <main>
+create_dummy_data_for_priors.html:70:1 (create_dummy_data_for_priors.Rd:27): Warning: discarding unexpected </main>
+create_dummy_data_for_priors.html:4:1 (create_dummy_data_for_priors.Rd:5): Warning: <link> inserting "type" attribute
+create_dummy_data_for_priors.html:12:1 (create_dummy_data_for_priors.Rd:5): Warning: <script> proprietary attribute "onload"
+create_dummy_data_for_priors.html:12:1 (create_dummy_data_for_priors.Rd:5): Warning: <script> inserting "type" attribute
+create_dummy_data_for_priors.html:17:1 (create_dummy_data_for_priors.Rd:5): Warning: <table> lacks "summary" attribute
+create_dummy_data_for_priors.html:41:1 (create_dummy_data_for_priors.Rd:16): Warning: <table> lacks "summary" attribute
+create_quantile_fit.html:15:44 (create_quantile_fit.Rd:5): Error: <main> is not recognized!
+create_quantile_fit.html:15:44 (create_quantile_fit.Rd:5): Warning: discarding unexpected <main>
+create_quantile_fit.html:32:1 (create_quantile_fit.Rd:7): Warning: discarding unexpected </main>
+create_quantile_fit.html:4:1 (create_quantile_fit.Rd:5): Warning: <link> inserting "type" attribute
+create_quantile_fit.html:12:1 (create_quantile_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+create_quantile_fit.html:12:1 (create_quantile_fit.Rd:5): Warning: <script> inserting "type" attribute
+create_quantile_fit.html:17:1 (create_quantile_fit.Rd:5): Warning: <table> lacks "summary" attribute
+extract_family_name.html:15:44 (extract_family_name.Rd:5): Error: <main> is not recognized!
+extract_family_name.html:15:44 (extract_family_name.Rd:5): Warning: discarding unexpected <main>
+extract_family_name.html:48:1 (extract_family_name.Rd:13): Warning: discarding unexpected </main>
+extract_family_name.html:4:1 (extract_family_name.Rd:5): Warning: <link> inserting "type" attribute
+extract_family_name.html:12:1 (extract_family_name.Rd:5): Warning: <script> proprietary attribute "onload"
+extract_family_name.html:12:1 (extract_family_name.Rd:5): Warning: <script> inserting "type" attribute
+extract_family_name.html:17:1 (extract_family_name.Rd:5): Warning: <table> lacks "summary" attribute
+extract_family_name.html:35:1 (extract_family_name.Rd:10): Warning: <table> lacks "summary" attribute
+extract_model_metrics.html:15:44 (extract_model_metrics.Rd:5): Error: <main> is not recognized!
+extract_model_metrics.html:15:44 (extract_model_metrics.Rd:5): Warning: discarding unexpected <main>
+extract_model_metrics.html:48:1 (extract_model_metrics.Rd:13): Warning: discarding unexpected </main>
+extract_model_metrics.html:4:1 (extract_model_metrics.Rd:5): Warning: <link> inserting "type" attribute
+extract_model_metrics.html:12:1 (extract_model_metrics.Rd:5): Warning: <script> proprietary attribute "onload"
+extract_model_metrics.html:12:1 (extract_model_metrics.Rd:5): Warning: <script> inserting "type" attribute
+extract_model_metrics.html:17:1 (extract_model_metrics.Rd:5): Warning: <table> lacks "summary" attribute
+extract_model_metrics.html:35:1 (extract_model_metrics.Rd:10): Warning: <table> lacks "summary" attribute
+extract_ordinal_info.html:15:44 (extract_ordinal_info.Rd:5): Error: <main> is not recognized!
+extract_ordinal_info.html:15:44 (extract_ordinal_info.Rd:5): Warning: discarding unexpected <main>
+extract_ordinal_info.html:48:1 (extract_ordinal_info.Rd:13): Warning: discarding unexpected </main>
+extract_ordinal_info.html:4:1 (extract_ordinal_info.Rd:5): Warning: <link> inserting "type" attribute
+extract_ordinal_info.html:12:1 (extract_ordinal_info.Rd:5): Warning: <script> proprietary attribute "onload"
+extract_ordinal_info.html:12:1 (extract_ordinal_info.Rd:5): Warning: <script> inserting "type" attribute
+extract_ordinal_info.html:17:1 (extract_ordinal_info.Rd:5): Warning: <table> lacks "summary" attribute
+extract_ordinal_info.html:35:1 (extract_ordinal_info.Rd:10): Warning: <table> lacks "summary" attribute
+fit_fixed_effects_model_improved.html:15:44 (fit_fixed_effects_model_improved.Rd:5): Error: <main> is not recognized!
+fit_fixed_effects_model_improved.html:15:44 (fit_fixed_effects_model_improved.Rd:5): Warning: discarding unexpected <main>
+fit_fixed_effects_model_improved.html:39:1 (fit_fixed_effects_model_improved.Rd:14): Warning: discarding unexpected </main>
+fit_fixed_effects_model_improved.html:4:1 (fit_fixed_effects_model_improved.Rd:5): Warning: <link> inserting "type" attribute
+fit_fixed_effects_model_improved.html:12:1 (fit_fixed_effects_model_improved.Rd:5): Warning: <script> proprietary attribute "onload"
+fit_fixed_effects_model_improved.html:12:1 (fit_fixed_effects_model_improved.Rd:5): Warning: <script> inserting "type" attribute
+fit_fixed_effects_model_improved.html:17:1 (fit_fixed_effects_model_improved.Rd:5): Warning: <table> lacks "summary" attribute
+fit_mixed_effects_model_improved.html:15:44 (fit_mixed_effects_model_improved.Rd:5): Error: <main> is not recognized!
+fit_mixed_effects_model_improved.html:15:44 (fit_mixed_effects_model_improved.Rd:5): Warning: discarding unexpected <main>
+fit_mixed_effects_model_improved.html:39:1 (fit_mixed_effects_model_improved.Rd:14): Warning: discarding unexpected </main>
+fit_mixed_effects_model_improved.html:4:1 (fit_mixed_effects_model_improved.Rd:5): Warning: <link> inserting "type" attribute
+fit_mixed_effects_model_improved.html:12:1 (fit_mixed_effects_model_improved.Rd:5): Warning: <script> proprietary attribute "onload"
+fit_mixed_effects_model_improved.html:12:1 (fit_mixed_effects_model_improved.Rd:5): Warning: <script> inserting "type" attribute
+fit_mixed_effects_model_improved.html:17:1 (fit_mixed_effects_model_improved.Rd:5): Warning: <table> lacks "summary" attribute
+fit_ordinal_model_improved.html:15:44 (fit_ordinal_model_improved.Rd:5): Error: <main> is not recognized!
+fit_ordinal_model_improved.html:15:44 (fit_ordinal_model_improved.Rd:5): Warning: discarding unexpected <main>
+fit_ordinal_model_improved.html:39:1 (fit_ordinal_model_improved.Rd:14): Warning: discarding unexpected </main>
+fit_ordinal_model_improved.html:4:1 (fit_ordinal_model_improved.Rd:5): Warning: <link> inserting "type" attribute
+fit_ordinal_model_improved.html:12:1 (fit_ordinal_model_improved.Rd:5): Warning: <script> proprietary attribute "onload"
+fit_ordinal_model_improved.html:12:1 (fit_ordinal_model_improved.Rd:5): Warning: <script> inserting "type" attribute
+fit_ordinal_model_improved.html:17:1 (fit_ordinal_model_improved.Rd:5): Warning: <table> lacks "summary" attribute
+format_duration.html:15:44 (format_duration.Rd:5): Error: <main> is not recognized!
+format_duration.html:15:44 (format_duration.Rd:5): Warning: discarding unexpected <main>
+format_duration.html:48:1 (format_duration.Rd:13): Warning: discarding unexpected </main>
+format_duration.html:4:1 (format_duration.Rd:5): Warning: <link> inserting "type" attribute
+format_duration.html:12:1 (format_duration.Rd:5): Warning: <script> proprietary attribute "onload"
+format_duration.html:12:1 (format_duration.Rd:5): Warning: <script> inserting "type" attribute
+format_duration.html:17:1 (format_duration.Rd:5): Warning: <table> lacks "summary" attribute
+format_duration.html:35:1 (format_duration.Rd:10): Warning: <table> lacks "summary" attribute
+generate_posterior_predictive_samples.html:15:44 (generate_posterior_predictive_samples.Rd:5): Error: <main> is not recognized!
+generate_posterior_predictive_samples.html:15:44 (generate_posterior_predictive_samples.Rd:5): Warning: discarding unexpected <main>
+generate_posterior_predictive_samples.html:32:1 (generate_posterior_predictive_samples.Rd:7): Warning: discarding unexpected </main>
+generate_posterior_predictive_samples.html:4:1 (generate_posterior_predictive_samples.Rd:5): Warning: <link> inserting "type" attribute
+generate_posterior_predictive_samples.html:12:1 (generate_posterior_predictive_samples.Rd:5): Warning: <script> proprietary attribute "onload"
+generate_posterior_predictive_samples.html:12:1 (generate_posterior_predictive_samples.Rd:5): Warning: <script> inserting "type" attribute
+generate_posterior_predictive_samples.html:17:1 (generate_posterior_predictive_samples.Rd:5): Warning: <table> lacks "summary" attribute
+generate_prior_predictions_simple.html:15:44 (generate_prior_predictions_simple.Rd:5): Error: <main> is not recognized!
+generate_prior_predictions_simple.html:15:44 (generate_prior_predictions_simple.Rd:5): Warning: discarding unexpected <main>
+generate_prior_predictions_simple.html:75:1 (generate_prior_predictions_simple.Rd:30): Warning: discarding unexpected </main>
+generate_prior_predictions_simple.html:4:1 (generate_prior_predictions_simple.Rd:5): Warning: <link> inserting "type" attribute
+generate_prior_predictions_simple.html:12:1 (generate_prior_predictions_simple.Rd:5): Warning: <script> proprietary attribute "onload"
+generate_prior_predictions_simple.html:12:1 (generate_prior_predictions_simple.Rd:5): Warning: <script> inserting "type" attribute
+generate_prior_predictions_simple.html:17:1 (generate_prior_predictions_simple.Rd:5): Warning: <table> lacks "summary" attribute
+generate_prior_predictions_simple.html:42:1 (generate_prior_predictions_simple.Rd:17): Warning: <table> lacks "summary" attribute
+generate_prior_samples.html:15:44 (generate_prior_samples.Rd:5): Error: <main> is not recognized!
+generate_prior_samples.html:15:44 (generate_prior_samples.Rd:5): Warning: discarding unexpected <main>
+generate_prior_samples.html:80:1 (generate_prior_samples.Rd:33): Warning: discarding unexpected </main>
+generate_prior_samples.html:4:1 (generate_prior_samples.Rd:5): Warning: <link> inserting "type" attribute
+generate_prior_samples.html:12:1 (generate_prior_samples.Rd:5): Warning: <script> proprietary attribute "onload"
+generate_prior_samples.html:12:1 (generate_prior_samples.Rd:5): Warning: <script> inserting "type" attribute
+generate_prior_samples.html:17:1 (generate_prior_samples.Rd:5): Warning: <table> lacks "summary" attribute
+generate_prior_samples.html:43:1 (generate_prior_samples.Rd:18): Warning: <table> lacks "summary" attribute
+generate_prior_samples.html:68:14 (generate_prior_samples.Rd:30): Warning: <code> attribute "id" has invalid value "..."
+get_predictor_variables.html:15:44 (get_predictor_variables.Rd:5): Error: <main> is not recognized!
+get_predictor_variables.html:15:44 (get_predictor_variables.Rd:5): Warning: discarding unexpected <main>
+get_predictor_variables.html:52:1 (get_predictor_variables.Rd:15): Warning: discarding unexpected </main>
+get_predictor_variables.html:4:1 (get_predictor_variables.Rd:5): Warning: <link> inserting "type" attribute
+get_predictor_variables.html:12:1 (get_predictor_variables.Rd:5): Warning: <script> proprietary attribute "onload"
+get_predictor_variables.html:12:1 (get_predictor_variables.Rd:5): Warning: <script> inserting "type" attribute
+get_predictor_variables.html:17:1 (get_predictor_variables.Rd:5): Warning: <table> lacks "summary" attribute
+get_predictor_variables.html:35:1 (get_predictor_variables.Rd:10): Warning: <table> lacks "summary" attribute
+get_random_effects_sd_summary.html:15:44 (get_random_effects_sd_summary.Rd:5): Error: <main> is not recognized!
+get_random_effects_sd_summary.html:15:44 (get_random_effects_sd_summary.Rd:5): Warning: discarding unexpected <main>
+get_random_effects_sd_summary.html:52:1 (get_random_effects_sd_summary.Rd:15): Warning: discarding unexpected </main>
+get_random_effects_sd_summary.html:4:1 (get_random_effects_sd_summary.Rd:5): Warning: <link> inserting "type" attribute
+get_random_effects_sd_summary.html:12:1 (get_random_effects_sd_summary.Rd:5): Warning: <script> proprietary attribute "onload"
+get_random_effects_sd_summary.html:12:1 (get_random_effects_sd_summary.Rd:5): Warning: <script> inserting "type" attribute
+get_random_effects_sd_summary.html:17:1 (get_random_effects_sd_summary.Rd:5): Warning: <table> lacks "summary" attribute
+get_random_effects_sd_summary.html:35:1 (get_random_effects_sd_summary.Rd:10): Warning: <table> lacks "summary" attribute
+grapes-or-or-grapes.html:15:44 (grapes-or-or-grapes.Rd:6): Error: <main> is not recognized!
+grapes-or-or-grapes.html:15:44 (grapes-or-or-grapes.Rd:6): Warning: discarding unexpected <main>
+grapes-or-or-grapes.html:52:1 (grapes-or-or-grapes.Rd:16): Warning: discarding unexpected </main>
+grapes-or-or-grapes.html:4:1 (grapes-or-or-grapes.Rd:6): Warning: <link> inserting "type" attribute
+grapes-or-or-grapes.html:12:1 (grapes-or-or-grapes.Rd:6): Warning: <script> proprietary attribute "onload"
+grapes-or-or-grapes.html:12:1 (grapes-or-or-grapes.Rd:6): Warning: <script> inserting "type" attribute
+grapes-or-or-grapes.html:17:1 (grapes-or-or-grapes.Rd:6): Warning: <table> lacks "summary" attribute
+grapes-or-or-grapes.html:35:1 (grapes-or-or-grapes.Rd:11): Warning: <table> lacks "summary" attribute
+handle_missing_data.html:15:44 (handle_missing_data.Rd:5): Error: <main> is not recognized!
+handle_missing_data.html:15:44 (handle_missing_data.Rd:5): Warning: discarding unexpected <main>
+handle_missing_data.html:56:1 (handle_missing_data.Rd:17): Warning: discarding unexpected </main>
+handle_missing_data.html:4:1 (handle_missing_data.Rd:5): Warning: <link> inserting "type" attribute
+handle_missing_data.html:12:1 (handle_missing_data.Rd:5): Warning: <script> proprietary attribute "onload"
+handle_missing_data.html:12:1 (handle_missing_data.Rd:5): Warning: <script> inserting "type" attribute
+handle_missing_data.html:17:1 (handle_missing_data.Rd:5): Warning: <table> lacks "summary" attribute
+handle_missing_data.html:35:1 (handle_missing_data.Rd:10): Warning: <table> lacks "summary" attribute
+model_fitting.html:15:44 (model_fitting.Rd:5): Error: <main> is not recognized!
+model_fitting.html:15:44 (model_fitting.Rd:5): Warning: discarding unexpected <main>
+model_fitting.html:32:1 (model_fitting.Rd:10): Warning: discarding unexpected </main>
+model_fitting.html:4:1 (model_fitting.Rd:5): Warning: <link> inserting "type" attribute
+model_fitting.html:12:1 (model_fitting.Rd:5): Warning: <script> proprietary attribute "onload"
+model_fitting.html:12:1 (model_fitting.Rd:5): Warning: <script> inserting "type" attribute
+model_fitting.html:17:1 (model_fitting.Rd:5): Warning: <table> lacks "summary" attribute
+parse_brms_formula.html:15:44 (parse_brms_formula.Rd:5): Error: <main> is not recognized!
+parse_brms_formula.html:15:44 (parse_brms_formula.Rd:5): Warning: discarding unexpected <main>
+parse_brms_formula.html:48:1 (parse_brms_formula.Rd:13): Warning: discarding unexpected </main>
+parse_brms_formula.html:4:1 (parse_brms_formula.Rd:5): Warning: <link> inserting "type" attribute
+parse_brms_formula.html:12:1 (parse_brms_formula.Rd:5): Warning: <script> proprietary attribute "onload"
+parse_brms_formula.html:12:1 (parse_brms_formula.Rd:5): Warning: <script> inserting "type" attribute
+parse_brms_formula.html:17:1 (parse_brms_formula.Rd:5): Warning: <table> lacks "summary" attribute
+parse_brms_formula.html:35:1 (parse_brms_formula.Rd:10): Warning: <table> lacks "summary" attribute
+parse_formula_components.html:15:44 (parse_formula_components.Rd:5): Error: <main> is not recognized!
+parse_formula_components.html:15:44 (parse_formula_components.Rd:5): Warning: discarding unexpected <main>
+parse_formula_components.html:52:1 (parse_formula_components.Rd:15): Warning: discarding unexpected </main>
+parse_formula_components.html:4:1 (parse_formula_components.Rd:5): Warning: <link> inserting "type" attribute
+parse_formula_components.html:12:1 (parse_formula_components.Rd:5): Warning: <script> proprietary attribute "onload"
+parse_formula_components.html:12:1 (parse_formula_components.Rd:5): Warning: <script> inserting "type" attribute
+parse_formula_components.html:17:1 (parse_formula_components.Rd:5): Warning: <table> lacks "summary" attribute
+parse_formula_components.html:35:1 (parse_formula_components.Rd:10): Warning: <table> lacks "summary" attribute
+plot.brms_conditional_effects.html:15:44 (plot.brms_conditional_effects.Rd:5): Error: <main> is not recognized!
+plot.brms_conditional_effects.html:15:44 (plot.brms_conditional_effects.Rd:5): Warning: discarding unexpected <main>
+plot.brms_conditional_effects.html:81:1 (plot.brms_conditional_effects.Rd:33): Warning: discarding unexpected </main>
+plot.brms_conditional_effects.html:4:1 (plot.brms_conditional_effects.Rd:5): Warning: <link> inserting "type" attribute
+plot.brms_conditional_effects.html:12:1 (plot.brms_conditional_effects.Rd:5): Warning: <script> proprietary attribute "onload"
+plot.brms_conditional_effects.html:12:1 (plot.brms_conditional_effects.Rd:5): Warning: <script> inserting "type" attribute
+plot.brms_conditional_effects.html:17:1 (plot.brms_conditional_effects.Rd:5): Warning: <table> lacks "summary" attribute
+plot.brms_conditional_effects.html:44:1 (plot.brms_conditional_effects.Rd:18): Warning: <table> lacks "summary" attribute
+plot.brms_conditional_effects.html:69:14 (plot.brms_conditional_effects.Rd:30): Warning: <code> attribute "id" has invalid value "..."
+pp_check.html:15:44 (pp_check.Rd:5): Error: <main> is not recognized!
+pp_check.html:15:44 (pp_check.Rd:5): Warning: discarding unexpected <main>
+pp_check.html:56:1 (pp_check.Rd:19): Warning: discarding unexpected </main>
+pp_check.html:4:1 (pp_check.Rd:5): Warning: <link> inserting "type" attribute
+pp_check.html:12:1 (pp_check.Rd:5): Warning: <script> proprietary attribute "onload"
+pp_check.html:12:1 (pp_check.Rd:5): Warning: <script> inserting "type" attribute
+pp_check.html:17:1 (pp_check.Rd:5): Warning: <table> lacks "summary" attribute
+pp_check.html:35:1 (pp_check.Rd:10): Warning: <table> lacks "summary" attribute
+pp_check.html:40:14 (pp_check.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+pp_check.qbrms_fit.html:15:44 (pp_check.qbrms_fit.Rd:5): Error: <main> is not recognized!
+pp_check.qbrms_fit.html:15:44 (pp_check.qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+pp_check.qbrms_fit.html:66:1 (pp_check.qbrms_fit.Rd:22): Warning: discarding unexpected </main>
+pp_check.qbrms_fit.html:4:1 (pp_check.qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+pp_check.qbrms_fit.html:12:1 (pp_check.qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+pp_check.qbrms_fit.html:12:1 (pp_check.qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+pp_check.qbrms_fit.html:17:1 (pp_check.qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+pp_check.qbrms_fit.html:36:1 (pp_check.qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+pp_check.qbrms_fit.html:54:14 (pp_check.qbrms_fit.Rd:19): Warning: <code> attribute "id" has invalid value "..."
+pp_check.qbrms_prior.html:15:44 (pp_check.qbrms_prior.Rd:5): Error: <main> is not recognized!
+pp_check.qbrms_prior.html:15:44 (pp_check.qbrms_prior.Rd:5): Warning: discarding unexpected <main>
+pp_check.qbrms_prior.html:66:1 (pp_check.qbrms_prior.Rd:22): Warning: discarding unexpected </main>
+pp_check.qbrms_prior.html:4:1 (pp_check.qbrms_prior.Rd:5): Warning: <link> inserting "type" attribute
+pp_check.qbrms_prior.html:12:1 (pp_check.qbrms_prior.Rd:5): Warning: <script> proprietary attribute "onload"
+pp_check.qbrms_prior.html:12:1 (pp_check.qbrms_prior.Rd:5): Warning: <script> inserting "type" attribute
+pp_check.qbrms_prior.html:17:1 (pp_check.qbrms_prior.Rd:5): Warning: <table> lacks "summary" attribute
+pp_check.qbrms_prior.html:36:1 (pp_check.qbrms_prior.Rd:10): Warning: <table> lacks "summary" attribute
+pp_check.qbrms_prior.html:54:14 (pp_check.qbrms_prior.Rd:19): Warning: <code> attribute "id" has invalid value "..."
+print.ordinal_augmented_qbrms_fit.html:15:44 (print.ordinal_augmented_qbrms_fit.Rd:5): Error: <main> is not recognized!
+print.ordinal_augmented_qbrms_fit.html:15:44 (print.ordinal_augmented_qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+print.ordinal_augmented_qbrms_fit.html:53:1 (print.ordinal_augmented_qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+print.ordinal_augmented_qbrms_fit.html:4:1 (print.ordinal_augmented_qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+print.ordinal_augmented_qbrms_fit.html:12:1 (print.ordinal_augmented_qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+print.ordinal_augmented_qbrms_fit.html:12:1 (print.ordinal_augmented_qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+print.ordinal_augmented_qbrms_fit.html:17:1 (print.ordinal_augmented_qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+print.ordinal_augmented_qbrms_fit.html:36:1 (print.ordinal_augmented_qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+print.ordinal_augmented_qbrms_fit.html:41:14 (print.ordinal_augmented_qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+print.ordinal_binary_qbrms_fit.html:15:44 (print.ordinal_binary_qbrms_fit.Rd:5): Error: <main> is not recognized!
+print.ordinal_binary_qbrms_fit.html:15:44 (print.ordinal_binary_qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+print.ordinal_binary_qbrms_fit.html:53:1 (print.ordinal_binary_qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+print.ordinal_binary_qbrms_fit.html:4:1 (print.ordinal_binary_qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+print.ordinal_binary_qbrms_fit.html:12:1 (print.ordinal_binary_qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+print.ordinal_binary_qbrms_fit.html:12:1 (print.ordinal_binary_qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+print.ordinal_binary_qbrms_fit.html:17:1 (print.ordinal_binary_qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+print.ordinal_binary_qbrms_fit.html:36:1 (print.ordinal_binary_qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+print.ordinal_binary_qbrms_fit.html:41:14 (print.ordinal_binary_qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+print.qbrms_fit.html:15:44 (print.qbrms_fit.Rd:5): Error: <main> is not recognized!
+print.qbrms_fit.html:15:44 (print.qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+print.qbrms_fit.html:53:1 (print.qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+print.qbrms_fit.html:4:1 (print.qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+print.qbrms_fit.html:12:1 (print.qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+print.qbrms_fit.html:12:1 (print.qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+print.qbrms_fit.html:17:1 (print.qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+print.qbrms_fit.html:36:1 (print.qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+print.qbrms_fit.html:41:14 (print.qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+qbrms-package.html:15:44 (qbrms-package.Rd:6): Error: <main> is not recognized!
+qbrms-package.html:15:44 (qbrms-package.Rd:6): Warning: discarding unexpected <main>
+qbrms-package.html:75:1 (qbrms-package.Rd:30): Warning: discarding unexpected </main>
+qbrms-package.html:4:1 (qbrms-package.Rd:6): Warning: <link> inserting "type" attribute
+qbrms-package.html:12:1 (qbrms-package.Rd:6): Warning: <script> proprietary attribute "onload"
+qbrms-package.html:12:1 (qbrms-package.Rd:6): Warning: <script> inserting "type" attribute
+qbrms-package.html:17:1 (qbrms-package.Rd:6): Warning: <table> lacks "summary" attribute
+qbrms.html:15:44 (qbrms.Rd:5): Error: <main> is not recognized!
+qbrms.html:15:44 (qbrms.Rd:5): Warning: discarding unexpected <main>
+qbrms.html:171:1 (qbrms.Rd:97): Warning: discarding unexpected </main>
+qbrms.html:4:1 (qbrms.Rd:5): Warning: <link> inserting "type" attribute
+qbrms.html:12:1 (qbrms.Rd:5): Warning: <script> proprietary attribute "onload"
+qbrms.html:12:1 (qbrms.Rd:5): Warning: <script> inserting "type" attribute
+qbrms.html:17:1 (qbrms.Rd:5): Warning: <table> lacks "summary" attribute
+qbrms.html:59:1 (qbrms.Rd:32): Warning: <table> lacks "summary" attribute
+qbrms.html:104:14 (qbrms.Rd:60): Warning: <code> attribute "id" has invalid value "..."
+qmbs.html:15:44 (qmbs.Rd:5): Error: <main> is not recognized!
+qmbs.html:15:44 (qmbs.Rd:5): Warning: discarding unexpected <main>
+qmbs.html:111:1 (qmbs.Rd:53): Warning: discarding unexpected </main>
+qmbs.html:4:1 (qmbs.Rd:5): Warning: <link> inserting "type" attribute
+qmbs.html:12:1 (qmbs.Rd:5): Warning: <script> proprietary attribute "onload"
+qmbs.html:12:1 (qmbs.Rd:5): Warning: <script> inserting "type" attribute
+qmbs.html:17:1 (qmbs.Rd:5): Warning: <table> lacks "summary" attribute
+qmbs.html:46:1 (qmbs.Rd:20): Warning: <table> lacks "summary" attribute
+qmbs.html:80:14 (qmbs.Rd:37): Warning: <code> attribute "id" has invalid value "..."
+quantile_regression_fit.html:15:44 (quantile_regression_fit.Rd:5): Error: <main> is not recognized!
+quantile_regression_fit.html:15:44 (quantile_regression_fit.Rd:5): Warning: discarding unexpected <main>
+quantile_regression_fit.html:32:1 (quantile_regression_fit.Rd:7): Warning: discarding unexpected </main>
+quantile_regression_fit.html:4:1 (quantile_regression_fit.Rd:5): Warning: <link> inserting "type" attribute
+quantile_regression_fit.html:12:1 (quantile_regression_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+quantile_regression_fit.html:12:1 (quantile_regression_fit.Rd:5): Warning: <script> inserting "type" attribute
+quantile_regression_fit.html:17:1 (quantile_regression_fit.Rd:5): Warning: <table> lacks "summary" attribute
+requires_special_handling.html:15:44 (requires_special_handling.Rd:5): Error: <main> is not recognized!
+requires_special_handling.html:15:44 (requires_special_handling.Rd:5): Warning: discarding unexpected <main>
+requires_special_handling.html:48:1 (requires_special_handling.Rd:13): Warning: discarding unexpected </main>
+requires_special_handling.html:4:1 (requires_special_handling.Rd:5): Warning: <link> inserting "type" attribute
+requires_special_handling.html:12:1 (requires_special_handling.Rd:5): Warning: <script> proprietary attribute "onload"
+requires_special_handling.html:12:1 (requires_special_handling.Rd:5): Warning: <script> inserting "type" attribute
+requires_special_handling.html:17:1 (requires_special_handling.Rd:5): Warning: <table> lacks "summary" attribute
+requires_special_handling.html:35:1 (requires_special_handling.Rd:10): Warning: <table> lacks "summary" attribute
+summary.ordinal_augmented_qbrms_fit.html:15:44 (summary.ordinal_augmented_qbrms_fit.Rd:5): Error: <main> is not recognized!
+summary.ordinal_augmented_qbrms_fit.html:15:44 (summary.ordinal_augmented_qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+summary.ordinal_augmented_qbrms_fit.html:53:1 (summary.ordinal_augmented_qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+summary.ordinal_augmented_qbrms_fit.html:4:1 (summary.ordinal_augmented_qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+summary.ordinal_augmented_qbrms_fit.html:12:1 (summary.ordinal_augmented_qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+summary.ordinal_augmented_qbrms_fit.html:12:1 (summary.ordinal_augmented_qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+summary.ordinal_augmented_qbrms_fit.html:17:1 (summary.ordinal_augmented_qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+summary.ordinal_augmented_qbrms_fit.html:36:1 (summary.ordinal_augmented_qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+summary.ordinal_augmented_qbrms_fit.html:41:14 (summary.ordinal_augmented_qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+summary.ordinal_binary_qbrms_fit.html:15:44 (summary.ordinal_binary_qbrms_fit.Rd:5): Error: <main> is not recognized!
+summary.ordinal_binary_qbrms_fit.html:15:44 (summary.ordinal_binary_qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+summary.ordinal_binary_qbrms_fit.html:53:1 (summary.ordinal_binary_qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+summary.ordinal_binary_qbrms_fit.html:4:1 (summary.ordinal_binary_qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+summary.ordinal_binary_qbrms_fit.html:12:1 (summary.ordinal_binary_qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+summary.ordinal_binary_qbrms_fit.html:12:1 (summary.ordinal_binary_qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+summary.ordinal_binary_qbrms_fit.html:17:1 (summary.ordinal_binary_qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+summary.ordinal_binary_qbrms_fit.html:36:1 (summary.ordinal_binary_qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+summary.ordinal_binary_qbrms_fit.html:41:14 (summary.ordinal_binary_qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+summary.ordinal_qbrms_fit.html:15:44 (summary.ordinal_qbrms_fit.Rd:5): Error: <main> is not recognized!
+summary.ordinal_qbrms_fit.html:15:44 (summary.ordinal_qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+summary.ordinal_qbrms_fit.html:47:1 (summary.ordinal_qbrms_fit.Rd:12): Warning: discarding unexpected </main>
+summary.ordinal_qbrms_fit.html:4:1 (summary.ordinal_qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+summary.ordinal_qbrms_fit.html:12:1 (summary.ordinal_qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+summary.ordinal_qbrms_fit.html:12:1 (summary.ordinal_qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+summary.ordinal_qbrms_fit.html:17:1 (summary.ordinal_qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+summary.ordinal_qbrms_fit.html:36:1 (summary.ordinal_qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+summary.ordinal_qbrms_fit.html:41:14 (summary.ordinal_qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+summary.qbrms_fit.html:15:44 (summary.qbrms_fit.Rd:5): Error: <main> is not recognized!
+summary.qbrms_fit.html:15:44 (summary.qbrms_fit.Rd:5): Warning: discarding unexpected <main>
+summary.qbrms_fit.html:53:1 (summary.qbrms_fit.Rd:15): Warning: discarding unexpected </main>
+summary.qbrms_fit.html:4:1 (summary.qbrms_fit.Rd:5): Warning: <link> inserting "type" attribute
+summary.qbrms_fit.html:12:1 (summary.qbrms_fit.Rd:5): Warning: <script> proprietary attribute "onload"
+summary.qbrms_fit.html:12:1 (summary.qbrms_fit.Rd:5): Warning: <script> inserting "type" attribute
+summary.qbrms_fit.html:17:1 (summary.qbrms_fit.Rd:5): Warning: <table> lacks "summary" attribute
+summary.qbrms_fit.html:36:1 (summary.qbrms_fit.Rd:10): Warning: <table> lacks "summary" attribute
+summary.qbrms_fit.html:41:14 (summary.qbrms_fit.Rd:12): Warning: <code> attribute "id" has invalid value "..."
+vcov.inla.html:15:44 (vcov.inla.Rd:5): Error: <main> is not recognized!
+vcov.inla.html:15:44 (vcov.inla.Rd:5): Warning: discarding unexpected <main>
+vcov.inla.html:56:1 (vcov.inla.Rd:17): Warning: discarding unexpected </main>
+vcov.inla.html:4:1 (vcov.inla.Rd:5): Warning: <link> inserting "type" attribute
+vcov.inla.html:12:1 (vcov.inla.Rd:5): Warning: <script> proprietary attribute "onload"
+vcov.inla.html:12:1 (vcov.inla.Rd:5): Warning: <script> inserting "type" attribute
+vcov.inla.html:17:1 (vcov.inla.Rd:5): Warning: <table> lacks "summary" attribute
+vcov.inla.html:39:1 (vcov.inla.Rd:12): Warning: <table> lacks "summary" attribute
+vcov.inla.html:44:14 (vcov.inla.Rd:14): Warning: <code> attribute "id" has invalid value "..."
+vcov.quantile_inla.html:15:44 (vcov.quantile_inla.Rd:5): Error: <main> is not recognized!
+vcov.quantile_inla.html:15:44 (vcov.quantile_inla.Rd:5): Warning: discarding unexpected <main>
+vcov.quantile_inla.html:56:1 (vcov.quantile_inla.Rd:17): Warning: discarding unexpected </main>
+vcov.quantile_inla.html:4:1 (vcov.quantile_inla.Rd:5): Warning: <link> inserting "type" attribute
+vcov.quantile_inla.html:12:1 (vcov.quantile_inla.Rd:5): Warning: <script> proprietary attribute "onload"
+vcov.quantile_inla.html:12:1 (vcov.quantile_inla.Rd:5): Warning: <script> inserting "type" attribute
+vcov.quantile_inla.html:17:1 (vcov.quantile_inla.Rd:5): Warning: <table> lacks "summary" attribute
+vcov.quantile_inla.html:39:1 (vcov.quantile_inla.Rd:12): Warning: <table> lacks "summary" attribute
+vcov.quantile_inla.html:44:14 (vcov.quantile_inla.Rd:14): Warning: <code> attribute "id" has invalid value "..."
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 2 NOTEs

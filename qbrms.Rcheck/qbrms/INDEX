@@ -1,0 +1,31 @@
+conditional_effects     Conditional Effects for qbrms Models
+conditional_effects.qbrms_fit
+                        Conditional Effects for qbrms Models
+plot.brms_conditional_effects
+                        Plot Conditional Effects
+pp_check                Posterior and Prior Predictive Checks (generic)
+pp_check.qbrms_fit      Posterior Predictive Checks for qbrms models
+pp_check.qbrms_prior    Prior Predictive Checks for qbrms prior objects
+print.ordinal_augmented_qbrms_fit
+                        Print Method for Augmented Ordinal Models
+print.ordinal_binary_qbrms_fit
+                        Print Method for Binary Decomposition Ordinal
+                        Models
+print.qbrms_fit         Print Method for qbrms Models
+qbrms                   Main q-brms model fitting interface (simplified
+                        example)
+qbrms-package           qbrms: Quick Bayesian Regression Models using
+                        INLA
+qmbs                    Fit Bayesian Models using qbrms (Alternative
+                        Interface)
+summary.ordinal_augmented_qbrms_fit
+                        Summary Method for Augmented Ordinal Models
+summary.ordinal_binary_qbrms_fit
+                        Summary Method for Binary Decomposition Ordinal
+                        Models
+summary.ordinal_qbrms_fit
+                        Summary for General Ordinal qbrms Fits
+summary.qbrms_fit       Summary Method for qbrms Models
+vcov.inla               Variance-Covariance Matrix for INLA Objects
+vcov.quantile_inla      Variance-Covariance Matrix for Quantile INLA
+                        Objects

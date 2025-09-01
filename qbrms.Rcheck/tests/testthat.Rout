@@ -1,0 +1,100 @@
+
+R version 4.4.3 (2025-02-28) -- "Trophy Case"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(qbrms)
+> 
+> test_check("qbrms")
+Starting qbrms model fitting...
+Fitting fixed effects model...
+
+ *** inla.core.safe:  The inla program failed, but will rerun in case better initial values may help. try=1/1 
+INLA fitting failed, returning dummy fit
+Starting qbrms model fitting...
+Fitting ordinal model via augmented Poisson...
+Ordinal response:  2 levels
+Starting qbrms model fitting...
+Fitting ordinal model via augmented Poisson...
+Ordinal response:  2 levels
+Starting qbrms model fitting...
+Starting qbrms model fitting...
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+Formula: y ~ x 
+Data:  35  observations
+Family: asymmetric_laplace 
+Runtime: 0 seconds 
+
+Quantile Regression (tau = 0.25 )
+
+                  mean        sd 0.025 0.5 0.975 mode kld
+(Intercept)  5.5796207 0.3579135    NA  NA    NA   NA  NA
+x           -0.2884353 0.2915605    NA  NA    NA   NA  NA
+Processing effect: x 
+Final prediction data (first 6 rows):
+          x
+1 -1.895329
+2 -1.856567
+3 -1.817805
+4 -1.779043
+5 -1.740281
+6 -1.701518
+Available coefficients: (Intercept), x 
+Prediction data columns: x 
+Design matrix formula: ~x 
+Design matrix dimensions: 100 2 
+Design matrix columns: (Intercept), x 
+Matched coefficients: (Intercept), x 
+Using beta values: 5.5796, -0.2884 
+Linear predictions range: 5.0194 to 6.1263 
+Final estimates range: 5.0194 to 6.1263 
+Starting qbrms model fitting...
+Fitting quantile regression with quantreg::rq
+Quantile regression finished in  0  seconds
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 94 ]
+> 
+> proc.time()
+   user  system elapsed 
+  6.630   4.940  13.045 
