@@ -2,18 +2,17 @@
 % Please edit documentation in R/conditional_effects.R
 \name{conditional_effects}
 \alias{conditional_effects}
-\title{Conditional Effects for qbrms Models}
+\title{Conditional effects (generic)}
 \usage{
 conditional_effects(object, ...)
 }
 \arguments{
-\item{object}{Model object}
+\item{object}{A model object.}
 
-\item{...}{Additional arguments}
-}
-\value{
-Object of class "brms_conditional_effects"
+\item{...}{Passed to methods.}
 }
 \description{
-Generic function for computing conditional effects
+Generic for computing one-dimensional conditional effects / marginal fitted
+values as a predictor varies (others held fixed). Methods should return a
+\pkg{ggplot2} object (or a named list of them) that users can further modify.
 }

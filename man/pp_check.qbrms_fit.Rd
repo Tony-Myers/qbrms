@@ -2,25 +2,21 @@
 % Please edit documentation in R/posterior_methods.R
 \name{pp_check.qbrms_fit}
 \alias{pp_check.qbrms_fit}
-\title{Posterior Predictive Checks for qbrms models}
+\title{Posterior predictive checks for qbrms_fit objects}
 \usage{
 \method{pp_check}{qbrms_fit}(object, type = "dens_overlay", ndraws = 100, seed = NULL, ...)
 }
 \arguments{
-\item{object}{A \code{qbrms_fit} model object.}
+\item{object}{A qbrms_fit object}
 
-\item{type}{One of \code{"dens_overlay"}, \code{"hist"}, \code{"scatter"},
-or \code{"scatter_avg"}.}
+\item{type}{Type of plot ("dens_overlay", "hist", "scatter", "scatter_avg")}
 
-\item{ndraws}{Number of predictive draws to use where relevant.}
+\item{ndraws}{Number of posterior draws to use}
 
-\item{seed}{Random seed for reproducibility.}
+\item{seed}{Random seed for reproducibility}
 
-\item{...}{Unused.}
-}
-\value{
-See \code{\link{pp_check}}.
+\item{...}{Additional arguments}
 }
 \description{
-Posterior Predictive Checks for qbrms models
+Posterior predictive checks for qbrms_fit objects
 }

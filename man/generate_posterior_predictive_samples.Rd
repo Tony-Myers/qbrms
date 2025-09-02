@@ -2,11 +2,11 @@
 % Please edit documentation in R/posterior_methods.R
 \name{generate_posterior_predictive_samples}
 \alias{generate_posterior_predictive_samples}
-\title{Generate posterior predictive samples}
+\title{Generate posterior predictive samples (Gaussian models are model-based)}
 \usage{
 generate_posterior_predictive_samples(object, ndraws = 100)
 }
 \description{
-Generate posterior predictive samples
+Generate posterior predictive samples (Gaussian models are model-based)
 }
 \keyword{internal}

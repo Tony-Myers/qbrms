@@ -1,2 +1,16 @@
-^qbrms\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^\.github/
+^README\.md$
+^LICENSE\.md$
+^cran-comments\.md$
+^\.travis\.yml$
+^appveyor\.yml$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.git$
+^\.gitignore$
+^Makefile$

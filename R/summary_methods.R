@@ -1,10 +1,34 @@
 # =============================================================================
-# R/summary_methods.R
+# R/summary_methods.R - Enhanced with digit formatting
 # =============================================================================
+
+#' Format numerical values to specified digits
+#' @keywords internal
+format_digits <- function(x, digits = 2) {
+  if (is.null(x) || !is.numeric(x) || any(is.na(x))) return(x)
+  sprintf(paste0("%.", digits, "f"), x)
+}
+
+#' Format data frame with numerical columns
+#' @keywords internal
+format_numeric_df <- function(df, digits = 2) {
+  if (is.null(df) || !is.data.frame(df) || nrow(df) == 0) return(df)
+  
+  # Create a copy to avoid modifying the original
+  formatted_df <- df
+  
+  # Apply formatting to numeric columns
+  numeric_cols <- sapply(formatted_df, is.numeric)
+  formatted_df[numeric_cols] <- lapply(formatted_df[numeric_cols], function(x) {
+    sprintf(paste0("%.", digits, "f"), x)
+  })
+  
+  return(formatted_df)
+}
 
 #' @method summary qbrms_fit
 #' @export
-summary.qbrms_fit <- function(object, ..., digits = 4) {
+summary.qbrms_fit <- function(object, ..., digits = 2) {  # Changed default from 4 to 2 for brms compatibility
   stopifnot(inherits(object, "qbrms_fit"))
   
   # Always produce output that can be captured by tests
@@ -32,7 +56,9 @@ summary.qbrms_fit <- function(object, ..., digits = 4) {
   if (is.null(beta_tab)) {
     cat("  (none available)\n")
   } else {
-    print(beta_tab)
+    # Format the beta table with specified digits
+    formatted_beta_tab <- format_numeric_df(beta_tab, digits = digits)
+    print(formatted_beta_tab, quote = FALSE, right = TRUE)
   }
   cat("\n")
   
@@ -56,18 +82,19 @@ summary.qbrms_fit <- function(object, ..., digits = 4) {
   cat("Family Specific Parameters:\n")
   fam_params_shown <- FALSE
   
-  # Quantile tau for asymmetric Laplace (quantile regression)
+  # Quantile tau for asymmetric Laplace (quantile regression) - now uses digits parameter
   if (!is.null(object$quantile)) {
-    cat("  Quantile (tau): ", signif(object$quantile, digits), "\n")
+    cat("  Quantile (tau): ", format_digits(object$quantile, digits), "\n")
     fam_params_shown <- TRUE
   }
   
-  # INLA hyperparameters if present
+  # INLA hyperparameters if present - now formatted
   if (!is.null(object$fit$summary.hyperpar) &&
       is.data.frame(object$fit$summary.hyperpar) &&
       nrow(object$fit$summary.hyperpar) > 0) {
     cat("  Hyperparameters:\n")
-    print(object$fit$summary.hyperpar)
+    formatted_hyperpar <- format_numeric_df(object$fit$summary.hyperpar, digits = digits)
+    print(formatted_hyperpar, quote = FALSE, right = TRUE)
     fam_params_shown <- TRUE
   }
   
@@ -79,7 +106,7 @@ summary.qbrms_fit <- function(object, ..., digits = 4) {
   # Invisible structured return
   result <- list(
     family    = fam,
-    population = beta_tab,
+    population = beta_tab,  # Return original unformatted data
     group_var  = object$group_var
   )
   class(result) <- "summary.qbrms_fit"
@@ -93,7 +120,7 @@ print.summary.qbrms_fit <- function(x, ...) {
 }
 
 #' @export
-print.qbrms_fit <- function(x, ...) {
+print.qbrms_fit <- function(x, digits = 2, ...) {  # Added digits parameter
   cat("qbrms Model fit\n\n")
   
   # Basic info
@@ -109,17 +136,26 @@ print.qbrms_fit <- function(x, ...) {
     cat("Family: ", fam, "\n")
   }
   if (!is.null(x$fitting_time)) {
-    cat("Runtime: ", round(x$fitting_time, 2), " seconds\n")
+    cat("Runtime: ", format_digits(x$fitting_time, digits), " seconds\n")
   }
   cat("\n")
   
-  # Coefficients if available (safe)
+  # Coefficients if available (safe) - now formatted
   tryCatch({
     if (!is.null(x$fit$summary.fixed)) {
-      print(x$fit$summary.fixed)
+      formatted_coef <- format_numeric_df(x$fit$summary.fixed, digits = digits)
+      print(formatted_coef, quote = FALSE, right = TRUE)
     } else {
       cf <- tryCatch(coef(x), error = function(e) NULL)
-      if (!is.null(cf)) print(cf)
+      if (!is.null(cf)) {
+        if (is.numeric(cf)) {
+          formatted_cf <- format_digits(cf, digits)
+          names(formatted_cf) <- names(cf)
+          print(formatted_cf, quote = FALSE)
+        } else {
+          print(cf)
+        }
+      }
     }
   }, error = function(e) {
     cat("(No coefficient information available)\n")
@@ -170,42 +206,139 @@ print.qbrms_fit <- function(x, ...) {
 
 #' @export
 #' @method summary ordinal_qbrms_fit
-summary.ordinal_qbrms_fit <- function(object, ...) {
+summary.ordinal_qbrms_fit <- function(object, digits = 2, ...) {  # Added digits parameter
   class(object) <- c("qbrms_fit")
-  summary.qbrms_fit(object, ...)
+  summary.qbrms_fit(object, digits = digits, ...)
 }
 
 #' @export
 #' @method summary ordinal_binary_qbrms_fit
-summary.ordinal_binary_qbrms_fit <- function(object, ...) {
+summary.ordinal_binary_qbrms_fit <- function(object, digits = 2, ...) {  # Added digits parameter
   class(object) <- c("qbrms_fit")
-  summary.qbrms_fit(object, ...)
+  summary.qbrms_fit(object, digits = digits, ...)
 }
 
 #' @export
 #' @method summary ordinal_augmented_qbrms_fit
-summary.ordinal_augmented_qbrms_fit <- function(object, ...) {
+summary.ordinal_augmented_qbrms_fit <- function(object, digits = 2, ...) {  # Added digits parameter
   class(object) <- c("qbrms_fit")
-  summary.qbrms_fit(object, ...)
+  summary.qbrms_fit(object, digits = digits, ...)
 }
 
 #' @export
 #' @method print ordinal_qbrms_fit
-print.ordinal_qbrms_fit <- function(x, ...) {
+print.ordinal_qbrms_fit <- function(x, digits = 2, ...) {  # Added digits parameter
   class(x) <- c("qbrms_fit")
-  print.qbrms_fit(x, ...)
+  print.qbrms_fit(x, digits = digits, ...)
 }
 
 #' @export
 #' @method print ordinal_binary_qbrms_fit
-print.ordinal_binary_qbrms_fit <- function(x, ...) {
+print.ordinal_binary_qbrms_fit <- function(x, digits = 2, ...) {  # Added digits parameter
   class(x) <- c("qbrms_fit")
-  print.qbrms_fit(x, ...)
+  print.qbrms_fit(x, digits = digits, ...)
 }
 
 #' @export
 #' @method print ordinal_augmented_qbrms_fit
-print.ordinal_augmented_qbrms_fit <- function(x, ...) {
+print.ordinal_augmented_qbrms_fit <- function(x, digits = 2, ...) {  # Added digits parameter
   class(x) <- c("qbrms_fit")
-  print.qbrms_fit(x, ...)
+  print.qbrms_fit(x, digits = digits, ...)
+}
+
+# =============================================================================
+# OPTIONAL: Add a global option setting function
+# =============================================================================
+
+#' Set default formatting options for qbrms output
+#' @param digits Default number of decimal places (default 2)
+#' @export
+#' @examples
+#' \dontrun{
+#' # Set default to 3 decimal places
+#' set_qbrms_digits(3)
+#' 
+#' # Reset to default
+#' set_qbrms_digits(2)
+#' }
+set_qbrms_digits <- function(digits = 2) {
+  options(qbrms.digits = digits)
+  cat("qbrms default digits set to:", digits, "\n")
+}
+
+#' Get current qbrms digit setting
+#' @keywords internal
+get_qbrms_digits <- function() {
+  getOption("qbrms.digits", default = 2)
+}
+# =============================================================================
+# CORRECTED VERSION: Add this to the end of your R/summary_methods.R file
+# =============================================================================
+
+#' Extract Coefficients from qbrms Models
+#' @param object A qbrms_fit object
+#' @param ... Additional arguments (unused)
+#' @return Named vector of coefficients
+#' @method coef qbrms_fit
+#' @export
+coef.qbrms_fit <- function(object, ...) {
+  # Try to extract coefficients from INLA fit
+  if (!is.null(object$fit$summary.fixed)) {
+    coefs <- object$fit$summary.fixed[, "mean"]
+    names(coefs) <- rownames(object$fit$summary.fixed)
+    return(coefs)
+  }
+  
+  # Try quantile regression coefficients  
+  if (!is.null(object$fit$coefficients)) {
+    return(object$fit$coefficients)
+  }
+  
+  # Fallback for quantile fits
+  if (inherits(object$fit, "quantile_inla") && !is.null(object$fit$summary.fixed)) {
+    coefs <- object$fit$summary.fixed[, "mean"]
+    names(coefs) <- rownames(object$fit$summary.fixed)
+    return(coefs)
+  }
+  
+  # Final fallback
+  warning("Could not extract coefficients from qbrms_fit object")
+  return(NULL)
+}
+
+#' Extract Variance-Covariance Matrix from qbrms Models
+#' @param object A qbrms_fit object
+#' @param ... Additional arguments (unused)
+#' @return Variance-covariance matrix
+#' @method vcov qbrms_fit  
+#' @export
+vcov.qbrms_fit <- function(object, ...) {
+  # Try INLA vcov
+  if (!is.null(object$fit$misc$cov.fixed)) {
+    return(object$fit$misc$cov.fixed)
+  }
+  
+  # Try quantile regression vcov
+  if (!is.null(object$fit$vcov)) {
+    return(object$fit$vcov)
+  }
+  
+  # Fallback: diagonal from standard errors
+  if (!is.null(object$fit$summary.fixed) && "sd" %in% colnames(object$fit$summary.fixed)) {
+    sds <- object$fit$summary.fixed[, "sd"]
+    vcov_mat <- diag(sds^2)
+    rownames(vcov_mat) <- colnames(vcov_mat) <- rownames(object$fit$summary.fixed)
+    return(vcov_mat)
+  }
+  
+  # Very basic fallback
+  coefs <- coef(object)
+  if (!is.null(coefs)) {
+    n <- length(coefs)
+    vcov_mat <- diag(rep(0.01, n))  # Small but non-zero
+    rownames(vcov_mat) <- colnames(vcov_mat) <- names(coefs)
+    return(vcov_mat)
+  }
+  
+  return(NULL)
 }

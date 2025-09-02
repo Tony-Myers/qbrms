@@ -7,17 +7,10 @@
 pp_check(object, ...)
 }
 \arguments{
-\item{object}{A model object.}
+\item{object}{A model object}
 
-\item{...}{Additional arguments passed on to methods.}
-}
-\value{
-If \pkg{ggplot2} is available, a \code{ggplot} object is returned
-for posterior checks, and a proxied \code{ggplot} for prior checks whose
-\code{print()} emits one character of console output. Without \pkg{ggplot2},
-lightweight objects are returned that draw using base graphics; the prior
-variant also emits one character of console output on \code{print()}.
+\item{...}{Additional arguments passed to methods}
 }
 \description{
-Generic function for posterior and prior predictive checks.
+Posterior and Prior Predictive Checks (generic)
 }

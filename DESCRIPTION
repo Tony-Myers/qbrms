@@ -1,5 +1,5 @@
 Package: qbrms
-Title: Quick Bayesian Regression Models Using INLA with Brms Syntax
+Title: Quick Bayesian Regression Models Using 'INLA' With 'brms' Syntax
 Version: 0.9
 Authors@R: person(given = "Tony",
                   family = "Myers", 
@@ -22,17 +22,15 @@ Imports:
     stats,
     utils,
     MASS,
-    quantreg
+    ggplot2
 Suggests:
     INLA (>= 22.05.07),
     brms (>= 2.19.0),
-    ggplot2,
+    quantreg,
     testthat (>= 3.0.0),
     rmarkdown,
     sn,
-    knitr,
-    methods
-URL: https://github.com/Tony-Myers/qbrms
-BugReports: https://github.com/Tony-Myers/qbrms/issues
+    knitr
+URL: https://github.com/Tony-Myers/qbrm
+BugReports: https://github.com/Tony-Myers/qbrm/issues
 Additional_repositories: https://inla.r-inla-download.org/R/stable
-

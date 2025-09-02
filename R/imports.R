@@ -1,10 +1,17 @@
-# R/imports.R 
+# R/imports.R - Final version with all imports
 
-#' @importFrom grDevices rgb
-#' @importFrom graphics hist lines abline plot
-#' @importFrom stats density dnorm rnorm as.formula model.matrix plogis qnorm rbinom reformulate rpois sd terms vcov coef
-#' @importFrom utils globalVariables head modifyList
+#' @importFrom stats as.formula binomial coef complete.cases dnorm gaussian lm median model.frame model.matrix model.response plogis qnorm quantile rbinom rnorm rpois sd vcov terms reformulate
+#' @importFrom utils head modifyList
+#' @importFrom graphics abline
+#' @importFrom MASS ginv
+#' @import ggplot2
 NULL
 
-# Suppress R CMD check warnings about global variables
-utils::globalVariables(c("means", "value", "x", "y", ".data"))
+# Handle ggplot2 variable bindings to avoid R CMD check warnings
+utils::globalVariables(c(
+  "draw", "y", "value", "rep_id", "x", "group", "median", "quantile", 
+  "obs", "lower", "upper", ".data", "d"
+))
+
+# Define the null coalescing operator used throughout the package
+`%||%` <- function(x, y) if (is.null(x)) y else x

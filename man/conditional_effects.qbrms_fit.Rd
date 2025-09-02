@@ -2,48 +2,45 @@
 % Please edit documentation in R/conditional_effects.R
 \name{conditional_effects.qbrms_fit}
 \alias{conditional_effects.qbrms_fit}
-\title{Conditional Effects for qbrms Models}
+\title{Conditional effects for qbrms models}
 \usage{
 \method{conditional_effects}{qbrms_fit}(
   object,
   effects = NULL,
-  conditions = NULL,
-  resolution = 100,
   prob = 0.95,
-  method = "fitted",
-  re_formula = NULL,
   spaghetti = FALSE,
-  ndraws = 100,
-  ribbon = TRUE,
+  ndraws = 200,
+  grid_points = 100,
+  seed = NULL,
   ...
 )
 }
 \arguments{
-\item{object}{A qbrms model object}
+\item{object}{A \code{qbrms_fit} object.}
 
-\item{effects}{Character vector specifying effects to plot. If NULL, plots all numeric predictors.}
+\item{effects}{Character vector of predictor names to vary. If \code{NULL}
+(default) we try to infer main-effect variables from the model formula.}
 
-\item{conditions}{Named list of values for conditional variables}
+\item{prob}{Credible interval mass (default \code{0.95}).}
 
-\item{resolution}{Integer specifying number of prediction points}
+\item{spaghetti}{Logical; if \code{TRUE}, overlay lines from coefficient
+draws. Default \code{FALSE}.}
 
-\item{prob}{Probability for credible intervals (default 0.95)}
+\item{ndraws}{Number of coefficient draws for spaghetti (default \code{200}).}
 
-\item{method}{Method for generating predictions ("fitted" is default)}
+\item{grid_points}{Number of x-points in the grid (default \code{100}).}
 
-\item{re_formula}{Formula for random effects (currently ignored)}
+\item{seed}{Optional RNG seed.}
 
-\item{spaghetti}{Logical, whether to add spaghetti plots}
-
-\item{ndraws}{Number of posterior draws for spaghetti plots}
-
-\item{ribbon}{Logical, whether to show ribbon (confidence band)}
-
-\item{...}{Additional arguments}
+\item{...}{Unused.}
 }
 \value{
-Object of class "brms_conditional_effects"
+A \code{ggplot} or a named list of \code{ggplot}s with class
+\code{"qbrms_conditional_effects"}.
 }
 \description{
-Compute conditional effects for qbrms model objects, similar to brms.
+Compute one-dimensional conditional effects for \code{qbrms_fit} objects.
+Returns a single \code{ggplot} (if one effect) or a named list of
+\code{ggplot}s (if multiple effects). Users can modify the plots with
+ggplot syntax (e.g., \code{+ theme_minimal()}).
 }
