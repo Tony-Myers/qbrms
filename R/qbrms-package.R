@@ -1,7 +1,6 @@
 # =============================================================================
 # R/qbrms-package.R
 # =============================================================================
-
 #' qbrms: Quick Bayesian Regression Models using INLA
 #'
 #' @description 
@@ -25,4 +24,5 @@
 #' @docType package
 #' @name qbrms-package
 #' @keywords package
+#' @importFrom stats contrasts<-
 "_PACKAGE"

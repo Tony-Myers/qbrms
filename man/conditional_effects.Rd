@@ -12,7 +12,7 @@ conditional_effects(object, ...)
 \item{...}{Passed to methods.}
 }
 \description{
-Generic for computing one-dimensional conditional effects / marginal fitted
-values as a predictor varies (others held fixed). Methods should return a
-\pkg{ggplot2} object (or a named list of them) that users can further modify.
+Compute one-dimensional conditional effects / marginal fitted values as a
+predictor varies while other covariates are held fixed (typically at means /
+modes). Methods should return an object that \code{plot()} can visualise.
 }

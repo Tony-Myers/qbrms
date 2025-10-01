@@ -2,45 +2,41 @@
 % Please edit documentation in R/conditional_effects.R
 \name{conditional_effects.qbrms_fit}
 \alias{conditional_effects.qbrms_fit}
-\title{Conditional effects for qbrms models}
+\title{Conditional effects for qbrms Gaussian models}
 \usage{
 \method{conditional_effects}{qbrms_fit}(
   object,
   effects = NULL,
-  prob = 0.95,
   spaghetti = FALSE,
-  ndraws = 200,
-  grid_points = 100,
+  ndraws = 200L,
+  n_points = 100L,
+  at = list(),
   seed = NULL,
+  prob = 0.95,
   ...
 )
 }
 \arguments{
-\item{object}{A \code{qbrms_fit} object.}
+\item{object}{A qbrms fit object (Gaussian).}
 
-\item{effects}{Character vector of predictor names to vary. If \code{NULL}
-(default) we try to infer main-effect variables from the model formula.}
+\item{effects}{Character vector: names of predictors to vary. Supports simple
+two-way interactions "num:fac" or "fac:num" where one is numeric and the other factor.}
 
-\item{prob}{Credible interval mass (default \code{0.95}).}
+\item{spaghetti}{Logical; if TRUE draw per-draw "spaghetti" lines. If FALSE,
+draw a mean line with a credible-interval ribbon.}
 
-\item{spaghetti}{Logical; if \code{TRUE}, overlay lines from coefficient
-draws. Default \code{FALSE}.}
+\item{ndraws}{Number of joint coefficient draws for uncertainty (default 200).}
 
-\item{ndraws}{Number of coefficient draws for spaghetti (default \code{200}).}
+\item{n_points}{Size of the x-grid across the observed range (default 100).}
 
-\item{grid_points}{Number of x-points in the grid (default \code{100}).}
+\item{at}{Optional named list of covariate values to hold constant.}
 
-\item{seed}{Optional RNG seed.}
+\item{seed}{Optional integer seed for reproducibility.}
 
-\item{...}{Unused.}
-}
-\value{
-A \code{ggplot} or a named list of \code{ggplot}s with class
-\code{"qbrms_conditional_effects"}.
+\item{prob}{Interval probability for ribbons (default 0.95).}
+
+\item{...}{Ignored.}
 }
 \description{
-Compute one-dimensional conditional effects for \code{qbrms_fit} objects.
-Returns a single \code{ggplot} (if one effect) or a named list of
-\code{ggplot}s (if multiple effects). Users can modify the plots with
-ggplot syntax (e.g., \code{+ theme_minimal()}).
+Conditional effects for qbrms Gaussian models
 }

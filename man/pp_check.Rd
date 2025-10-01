@@ -2,15 +2,44 @@
 % Please edit documentation in R/posterior_methods.R
 \name{pp_check}
 \alias{pp_check}
-\title{Posterior and Prior Predictive Checks (generic)}
+\alias{pp_check.qbrms_fit}
+\alias{pp_check.qbrms_prior}
+\title{Posterior and prior predictive checks}
 \usage{
 pp_check(object, ...)
+
+\method{pp_check}{qbrms_fit}(
+  object,
+  type = "dens_overlay",
+  ndraws = 5000,
+  seed = NULL,
+  show_observed = FALSE,
+  ...
+)
+
+\method{pp_check}{qbrms_prior}(
+  object,
+  type = "dens_overlay",
+  ndraws = 5000,
+  seed = NULL,
+  show_observed = FALSE,
+  ...
+)
 }
 \arguments{
-\item{object}{A model object}
+\item{object}{A model object.}
 
-\item{...}{Additional arguments passed to methods}
+\item{...}{Additional arguments passed to methods.}
+
+\item{type}{Character string indicating the check type: one of
+\code{"dens_overlay"}, \code{"hist"}, \code{"scatter"}, \code{"scatter_avg"}.}
+
+\item{ndraws}{Integer number of draws to use.}
+
+\item{seed}{Optional RNG seed.}
+
+\item{show_observed}{Logical; show observed data where applicable.}
 }
 \description{
-Posterior and Prior Predictive Checks (generic)
+Create posterior or prior predictive diagnostic plots for fitted qbrms models.
 }

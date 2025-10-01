@@ -4,9 +4,9 @@
 \alias{model_fitting}
 \title{Model Fitting Functions for qbrms Package}
 \description{
-Internal functions for Bayesian model fitting using INLA
+Core model fitting functionality with qbrm alias and multinomial support
 }
 \details{
-This file contains the core model fitting functionality for the qbrms package
+This file contains the main qbrms/qbrm function and all supporting functions
 }
 \keyword{internal}
