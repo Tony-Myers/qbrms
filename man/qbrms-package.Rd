@@ -24,8 +24,8 @@ INLA with brms-like syntax. The package supports:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/Tony-Myers/qbrm}
-  \item Report bugs at \url{https://github.com/Tony-Myers/qbrm/issues}
+  \item \url{https://github.com/Tony-Myers/qbrms}
+  \item Report bugs at \url{https://github.com/Tony-Myers/qbrms/issues}
 }
 
 }
