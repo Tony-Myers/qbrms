@@ -15,3 +15,4 @@
 ^inst/tmb/.*\.so$
 ^inst/tmb/ordinal/.*\.o$
 ^inst/tmb/ordinal/.*\.so$
+^\.Rprofile$
