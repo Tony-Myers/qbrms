@@ -15,13 +15,3 @@ A combined prior object
 \description{
 Combine Multiple Prior Specifications
 }
-\examples{
-\dontrun{
-# Multiple priors
-priors <- c(
-  prior(normal(0, 2.5), class = "Intercept"),
-  prior(normal(0, 1), class = "b"),
-  prior(cauchy(0, 1), class = "sd")
-)
-}
-}

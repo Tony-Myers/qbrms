@@ -27,24 +27,11 @@
 
 \item{prob}{Probability mass for credible intervals (default 0.95).}
 
-\item{...}{Additional arguments passed to bayesplot functions}
+\item{...}{Additional arguments passed to methods.}
 }
 \value{
 A ggplot object showing the posterior predictive check
 }
 \description{
 Posterior predictive checks for TMB ordinal models
-}
-\examples{
-\dontrun{
-# Fit ordinal model
-fit <- qbrms(rating ~ predictor, family = cumulative(), data = data)
-
-# Basic posterior predictive check
-pp_check(fit)
-
-# Specific check type
-pp_check(fit, type = "bars")
-}
-
 }

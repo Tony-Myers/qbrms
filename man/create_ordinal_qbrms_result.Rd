@@ -10,7 +10,7 @@ create_ordinal_qbrms_result(
   data,
   family,
   prior,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{

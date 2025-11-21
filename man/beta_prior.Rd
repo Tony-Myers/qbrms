@@ -7,9 +7,9 @@
 beta_prior(alpha = 1, beta = 1)
 }
 \arguments{
-\item{alpha}{First shape parameter (must be positive)}
+\item{alpha}{First shape parameter}
 
-\item{beta}{Second shape parameter (must be positive)}
+\item{beta}{Second shape parameter}
 }
 \value{
 A prior distribution object

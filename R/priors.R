@@ -19,19 +19,6 @@ normal <- function(mean = 0, sd = 1) {
   ), class = "qbrms_prior_dist")
 }
 
-#' Specify Student's t Prior Distribution
-#' @param df Degrees of freedom (default 3)
-#' @param location Location parameter (default 0)
-#' @param scale Scale parameter (default 1)
-#' @return A prior distribution object
-#' @export
-student_t_prior <- function(df = 3, location = 0, scale = 1) {
-  structure(list(
-    distribution = "student_t",
-    parameters = list(df = df, location = location, scale = scale)
-  ), class = "qbrms_prior_dist")
-}
-
 #' Specify Cauchy Prior Distribution
 #' @param location Location parameter (default 0)
 #' @param scale Scale parameter (default 1)
@@ -56,85 +43,186 @@ uniform <- function(min = -Inf, max = Inf) {
   ), class = "qbrms_prior_dist")
 }
 
-#' Specify Exponential Prior Distribution
-#' @param rate Rate parameter for the exponential distribution (default 1)
-#' @return A prior distribution object
-#' @export
-prior_exponential <- function(rate = 1) {
-  if (rate <= 0) {
-    stop("Rate parameter must be positive")
-  }
-  
-  structure(list(
-    distribution = "exponential",
-    parameters = list(rate = rate)
-  ), class = "qbrms_prior_dist")
-}
-
-#' Specify Gamma Prior Distribution  
-#' @param shape Shape parameter (must be positive)
-#' @param rate Rate parameter (must be positive) 
-#' @return A prior distribution object
-#' @export
-gamma_prior <- function(shape = 2, rate = 1) {
-  if (shape <= 0 || rate <= 0) {
-    stop("Gamma parameters must be positive")
-  }
-  structure(list(
-    distribution = "gamma",
-    parameters = list(shape = shape, rate = rate)
-  ), class = "qbrms_prior_dist")
-}
-
 #' Specify Beta Prior Distribution
-#' @param alpha First shape parameter (must be positive)
-#' @param beta Second shape parameter (must be positive)
-#' @return A prior distribution object  
+#' @param alpha First shape parameter
+#' @param beta Second shape parameter
+#' @return A prior distribution object
 #' @export
 beta_prior <- function(alpha = 1, beta = 1) {
-  if (alpha <= 0 || beta <= 0) {
-    stop("Beta parameters must be positive")
-  }
+  if (alpha <= 0 || beta <= 0) stop("Beta parameters must be positive")
   structure(list(
-    distribution = "beta", 
+    distribution = "beta",
     parameters = list(alpha = alpha, beta = beta)
   ), class = "qbrms_prior_dist")
 }
 
-#' Specify Lognormal Prior Distribution  
-#' @param meanlog Mean of log scale
-#' @param sdlog Standard deviation of log scale (must be positive)
-#' @return A prior distribution object
+# =============================================================================
+# HYBRID CONSTRUCTORS (Family / Prior Polymorphism)
+# =============================================================================
+
+#' Student's t Distribution (Prior or Family)
+#'
+#' @description
+#' Functions that act as both family constructors (for `qbrm`) and prior
+#' specifications (for `prior`), depending on arguments.
+#'
+#' @param link_or_df For family: link function (character). For prior: degrees of freedom (numeric).
+#' @param location Location parameter (prior only).
+#' @param scale Scale parameter (prior only).
+#' @param link Optional link function (if acting as family).
+#' @param link.sigma Link for sigma (family only).
+#' @param link.nu Link for nu (family only).
+#' @param ... Additional arguments.
+#' @return A family object or prior object depending on inputs.
 #' @export
-lognormal_prior <- function(meanlog = 0, sdlog = 1) {
-  if (sdlog <= 0) {
-    stop("Lognormal sdlog must be positive")
+student_t <- function(link_or_df = "identity", location = 0, scale = 1, link = NULL, link.sigma = "log", link.nu = "log", ...) {
+  # 1. Check for explicit link argument (Family usage)
+  if (!is.null(link)) {
+    return(structure(list(
+      family = "student_t", 
+      link = link, 
+      link.sigma = link.sigma, 
+      link.nu = link.nu
+    ), class = "family"))
   }
+  
+  # 2. Check if first arg is character (Family usage)
+  if (is.character(link_or_df)) {
+    return(structure(list(
+      family = "student_t", 
+      link = link_or_df, 
+      link.sigma = link.sigma, 
+      link.nu = link.nu
+    ), class = "family"))
+  }
+  
+  # 3. Otherwise behave as Prior
   structure(list(
-    distribution = "lognormal",
-    parameters = list(meanlog = meanlog, sdlog = sdlog)
+    distribution = "student_t",
+    parameters = list(df = link_or_df, location = location, scale = scale)
   ), class = "qbrms_prior_dist")
 }
 
+#' @rdname student_t
+#' @export
+student_t_prior <- function(link_or_df = 3, location = 0, scale = 1, link.sigma = "log", link.nu = "log") {
+  student_t(link_or_df, location, scale, link.sigma, link.nu)
+}
+
+#' Lognormal Distribution (Prior or Family)
+#' @param meanlog_or_link Mean on log scale (numeric) or link function (character).
+#' @param sdlog SD on log scale (numeric).
+#' @param link Optional link function (if acting as family).
+#' @param ... Additional arguments.
+#' @return A family object or prior object depending on inputs.
+#' @export
+lognormal <- function(meanlog_or_link = "identity", sdlog = 1, link = NULL, ...) {
+  # 1. Explicit link
+  if (!is.null(link)) {
+    return(structure(list(family = "lognormal", link = link), class = "family"))
+  }
+  
+  # 2. First arg is character (link)
+  if (is.character(meanlog_or_link)) {
+    return(structure(list(family = "lognormal", link = meanlog_or_link), class = "family"))
+  }
+  
+  # 3. Prior
+  if (sdlog <= 0) stop("Lognormal sdlog must be positive")
+  structure(list(
+    distribution = "lognormal",
+    parameters = list(meanlog = meanlog_or_link, sdlog = sdlog)
+  ), class = "qbrms_prior_dist")
+}
+
+#' @rdname lognormal
+#' @export
+lognormal_prior <- function(meanlog_or_link = 0, sdlog = 1) {
+  if (sdlog <= 0) stop("Lognormal sdlog must be positive")
+  structure(list(
+    distribution = "lognormal",
+    parameters = list(meanlog = meanlog_or_link, sdlog = sdlog)
+  ), class = "qbrms_prior_dist")
+}
+
+#' Exponential Distribution (Prior or Family)
+#' @param rate_or_link Rate parameter (numeric) or link function (character).
+#' @param link Optional link function (if acting as family).
+#' @param ... Additional arguments.
+#' @return A family object or prior object depending on inputs.
+#' @export
+exponential <- function(rate_or_link = "log", link = NULL, ...) {
+  if (!is.null(link)) {
+    return(structure(list(family = "exponential", link = link), class = "family"))
+  }
+  
+  if (is.character(rate_or_link)) {
+    return(structure(list(family = "exponential", link = rate_or_link), class = "family"))
+  }
+  
+  if (rate_or_link <= 0) stop("Rate parameter must be positive")
+  structure(list(
+    distribution = "exponential",
+    parameters = list(rate = rate_or_link)
+  ), class = "qbrms_prior_dist")
+}
+
+#' @rdname exponential
+#' @export
+prior_exponential <- function(rate_or_link = 1) {
+  if (rate_or_link <= 0) stop("Rate parameter must be positive")
+  structure(list(
+    distribution = "exponential",
+    parameters = list(rate = rate_or_link)
+  ), class = "qbrms_prior_dist")
+}
+
+#' Gamma Distribution (Prior or Family)
+#' @param shape_or_link Shape parameter (numeric) or link function (character).
+#' @param rate Rate parameter.
+#' @param link Optional link function (if acting as family).
+#' @param ... Additional arguments.
+#' @return A family object or prior object depending on inputs.
+#' @export
+gamma <- function(shape_or_link = "log", rate = 1, link = NULL, ...) {
+  if (!is.null(link)) {
+    return(structure(list(family = "gamma", link = link), class = "family"))
+  }
+  
+  if (is.character(shape_or_link)) {
+    return(structure(list(family = "gamma", link = shape_or_link), class = "family"))
+  }
+  
+  gamma_prior(shape_or_link, rate)
+}
+
+#' @rdname gamma
+#' @export
+gamma_prior <- function(shape_or_link = 2, rate = 1) {
+  if (shape_or_link <= 0 || rate <= 0) stop("Gamma parameters must be positive")
+  structure(list(
+    distribution = "gamma",
+    parameters = list(shape = shape_or_link, rate = rate)
+  ), class = "qbrms_prior_dist")
+}
+
+# =============================================================================
+# PRIOR SPECIFICATION WRAPPER
+# =============================================================================
+
 #' Specify Prior for Model Parameters
-#' @param prior A prior distribution object created by functions like normal(), student_t(), etc.
-#' @param class Parameter class ("Intercept", "b" for fixed effects, "sd" for random effects, etc.)
+#' @param prior A prior distribution object.
+#' @param class Parameter class ("Intercept", "b", "sd", etc.)
 #' @param coef Specific coefficient name (optional)
 #' @param group Specific group name for random effects (optional)
 #' @return A prior specification object
 #' @export
-#' @examples
-#' \dontrun{
-#' # Normal prior for all fixed effects
-#' prior(normal(0, 1), class = "b")
-#' 
-#' # Student's t prior for intercept
-#' prior(student_t(3, 0, 2.5), class = "Intercept")
-#' 
-#' # Specific prior for a coefficient
-#' prior(normal(0, 0.5), class = "b", coef = "age")
-#' }
 prior <- function(prior, class = "b", coef = NULL, group = NULL) {
+  if (is.character(prior)) {
+    return(structure(list(prior = prior, class = class, coef = coef, group = group), 
+                     class = "qbrms_prior_spec"))
+  }
+  
   if (!inherits(prior, "qbrms_prior_dist")) {
     stop("prior must be a distribution object created by normal(), student_t(), etc.")
   }
@@ -152,41 +240,18 @@ prior <- function(prior, class = "b", coef = NULL, group = NULL) {
 #' @param ... Prior specification objects created by prior()
 #' @return A combined prior object
 #' @export
-#' @examples
-#' \dontrun{
-#' # Multiple priors
-#' priors <- c(
-#'   prior(normal(0, 2.5), class = "Intercept"),
-#'   prior(normal(0, 1), class = "b"),
-#'   prior(cauchy(0, 1), class = "sd")
-#' )
-#' }
 c.qbrms_prior_spec <- function(...) {
   priors <- list(...)
   structure(priors, class = "qbrms_prior_list")
 }
 
-#' Print Prior Distribution Objects - Enhanced for all distributions
+#' Print Prior Distribution Objects
 #' @param x A qbrms_prior_dist object
 #' @param ... Unused
 #' @export
 print.qbrms_prior_dist <- function(x, ...) {
   params <- x$parameters
-  
-  # Format parameter display based on distribution for better readability
-  param_str <- switch(x$distribution,
-                      "gamma" = paste0("shape=", params$shape, ", rate=", params$rate),
-                      "beta" = paste0("alpha=", params$alpha, ", beta=", params$beta), 
-                      "exponential" = paste0("rate=", params$rate),
-                      "lognormal" = paste0("meanlog=", params$meanlog, ", sdlog=", params$sdlog),
-                      "student_t" = paste0("df=", params$df, ", location=", params$location, ", scale=", params$scale),
-                      "normal" = paste0("mean=", params$mean, ", sd=", params$sd),
-                      "cauchy" = paste0("location=", params$location, ", scale=", params$scale),
-                      "uniform" = paste0("min=", params$min, ", max=", params$max),
-                      # Default fallback for any distribution not explicitly handled
-                      paste(names(params), "=", params, collapse = ", ")
-  )
-  
+  param_str <- paste(names(params), "=", params, collapse = ", ")
   cat(sprintf("%s(%s)\n", x$distribution, param_str))
 }
 
@@ -195,18 +260,20 @@ print.qbrms_prior_dist <- function(x, ...) {
 #' @param ... Unused
 #' @export
 print.qbrms_prior_spec <- function(x, ...) {
+  if (!is.null(x$prior) && is.character(x$prior)) {
+    cat(sprintf("prior(prior = \"%s\", class = \"%s\")\n", x$prior, x$class))
+    return(invisible(x))
+  }
+  
   params <- x$parameters
   param_str <- paste(names(params), "=", params, collapse = ", ")
-  
   coef_str <- if (!is.null(x$coef)) paste0(", coef = ", x$coef) else ""
-  group_str <- if (!is.null(x$group)) paste0(", group = ", x$group) else ""
-  
-  cat(sprintf("prior(%s(%s), class = %s%s%s)\n", 
-              x$distribution, param_str, x$class, coef_str, group_str))
+  cat(sprintf("prior(%s(%s), class = %s%s)\n", 
+              x$distribution, param_str, x$class, coef_str))
 }
 
 #' Print Prior List Objects
-#' @param x A qbrms_prior_list object  
+#' @param x A qbrms_prior_list object
 #' @param ... Unused
 #' @export
 print.qbrms_prior_list <- function(x, ...) {
@@ -231,7 +298,7 @@ default_priors <- function() {
 #' Get Default Prior for Parameter Class
 #' @param class Parameter class
 #' @return A default prior for that class
-#' @keywords internal
+#' @export
 get_default_prior <- function(class) {
   switch(class,
          "Intercept" = prior(normal(0, 2.5), class = "Intercept"),
@@ -241,24 +308,5 @@ get_default_prior <- function(class) {
   )
 }
 
-#' Apply Priors to INLA Model (placeholder)
-#' @param priors Prior specifications
-#' @param formula Model formula
-#' @param family Model family
-#' @return Modified control settings for INLA (placeholder implementation)
-#' @keywords internal
-apply_priors_to_inla <- function(priors, formula, family) {
-  # Placeholder - INLA doesn't directly support arbitrary priors like brms
-  # This would need custom implementation for each prior type
-  
-  if (is.null(priors)) return(list())
-  
-  # For now, just return default INLA settings
-  # Full implementation would translate qbrms priors to INLA hyperprior specifications
-  warning("Custom priors not fully implemented yet - using INLA defaults")
-  
-  list(
-    control.fixed = list(mean.intercept = 0, prec.intercept = 1, mean = 0, prec = 1),
-    control.family = list()
-  )
-}
+# Simple null coalescing operator if not defined elsewhere
+`%||%` <- function(x, y) if (is.null(x)) y else x

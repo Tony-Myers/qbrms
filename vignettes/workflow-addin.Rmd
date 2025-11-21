@@ -1,0 +1,68 @@
+
+---
+title: "The qbrms Bayesian Workflow Coach"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The qbrms Bayesian Workflow Coach}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+Bayesian analysis can be intimidating. Choosing the right likelihood, setting priors, and interpreting posterior distributions often requires significant expertise.
+
+The **qbrms** package includes an interactive **Bayesian Workflow Coach** designed to guide you through these steps. Instead of just fitting a model, the coach helps you make decisions about your analysis structure.
+
+## Launching the Coach
+
+You can launch the assistant directly from the R console:
+
+```{r, eval=FALSE}
+library(qbrms)
+model_workflow_addin()
+```
+
+Or, if you are using RStudio, navigate to the **Addins** menu toolbar and select **Bayesian Workflow Coach**.
+
+## The 4-Stage Workflow
+
+The add-in guides you through four distinct stages of analysis:
+
+### 1\. Data & Structure
+
+  * **Load Data:** Import `.csv`, `.xlsx`, `.rds`, or SPSS/Stata files, or select a dataframe from your environment.
+  * **Intelligent Advice:** The coach scans your response variable. Is it a proportion? A count? Positive continuous? It will suggest appropriate families (e.g., *Beta*, *Poisson*, *Gamma*) and warn you against common mistakes (like log-transforming raw data manually).
+  * **Random Effects:** Automatically detects potential grouping variables for Mixed Effects modeling.
+
+### 2\. Priors
+
+  * **Elicitation:** Instead of asking you for abstract parameter values (like "sigma" or "lambda"), the coach asks for your *domain knowledge*: "What is the expected mean outcome?" "What is your uncertainty?".
+  * **Visual Check:** It runs a **Prior Predictive Check** instantly. You can see exactly what data your model expects to generate *before* it sees your actual data. This prevents the common error of setting impossible priors.
+
+### 3\. Fit & Compare
+
+  * **Fit Multiple Candidates:** You can select multiple families (e.g., Gaussian vs Student-t) and fit them simultaneously.
+  * **Model Comparison:** The coach uses **LOO (Leave-One-Out Cross-Validation)** to compare models. It interprets the results for you, explaining whether one model is statistically superior to another based on the `elpd_diff`.
+
+### 4\. Interpretation
+
+Once the best model is selected, the coach provides tools to answer your actual research questions:
+
+  * **Estimated Marginal Means (EMMs):** For understanding group differences.
+  * **Probability of Direction (pd):** The probability that an effect is strictly positive or negative.
+  * **Practical Significance:** Checks if the effect size exceeds a specific threshold of practical utility (ROPE).
+
+## Reproducibility
+
+The goal of **qbrms** is not just to fit models, but to teach you how to write the code.
+
+At the end of the workflow, clicking **Insert Code** will write a complete, reproducible R script into your active document, preserving every decision you made during the interactive session.
+

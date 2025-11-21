@@ -7,29 +7,13 @@
 weibull(link = "log", link.shape = "log")
 }
 \arguments{
-\item{link}{Link function for scale parameter (default: "log")}
+\item{link}{Link function for scale (default: "log")}
 
-\item{link.shape}{Link function for shape parameter (default: "log")}
+\item{link.shape}{Link function for shape (default: "log")}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Weibull distribution for survival analysis and time-to-event data.
-}
-\details{
-Standard Weibull parameterization for survival modeling. Can handle
-both censored and uncensored data. Shape parameter determines whether
-hazard increases (>1), decreases (<1), or remains constant (=1, exponential).
-}
-\examples{
-\dontrun{
-# Survival analysis
-fit <- qbrms(time ~ treatment + age, data = survival_data, family = weibull())
-
-# Model both scale and shape
-fit <- qbrms(bf(time ~ treatment, shape ~ age), 
-             data = survival_data, family = weibull())
-}
-
+Weibull Survival Family
 }

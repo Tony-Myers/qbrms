@@ -10,28 +10,15 @@ gev(link = "identity", link.sigma = "log", link.xi = "identity")
 gumbel(link = "identity", link.sigma = "log")
 }
 \arguments{
-\item{link}{Link function for location parameter (default: "identity")}
+\item{link}{Link function for location}
 
-\item{link.sigma}{Link function for scale parameter (default: "log")}
+\item{link.sigma}{Link function for scale}
 
-\item{link.xi}{Link function for shape parameter (default: "identity")}
+\item{link.xi}{Link function for shape}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Generalized Extreme Value (GEV) distribution for modeling extreme events.
-}
-\details{
-Three-parameter family encompassing Gumbel (ξ=0), Fréchet (ξ>0), and
-Weibull (ξ<0) distributions. Useful for extreme value analysis such as
-modeling maximum temperatures, flood levels, or financial extremes.
-}
-\examples{
-\dontrun{
-# Extreme precipitation modeling  
-fit <- qbrms(max_precip ~ elevation + latitude, 
-             data = climate_data, family = gev())
-}
-
+Generalized Extreme Value Family
 }

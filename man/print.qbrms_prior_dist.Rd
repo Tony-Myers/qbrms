@@ -2,7 +2,7 @@
 % Please edit documentation in R/priors.R
 \name{print.qbrms_prior_dist}
 \alias{print.qbrms_prior_dist}
-\title{Print Prior Distribution Objects - Enhanced for all distributions}
+\title{Print Prior Distribution Objects}
 \usage{
 \method{print}{qbrms_prior_dist}(x, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{Unused}
 }
 \description{
-Print Prior Distribution Objects - Enhanced for all distributions
+Print Prior Distribution Objects
 }

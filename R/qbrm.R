@@ -311,3 +311,6 @@ qbrms_binomial_regularised <- function(formula, data, regularise = TRUE,
   # Combine original and augmented data
   rbind(data, aug_data)
 }
+
+#' @importFrom stats delete.response model.matrix terms as.formula
+NULL

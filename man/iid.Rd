@@ -2,29 +2,18 @@
 % Please edit documentation in R/additional-families.R
 \name{iid}
 \alias{iid}
-\title{Independent Identically Distributed Random Effects}
+\title{IID Random Effects}
 \usage{
 iid(scale.model = "log", diagonal = 1e-06)
 }
 \arguments{
-\item{scale.model}{Scaling model for precision (default: "log")}
+\item{scale.model}{Scaling model for precision}
 
-\item{diagonal}{Diagonal element for numerical stability (default: 1e-6)}
+\item{diagonal}{Diagonal precision matrix structure}
 }
 \value{
-A family object for random effects
+A family object
 }
 \description{
-IID random effects with normal distribution.
-}
-\details{
-Standard IID normal random effects. Used for grouping factors and
-exchangeable random effects structures.
-}
-\examples{
-\dontrun{
-# Used internally in mixed effects models
-fit <- qbrms(y ~ x + (1|group), data = data, family = gaussian())
-}
-
+IID Random Effects
 }

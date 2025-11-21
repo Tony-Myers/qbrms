@@ -10,20 +10,13 @@ zero_inflated_poisson(link = "log", link.zi = "logit")
 zip()
 }
 \arguments{
-\item{link}{Link function for the mean (default: "log")}
+\item{link}{Link function for mean (default: "log")}
 
-\item{link.zi}{Link function for zero-inflation parameter (default: "logit")}
+\item{link.zi}{Link function for zero-inflation (default: "logit")}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Zero-inflated Poisson for count data with excess zeros.
-}
-\examples{
-\dontrun{
-# Count data with many zeros
-fit <- qbrms(count ~ predictor, data = ecology_data, family = zero_inflated_poisson())
-}
-
+Zero-Inflated Poisson Family
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/additional-families.R, R/families.R
 \name{Beta}
 \alias{Beta}
-\title{Beta Family Constructor}
+\title{Beta Family Constructor (Capital B)}
 \usage{
 Beta(link = "logit", link.phi = "log")
 
@@ -14,35 +14,14 @@ Beta(link = "logit", link.phi = "log")
 \item{link.phi}{Link function for precision parameter (default: "log")}
 }
 \value{
-A family object suitable for use with qbrms()
+A family object
 
 A family object for use with qbrms()
 }
 \description{
-Beta distribution for modeling proportional data in the interval (0,1).
-Standard beta regression parameterization with mean and precision parameters.
-
 Beta distribution family for response variables in (0,1)
 }
-\details{
-The beta distribution is parameterized with mean μ ∈ (0,1) and precision
-φ > 0. The variance is μ(1-μ)/(1+φ), so larger φ means smaller variance.
-
-Response variable must be in interval (0,1). Values exactly 0 or 1 should
-be adjusted slightly before modeling.
-}
 \examples{
-\dontrun{
-# Basic beta regression
-fit <- qbrms(proportion ~ treatment + age, data = data, family = Beta())
-
-# Model both mean and precision
-fit <- qbrms(bf(prop ~ predictor, phi ~ group), data = data, family = Beta())
-
-# Alternative link functions
-fit <- qbrms(prop ~ x, data = data, family = Beta("probit", "identity"))
-}
-
 \dontrun{
 # Beta regression for proportions
 fit <- qbrms(proportion ~ predictor, data = data, family = Beta())

@@ -10,22 +10,8 @@ beta_binomial(link = "logit")
 \item{link}{Link function for probability parameter (default: "logit")}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Beta-binomial family for modeling overdispersed binomial data. Accounts for
-extra-binomial variation through a beta mixing distribution.
-}
-\details{
-Useful when binomial models show overdispersion. The beta-binomial allows
-the success probability to vary according to a beta distribution, naturally
-modeling correlation within clusters or overdispersion.
-}
-\examples{
-\dontrun{
-# Overdispersed binary data
-fit <- qbrms(cbind(successes, failures) ~ treatment, 
-             data = clinical_data, family = beta_binomial())
-}
-
+Beta Binomial Family for Overdispersed Binary Data
 }

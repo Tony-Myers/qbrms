@@ -17,12 +17,5 @@ logitbeta(link = "logit")
 \item{link}{Link function (default: "logit")}
 }
 \description{
-Alternative parameterizations of the beta distribution for specialized use cases.
-}
-\details{
-\itemize{
-\item beta0: Beta distribution parameterized for boundary behavior
-\item beta1: Alternative beta parameterization for different tail behavior
-\item logitbeta: Beta with explicit logit parameterization
-}
+Alternative Beta Parameterizations
 }

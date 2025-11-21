@@ -18,9 +18,10 @@
 #'   \item Conditional effects plots
 #'   \item Posterior predictive checks
 #'   \item Summary methods compatible with brms
+#'   \item Interactive model building with \code{\link{model_builder}}
+#'   \item RStudio add-in for point-and-click model specification
 #' }
-#'
-#' @author Tony Myers
+#'@author Tony Myers
 #' @docType package
 #' @name qbrms-package
 #' @keywords package

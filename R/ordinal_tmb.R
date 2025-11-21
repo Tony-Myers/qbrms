@@ -458,84 +458,71 @@ prepare_ordinal_tmb_data <- function(formula_parts, data, verbose = TRUE) {
 #' @keywords internal
 setup_ordinal_tmb <- function(tmb_data, prior_params, control, verbose = TRUE) {
   
-  # Find TMB template
-  tmb_path <- system.file("tmb", "ordinal_qbrms.cpp", package = "qbrms")
-  if (!file.exists(tmb_path)) {
-    stop("TMB template file 'ordinal_qbrms.cpp' not found. Please check package installation.")
+  # Ensure the package's TMB DLL is loaded
+  # Assumes src/ordinal_qbrms.cpp was compiled at install time
+  # into the main package shared library (qbrms.so / qbrms.dll).
+  if (!"qbrms" %in% names(getLoadedDLLs())) {
+    library.dynam("qbrms", package = "qbrms", lib.loc = .libPaths())
   }
   
-  if (verbose) cat("Setting up TMB model...\n")
-  
-  # Compile TMB model
-  tryCatch({
-    TMB::compile(tmb_path, verbose = verbose)
-  }, error = function(e) {
-    stop("TMB compilation failed: ", e$message)
-  })
-  
-  # Load compiled model
-  so_path <- file.path(dirname(tmb_path), "ordinal_qbrms")
-  tryCatch({
-    dyn.load(TMB::dynlib(so_path))
-  }, error = function(e) {
-    alt_path <- file.path(getwd(), "ordinal_qbrms")
-    tryCatch({
-      dyn.load(TMB::dynlib(alt_path))
-    }, error = function(e2) {
-      stop("Failed to load compiled TMB model")
-    })
-  })
+  if (isTRUE(verbose)) {
+    cat("Setting up TMB model (using pre-compiled DLL)...\n")
+  }
   
   # Prepare data list for TMB
   data_list <- list(
-    y = tmb_data$y,
-    X = tmb_data$X,
-    Z = if (tmb_data$has_random_effects) tmb_data$Z else matrix(0, nrow = tmb_data$n_obs, ncol = 0),
-    thresh_mean = prior_params$thresh_mean,
-    thresh_sd = prior_params$thresh_sd,
-    beta_mean = prior_params$beta_mean,
-    beta_sd = prior_params$beta_sd,
-    re_sd_shape = prior_params$re_sd_shape,
-    re_sd_rate = prior_params$re_sd_rate,
+    y   = tmb_data$y,
+    X   = tmb_data$X,
+    Z   = if (tmb_data$has_random_effects) {
+      tmb_data$Z
+    } else {
+      matrix(0, nrow = tmb_data$n_obs, ncol = 0)
+    },
+    thresh_mean        = prior_params$thresh_mean,
+    thresh_sd          = prior_params$thresh_sd,
+    beta_mean          = prior_params$beta_mean,
+    beta_sd            = prior_params$beta_sd,
+    re_sd_shape        = prior_params$re_sd_shape,
+    re_sd_rate         = prior_params$re_sd_rate,
     has_random_effects = as.integer(tmb_data$has_random_effects)
   )
   
   # Initial parameter values
   param_list <- list(
     threshold_raw = seq(-1, 1, length.out = tmb_data$n_thresh),
-    beta = rep(0, tmb_data$n_coef)
+    beta          = rep(0, tmb_data$n_coef)
   )
   
   # Only add random effect parameters for genuine random effects
   if (tmb_data$has_random_effects && tmb_data$n_groups > 0) {
     param_list$log_re_sd <- log(1.0)
-    param_list$u <- rep(0, tmb_data$n_groups)
-    random_effects <- "u"
+    param_list$u         <- rep(0, tmb_data$n_groups)
+    random_effects       <- "u"
   } else {
     param_list$log_re_sd <- log(1.0)
-    param_list$u <- numeric(0)
-    random_effects <- NULL
+    param_list$u         <- numeric(0)
+    random_effects       <- NULL
   }
   
-  # Create TMB object
+  # Create TMB object using pre-compiled DLL
   obj <- tryCatch({
     TMB::MakeADFun(
-      data = data_list,
+      data      = data_list,
       parameters = param_list,
-      random = random_effects,
-      DLL = "ordinal_qbrms",
-      silent = !verbose
+      random    = random_effects,
+      DLL       = "qbrms",              # name of the package DLL
+      silent    = !isTRUE(verbose)
     )
   }, error = function(e) {
     stop("Failed to create TMB object: ", e$message)
   })
   
-  return(list(
-    obj = obj,
-    data_list = data_list,
+  list(
+    obj        = obj,
+    data_list  = data_list,
     param_list = param_list,
-    tmb_data = tmb_data
-  ))
+    tmb_data   = tmb_data
+  )
 }
 
 #' Enhanced TMB Model Fitting with Better Error Handling - CORRECTED VERSION
@@ -1152,7 +1139,7 @@ create_fixed_effects_summary <- function(param_summary, tmb_data) {
 #' @return qbrms-compatible result object
 #' @keywords internal
 create_ordinal_qbrms_result <- function(tmb_fit, formula, data, family, 
-                                        prior, verbose = TRUE) {
+                                        prior, verbose = FALSE) {
   
   opt <- tmb_fit$opt
   obj <- attr(opt, "obj") %||% tmb_fit$obj

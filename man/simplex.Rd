@@ -12,29 +12,8 @@ simplex(link = "logit", link.precision = "log")
 \item{link.precision}{Link function for precision parameter (default: "log")}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-The Simplex family for modeling data constrained to the unit interval (0,1)
-with support for precision parameter modeling. Particularly useful for
-proportions, percentages, and beta-like regression when more flexibility
-is needed than standard beta regression.
-}
-\details{
-The Simplex distribution is parameterized with a mean μ ∈ (0,1) and precision
-parameter φ > 0. It provides more flexible tail behavior than beta regression
-and is particularly useful for highly skewed proportional data.
-
-Requires response variable to be in interval (0,1). Values exactly 0 or 1
-should be adjusted slightly (e.g., using (y * (n-1) + 0.5) / n transformation).
-}
-\examples{
-\dontrun{
-# Basic simplex regression
-fit <- qbrms(proportion ~ treatment, data = data, family = simplex())
-
-# With precision modeling
-fit <- qbrms(bf(prop ~ predictor, phi ~ group), data = data, family = simplex())
-}
-
+Simplex Family for Compositional Data
 }

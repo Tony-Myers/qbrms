@@ -1,30 +1,15 @@
-# R/imports.R - all imports
+# Centralised imports and globals for qbrms
 
-#' @importFrom stats as.formula binomial coef complete.cases dnorm gaussian lm median
-#' @importFrom stats model.frame model.matrix model.response plogis qnorm quantile
-#' @importFrom stats rbinom rnorm rpois sd vcov terms reformulate rcauchy rt runif var
-#' @importFrom stats fitted qqline qqnorm reshape residuals glm cor
-#' @importFrom utils head modifyList capture.output getFromNamespace
-#' @importFrom graphics abline curve hist par
-#' @importFrom methods is
-#' @import ggplot2
-#' @importFrom scales percent_format
-#' @importFrom posterior as_draws_df
-#' @import mvtnorm
-#' @importFrom stats delete.response
-#' @importFrom cowplot plot_grid
-#' @importFrom patchwork wrap_plots
-
-# If you prefer to add via usethis commands, run these:
-# usethis::use_package("cowplot", "Suggests")
-# usethis::use_package("patchwork", "Suggests")
-
-# Add to your main package documentation file (typically R/qbrms-package.R):
-#' @importFrom stats delete.response model.matrix terms as.formula
-NULL
+# Packages imported into the NAMESPACE
+#' @import future
+#' @import future.apply
+#' @import loo
+#' @import miniUI
+#' @import shiny
+#' @importFrom stats delete.response model.matrix terms as.formula na.omit
 NULL
 
-# Handle ggplot2 / NSE variable bindings to avoid R CMD check notes
+# Handle ggplot2 / NSE variable bindings and other globals to avoid R CMD check notes
 if (getRversion() >= "2.15.1") {
   utils::globalVariables(c(
     "draw", "y", "value", "rep_id", "x", "group", "median", "quantile",
@@ -33,22 +18,16 @@ if (getRversion() >= "2.15.1") {
     "type", "ps", "Parameter", "sig_level",
     "CI_low", "CI_high", "Dist",
     "Group", "Success_Rate", "Group_Size", "Lower", "Upper", "groups",
-    "is_pseudo", "group_id", "regularisation_strength", "prior_random_intercept"
+    "is_pseudo", "group_id", "regularisation_strength", "prior_random_intercept",
+    "sn", "nbinomial"
   ))
 }
 
-# TMB imports for ordinal regression
-if (requireNamespace("TMB", quietly = TRUE)) {
-  #' @importFrom TMB MakeADFun compile dynlib
-  NULL
-}
-
-# lme4 imports for formula parsing in ordinal models
-if (requireNamespace("lme4", quietly = TRUE)) {
-  #' @importFrom lme4 nobars findbars
-  NULL
-}
-
+# TMB imports for ordinal regression (kept as a comment for clarity)
 
 # Null-coalescing operator used throughout the package
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+#' @importFrom stats coef complete.cases dnorm model.frame qnorm reshape vcov
+#' @importFrom utils capture.output modifyList
+NULL

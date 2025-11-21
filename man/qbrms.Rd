@@ -12,7 +12,7 @@ qbrms(
   sample_prior = "no",
   quantile = 0.5,
   control.compute = list(dic = TRUE, waic = TRUE, cpo = TRUE),
-  verbose = TRUE,
+  verbose = getOption("qbrms.verbose", FALSE),
   ...
 )
 }
@@ -31,7 +31,7 @@ qbrms(
 
 \item{control.compute}{INLA control settings for model information criteria}
 
-\item{verbose}{Logical; print diagnostic information (default: TRUE)}
+\item{verbose}{Logical; print diagnostic information (default: getOption("qbrms.verbose", FALSE))}
 
 \item{...}{Additional arguments passed to fitting functions}
 }
@@ -46,23 +46,6 @@ Supports ordinal regression via TMB, quantile regression, and all standard INLA 
 Removes any "(... | ...)" blocks from the RHS and keeps a syntactically
 valid formula. Cleans up dangling '+' and ensures there is at least "~ 1"
 if all terms are removed.
-
-This function automatically detects ordinal families (cumulative, ordinal) and routes
-them to the TMB-based qbrmO() implementation for superior numerical performance.
-Standard families use INLA, while maintaining a consistent user interface.
-}
-\examples{
-\dontrun{
-# Standard regression (uses INLA)
-fit1 <- qbrms(y ~ x, data = mydata, family = gaussian())
-
-# Ordinal regression (automatically routes to qbrmO)
-fit2 <- qbrms(satisfaction ~ treatment, data = survey, family = cumulative())
-
-# Quantile regression  
-fit3 <- qbrms(y ~ x, data = mydata, family = asymmetric_laplace(), quantile = 0.9)
-}
-
 }
 \seealso{
 \code{\link{qbrmO}} for direct ordinal model fitting

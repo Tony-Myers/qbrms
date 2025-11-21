@@ -7,9 +7,9 @@
 prior(prior, class = "b", coef = NULL, group = NULL)
 }
 \arguments{
-\item{prior}{A prior distribution object created by functions like normal(), student_t(), etc.}
+\item{prior}{A prior distribution object.}
 
-\item{class}{Parameter class ("Intercept", "b" for fixed effects, "sd" for random effects, etc.)}
+\item{class}{Parameter class ("Intercept", "b", "sd", etc.)}
 
 \item{coef}{Specific coefficient name (optional)}
 
@@ -20,16 +20,4 @@ A prior specification object
 }
 \description{
 Specify Prior for Model Parameters
-}
-\examples{
-\dontrun{
-# Normal prior for all fixed effects
-prior(normal(0, 1), class = "b")
-
-# Student's t prior for intercept
-prior(student_t(3, 0, 2.5), class = "Intercept")
-
-# Specific prior for a coefficient
-prior(normal(0, 0.5), class = "b", coef = "age")
-}
 }

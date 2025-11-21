@@ -10,25 +10,13 @@ laplace(link = "identity", link.sigma = "log")
 double_exponential(link = "identity", link.sigma = "log")
 }
 \arguments{
-\item{link}{Link function for location parameter (default: "identity")}
+\item{link}{Link function for location}
 
-\item{link.sigma}{Link function for scale parameter (default: "log")}
+\item{link.sigma}{Link function for scale}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Laplace distribution for robust regression with heavier tails than normal.
-}
-\details{
-Symmetric heavy-tailed distribution useful for robust regression when
-outliers are expected. Equivalent to L1 regression (median regression)
-in the maximum likelihood framework.
-}
-\examples{
-\dontrun{
-# Robust regression
-fit <- qbrms(y ~ x, data = data_with_outliers, family = laplace())
-}
-
+Laplace (Double Exponential) Family
 }

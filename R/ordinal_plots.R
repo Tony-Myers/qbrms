@@ -12,24 +12,20 @@
 #' @keywords internal
 #' @import ggplot2
 NULL
+
 if (getRversion() >= "2.15.1") {
   utils::globalVariables(c(
     "category","proportion","predicted_prob","observed_freq","bin_size",
     "effect_value","probability","mean_prob","lower_prob","upper_prob",
-    "observation","type","sample__","bin_center","mean_observed","n_in_bin"
-  ))
-}
-
-if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c(
+    "observation","type","sample__","bin_center","mean_observed","n_in_bin",
     "pred_mean", "pred_lower", "pred_upper", "observed", "predicted"
   ))
 }
+
 # ---- helper: build RHS design matrix using training contrasts ----------------
 #' @keywords internal
 #' @noRd
 .qbrms_build_X <- function(object, newdata) {
-  # Choose a training data source
   dat <- object$data
   if (is.null(dat) || !is.data.frame(dat) || nrow(dat) == 0L) {
     if (!is.null(object$fit) && is.data.frame(object$fit$frame) && nrow(object$fit$frame) > 0L) {
@@ -40,13 +36,12 @@ if (getRversion() >= "2.15.1") {
   }
   
   # Build fixed-effects terms (strips any "(...|...)" random-effect chunks)
+  # Note: assumes .qbrms_terms_fixed is available in the package namespace
   tr_terms <- .qbrms_terms_fixed(object, dat)
   
-  # Preserve training contrasts
   X_train  <- stats::model.matrix(tr_terms, dat)
   contrs   <- attr(X_train, "contrasts")
   
-  # Newdata design matrix using training contrasts
   stats::model.matrix(tr_terms, newdata, contrasts.arg = contrs)
 }
 
@@ -67,7 +62,6 @@ if (getRversion() >= "2.15.1") {
 #' @keywords internal
 #' @noRd
 .qbrms_make_pred_grid_ord <- function(object, effect, resolution = 100, conditions = NULL) {
-  # Robust data access
   dat <- object$data
   if (is.null(dat) || !is.data.frame(dat) || nrow(dat) == 0L) {
     if (!is.null(object$fit) && is.data.frame(object$fit$frame) && nrow(object$fit$frame) > 0L) {
@@ -80,7 +74,6 @@ if (getRversion() >= "2.15.1") {
     stop("Effect '", effect, "' not found in training data.")
   }
   
-  # Build grid for the focal effect
   if (is.numeric(dat[[effect]])) {
     r <- range(dat[[effect]], na.rm = TRUE)
     if (!is.finite(r[1]) || !is.finite(r[2])) stop("Cannot determine range for numeric effect '", effect, "'.")
@@ -91,8 +84,9 @@ if (getRversion() >= "2.15.1") {
   }
   
   # Hold other RHS variables fixed (mean/mode) unless supplied in `conditions`
+  # Note: assumes .qbrms__remove_random_effects is available in package namespace
   rhs_all <- all.vars(.qbrms__remove_random_effects(object$original_formula))
-  rhs_vars <- setdiff(rhs_all[-1], effect)  # drop response
+  rhs_vars <- setdiff(rhs_all[-1], effect)
   for (v in rhs_vars) {
     if (!is.null(conditions) && v %in% names(conditions)) {
       grid[[v]] <- conditions[[v]]
@@ -107,17 +101,13 @@ if (getRversion() >= "2.15.1") {
     }
   }
   
-  # Align factor levels to training data
   for (v in names(grid)) {
     if (v %in% names(dat) && is.factor(dat[[v]])) {
       grid[[v]] <- factor(grid[[v]], levels = levels(dat[[v]]))
     }
   }
-  
   grid
 }
-
-
 
 #' @keywords internal
 #' @noRd
@@ -178,26 +168,14 @@ if (getRversion() >= "2.15.1") {
 #' @param object A fitted TMB ordinal qbrms model object
 #' @param type Character; type of posterior predictive check
 #' @param ndraws Integer; number of posterior draws to use
-#' @param ... Additional arguments passed to bayesplot functions
-#'
-#' @return A ggplot object showing the posterior predictive check
-#'
-#' @examples
-#' \dontrun{
-#' # Fit ordinal model
-#' fit <- qbrms(rating ~ predictor, family = cumulative(), data = data)
-#' 
-#' # Basic posterior predictive check
-#' pp_check(fit)
-#' 
-#' # Specific check type
-#' pp_check(fit, type = "bars")
-#' }
-#' 
 #' @param seed Random seed for reproducibility.
 #' @param newdata Optional data frame for predictions. If NULL, uses original data.
 #' @param prob Probability mass for credible intervals (default 0.95).
+#' @param ... Additional arguments passed to methods.
+#'
+#' @return A ggplot object showing the posterior predictive check
 #' @export
+#' @method pp_check tmb_ordinal_qbrms_fit
 pp_check.tmb_ordinal_qbrms_fit <- function(object, type = "bars", ndraws = 100,
                                            seed = NULL, newdata = NULL, prob = 0.9, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
@@ -488,7 +466,9 @@ pp_check.tmb_ordinal_qbrms_fit <- function(object, type = "bars", ndraws = 100,
   
   rows <- list()
   for (cat in seq_len(pred_results$n_cats)) {
-    p <- rowMeans(pred_results$pred_probs[, , cat])  # length n_obs
+    # FIX: Use colMeans for drawing average probability per observation
+    # pred_probs is [ndraws, n_obs, n_cats] -> we want [n_obs]
+    p <- colMeans(pred_results$pred_probs[, , cat]) 
     o <- as.numeric(pred_results$y_obs == cat)
     
     bins <- cut(p, breaks = breaks, include.lowest = TRUE, right = TRUE)
@@ -529,16 +509,16 @@ pp_check.tmb_ordinal_qbrms_fit <- function(object, type = "bars", ndraws = 100,
 #'
 #' @param object A tmb_ordinal_qbrms_fit object
 #' @param effects Character vector of effect names (defaults to auto-detected)
-#' @param prob Confidence level (not used for ordinal, kept for consistency)
-#' @param ndraws Number of draws (not used for ordinal, kept for consistency)  
-#' @param spaghetti Logical, not applicable for ordinal (kept for consistency)
+#' @param prob Confidence level
+#' @param ndraws Number of draws
+#' @param spaghetti Logical
 #' @param n_points Number of points for continuous predictors
 #' @param plot Logical, whether to return plots
-#' @param at Named list of conditioning values (mapped to conditions internally)
-#' @param seed Random seed (not used but kept for consistency)
+#' @param at Named list of conditioning values
+#' @param seed Random seed
 #' @param conditions Ordinal-specific conditions (for backwards compatibility)
 #' @param categorical Whether to show categorical plot (for backwards compatibility)
-#' @param resolution Grid resolution (for backwards compatibility, mapped to n_points)
+#' @param resolution Grid resolution (for backwards compatibility)
 #' @param ... Additional arguments
 #'
 #' @return List of conditional effects

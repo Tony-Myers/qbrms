@@ -7,19 +7,15 @@
 gen_student_t(link = "identity", link.sigma = "log", link.nu = "log")
 }
 \arguments{
-\item{link}{Link function for location parameter (default: "identity")}
+\item{link}{Link function for location}
 
-\item{link.sigma}{Link function for scale parameter (default: "log")}
+\item{link.sigma}{Link function for scale}
 
-\item{link.nu}{Link function for degrees of freedom (default: "log")}
+\item{link.nu}{Link function for degrees of freedom}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Generalized t-distribution with flexible tail behavior.
-}
-\details{
-Extends Student's t with additional flexibility. As ν → ∞, approaches
-normal distribution. Lower ν values give heavier tails for robustness.
+Generalized t Family
 }

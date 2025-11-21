@@ -10,30 +10,13 @@ zero_inflated_negbinomial(link = "log", link.zi = "logit")
 zinb(link = "log", link.zi = "logit")
 }
 \arguments{
-\item{link}{Link function for the mean (default: "log")}
+\item{link}{Link function for mean (default: "log")}
 
-\item{link.zi}{Link function for zero-inflation parameter (default: "logit")}
+\item{link.zi}{Link function for zero-inflation (default: "logit")}
 }
 \value{
-A family object for use with qbrms()
+A family object
 }
 \description{
-Zero-inflated negative binomial for count data with excess zeros and overdispersion.
-}
-\details{
-Combines a point mass at zero with a negative binomial distribution.
-Useful for count data with both overdispersion and excess zeros beyond
-what a negative binomial alone can handle.
-}
-\examples{
-\dontrun{
-# Count data with many zeros and overdispersion
-fit <- qbrms(count ~ predictor, data = ecology_data, 
-             family = zero_inflated_negbinomial())
-
-# Model zero-inflation probability
-fit <- qbrms(bf(count ~ habitat, zi ~ elevation), 
-             data = ecology_data, family = zinb())
-}
-
+Zero-Inflated Negative Binomial Family
 }

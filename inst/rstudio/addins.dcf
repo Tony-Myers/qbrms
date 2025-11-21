@@ -1,0 +1,4 @@
+Name: Bayesian Workflow Coach
+Description: Interactive assistant for Bayesian model building with qbrms.
+Binding: model_workflow_addin
+Interactive: true

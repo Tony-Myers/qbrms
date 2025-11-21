@@ -105,6 +105,7 @@ convert_family_to_inla <- function(family, quantile = 0.5, allow_ordinal_routing
     "skew_normal" = "sn",
     "student_t"   = "t",
     "student"     = "t",
+    "studentt"    = "t",
     
     # Survival analysis
     "weibull"        = "weibull",

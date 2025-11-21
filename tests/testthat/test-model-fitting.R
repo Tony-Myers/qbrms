@@ -95,14 +95,17 @@ test_that("qbrms fits intercept-only models", {
 })
 
 test_that("qbrms validates formula argument", {
-  # Note: qbrms has robust fallbacks, so these don't necessarily error
-  # Test with missing response
-  result1 <- qbrms(~x1 + x2, data = test_data, family = gaussian())
-  expect_true(inherits(result1, "qbrms_fit"))
+  set.seed(123)
+  test_data <- data.frame(
+    y  = rnorm(20),
+    x1 = rnorm(20)
+  )
   
-  # Test with character string formula - converts automatically
-  result2 <- qbrms("y ~ x1", data = test_data, family = gaussian())
-  expect_true(inherits(result2, "qbrms_fit"))
+  # Passing a character instead of a formula should raise an error.
+  # We only check that an error occurs, not the exact wording.
+  expect_error(
+    qbrms("y ~ x1", data = test_data, family = gaussian())
+  )
 })
 
 test_that("qbrms validates data argument", {

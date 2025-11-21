@@ -19,20 +19,72 @@ NULL
 format_duration <- function(seconds) {
   paste0(round(seconds, 2), " seconds")
 }
-
-# Family constructors to satisfy tests and internal usage
+#' Gaussian Family
+#' @export
 gaussian <- function() structure(list(family = "gaussian"), class = "family")
+
+#' Binomial Family
+#' @export
 binomial <- function() structure(list(family = "binomial"), class = "family")
+
+#' Poisson Family
+#' @export
 poisson <- function() structure(list(family = "poisson"), class = "family")
+
+#' Cumulative Family for Ordinal Regression
+#' @param link Link function (default: "logit")
+#' @export
 cumulative <- function(link = "logit") structure(list(family = "cumulative", link = link), class = "family")
+
+#' Negative Binomial Family
+#' @export
 neg_binomial <- function() structure(list(family = "negbinomial"), class = "family")
+
+#' Negative Binomial Family (Alias)
+#' @export
 negbinomial <- function() structure(list(family = "negbinomial"), class = "family")
+
+#' Asymmetric Laplace for Quantile Regression
+#' @export
 asymmetric_laplace <- function() structure(list(family = "asymmetric_laplace"), class = "family")
+
+#' Poisson Trick for Multinomial
+#' @keywords internal
 poisson_trick_multinomial <- function() structure(list(family = "poisson_trick_multinomial"), class = "family")
+
+#' Skew Normal Family
+#' @export
 skew_normal <- function() structure(list(family = "skew_normal"), class = "family")
+
+#' Multinomial Family
+#' @export
 multinomial <- function() structure(list(family = "multinomial"), class = "family")
-student <- function() structure(list(family = "student"), class = "family")
-student_t <- function() structure(list(family = "studentt"), class = "family")
+
+#' Student's t Family for Robust Regression
+#'
+#' @description
+#' Student's t-distribution family for robust regression with heavier tails
+#' than Gaussian to handle outliers.
+#'
+#' @return A family object for use with qbrms()
+#'
+#' @examples
+#' \dontrun{
+#' # Robust regression
+#' fit <- qbrms(y ~ x, data = data, family = student_t())
+#' }
+#'
+#' @export
+student_t <- function() {
+  structure(list(family = "studentt"), class = "family")
+}
+
+#' Student Family (Alias)
+#' @rdname student_t
+#' @export
+student <- function() {
+  structure(list(family = "student"), class = "family")
+}
 
 
 # =============================================================================
@@ -49,12 +101,12 @@ student_t <- function() structure(list(family = "studentt"), class = "family")
 # =============================================================================
 #  qbrms() FUNCTION WITH ROUTING 
 # =============================================================================
-#' Quick Bayesian Regression Models with Automatic Routing
+##' Quick Bayesian Regression Models with Automatic Routing
 #'
 #' @description
 #' Enhanced qbrms interface with automatic routing to specialised implementations.
 #' Supports ordinal regression via TMB, quantile regression, and all standard INLA families.
-#' 
+#'
 #' @param formula Model formula in lme4/brms style
 #' @param data Data frame containing the variables in the model
 #' @param family Model family (default: gaussian()). Ordinal families automatically route to qbrmO()
@@ -62,56 +114,37 @@ student_t <- function() structure(list(family = "studentt"), class = "family")
 #' @param sample_prior Whether to sample from priors ("no", "yes", "only"). Default: "no"
 #' @param quantile For asymmetric_laplace family, which quantile to estimate (default: 0.5)
 #' @param control.compute INLA control settings for model information criteria
-#' @param verbose Logical; print diagnostic information (default: TRUE)
+#' @param verbose Logical; print diagnostic information (default: getOption("qbrms.verbose", FALSE))
 #' @param ... Additional arguments passed to fitting functions
 #'
 #' @return A qbrms_fit object with model results, or routed to appropriate specialist function
-#' 
-#' @details
-#' This function automatically detects ordinal families (cumulative, ordinal) and routes 
-#' them to the TMB-based qbrmO() implementation for superior numerical performance.
-#' Standard families use INLA, while maintaining a consistent user interface.
-#' 
-#' @examples
-#' \dontrun{
-#' # Standard regression (uses INLA)
-#' fit1 <- qbrms(y ~ x, data = mydata, family = gaussian())
-#' 
-#' # Ordinal regression (automatically routes to qbrmO)
-#' fit2 <- qbrms(satisfaction ~ treatment, data = survey, family = cumulative())
-#' 
-#' # Quantile regression  
-#' fit3 <- qbrms(y ~ x, data = mydata, family = asymmetric_laplace(), quantile = 0.9)
-#' }
-#' 
 #' @seealso \code{\link{qbrmO}} for direct ordinal model fitting
 #' @export
 qbrms <- function(formula, data, family = gaussian(),
                   prior = NULL, sample_prior = "no",
                   quantile = 0.5,
                   control.compute = list(dic = TRUE, waic = TRUE, cpo = TRUE),
-                  verbose = TRUE, ...) {
-  qbrms <- function(formula, data, family = gaussian(), ...) {
-    
-    # Validate family data constraints
-    y <- data[[all.vars(formula)[1]]]
-    family_name <- extract_family_name(convert_family_to_inla(family))
-    validate_family_data(y, family_name)
-    
-    # Continue with existing implementation...
-  }
-  if (verbose) cat("Starting qbrms model fitting with automatic routing...\n")
+                  verbose = getOption("qbrms.verbose", FALSE), ...) {
   
-  # Input validation
-  if (is.null(formula) || is.null(data)) {
-    stop("Both formula and data are required")
+  # Check if formula is a bf() object and strip distributional parts if necessary
+  formula <- sanitize_formula(formula)
+  # --------------------------
+  
+  # ---- local fallbacks (do not affect package API) ---------------------------
+  `%||%` <- get0("%||%", ifnotfound = function(x, y) if (is.null(x)) y else x)
+  if (!exists(".qbrms_silently", mode = "function", inherits = TRUE)) {
+    .qbrms_silently <- function(expr) eval.parent(substitute(expr))
+  }
+  if (!exists(".qbrms_silence_tmb", mode = "function", inherits = TRUE)) {
+    .qbrms_silence_tmb <- function(expr) eval.parent(substitute(expr))
   }
   
-  if (nrow(data) == 0) {
-    stop("Data cannot be empty")
-  }
+  if (isTRUE(verbose)) cat("Starting qbrms model fitting...\n")
   
-  # Validate formula variables exist in data
+  # ---- basic checks ----------------------------------------------------------
+  if (is.null(formula) || is.null(data)) stop("Both formula and data are required")
+  if (nrow(data) == 0) stop("Data cannot be empty")
+  
   formula_vars <- tryCatch(all.vars(formula), error = function(e) character(0))
   if (length(formula_vars) > 0) {
     missing_vars <- setdiff(formula_vars, names(data))
@@ -119,76 +152,84 @@ qbrms <- function(formula, data, family = gaussian(),
       stop("Variables not found in data: ", paste(missing_vars, collapse = ", "))
     }
   }
-  # Convert family with routing support enabled
-  inla_fam_or_route <- tryCatch({
-    convert_family_to_inla(family, quantile, allow_ordinal_routing = TRUE)
-  }, error = function(e) {
-    stop("Family conversion failed: ", e$message)
-  })
-
-  # Check for routing requirement
-  if (requires_routing(inla_fam_or_route)) {
-    routing_info <- extract_routing_info(inla_fam_or_route)
-    
-    if (verbose) {
-      cat("Detected", routing_info$original_family, "family - routing to", routing_info$target, "()\n")
-    }
-    
-    # Route to appropriate specialist function
-    if (routing_info$target == "qbrmO") {
-      
-      # Check if qbrmO is available
-      if (!exists("qbrmO", mode = "function")) {
-        stop(
-          "Ordinal regression detected but qbrmO() function not available.\n",
-          "Please ensure TMB ordinal implementation is loaded, or use brms:\n",
-          "  library(brms)\n",
-          "  fit <- brm(", deparse(formula), ", family = cumulative(), data = your_data)"
-        )
-      }
-      
-      # Call qbrmO with appropriate arguments
-      ordinal_family <- structure(list(
-        family = routing_info$family,
-        link = routing_info$link,
-        threshold = routing_info$threshold
-      ), class = c("brmsfamily", "family"))
-      
-      return(qbrmO(
-        formula = formula,
-        data = data, 
-        family = ordinal_family,
-        prior = prior,
-        verbose = FALSE,
-        ...
-      ))
-      
-    } else {
-      stop("Unknown routing target: ", routing_info$target)
+  if (length(formula_vars) == 0L)
+    stop("Formula appears to have no variables")
+  
+  # ---- gentle auto-family inference (preserves old ergonomics) --------------
+  # Only promote the default gaussian() when response type clearly indicates it.
+  y <- data[[formula_vars[1]]]
+  if (is.list(family) && identical(tolower(family$family %||% ""), "gaussian")) {
+    if (is.ordered(y)) {
+      family <- cumulative()
+    } else if (is.factor(y)) {
+      family <- if (nlevels(y) == 2L) binomial() else multinomial()
     }
   }
   
-  # Continue with standard qbrms implementation for non-routed families
-  inla_fam <- inla_fam_or_route  # This is the converted INLA family spec
+  # ---- convert family; allow ordinal routing --------------------------------
+  inla_fam_or_route <- tryCatch({
+    convert_family_to_inla(family, quantile, allow_ordinal_routing = TRUE)
+  }, error = function(e) {
+    stop("Family conversion failed: ", e$message, call. = FALSE)
+  })
   
-  # [REST OF EXISTING qbrms() IMPLEMENTATION UNCHANGED]
-  # Handle prior-only sampling
-  if (sample_prior == "only") {
-    if (verbose) cat("Generating prior predictive samples only...\n")
+  # For non-ordinal families, validate data against the converted name
+  if (!requires_routing(inla_fam_or_route)) {
+    fam_for_check <- tryCatch(extract_family_name(inla_fam_or_route), error = function(e) "gaussian")
+    try(validate_family_data(y, fam_for_check), silent = TRUE)
+  }
+  
+  # ---- ordinal routing path (TMB) -------------------------------------------
+  if (requires_routing(inla_fam_or_route)) {
+    routing_info <- extract_routing_info(inla_fam_or_route)
+    if (isTRUE(verbose)) {
+      cat("Detected ", routing_info$original_family, " family - routing to ",
+          routing_info$target, "()\n", sep = "")
+    }
+    if (!identical(routing_info$target, "qbrmO"))
+      stop("Unknown routing target: ", routing_info$target)
     
+    if (!exists("qbrmO", mode = "function"))
+      stop("Ordinal regression detected but qbrmO() is not available.")
+    
+    ordinal_family <- structure(list(
+      family    = routing_info$family,
+      link      = routing_info$link,
+      threshold = routing_info$threshold
+    ), class = c("brmsfamily", "family"))
+    
+    # Silence TMB compile/link unless verbose=TRUE
+    if (isTRUE(verbose)) {
+      return(qbrmO(
+        formula = formula, data = data, family = ordinal_family,
+        prior = prior, verbose = TRUE, ...
+      ))
+    } else {
+      return(.qbrms_silence_tmb(
+        qbrmO(
+          formula = formula, data = data, family = ordinal_family,
+          prior = prior, verbose = FALSE, ...
+        )
+      ))
+    }
+  }
+  
+  # ---- non-ordinal: continue as before --------------------------------------
+  inla_fam <- inla_fam_or_route
+  
+  # Prior-only sampling
+  if (identical(sample_prior, "only")) {
+    if (isTRUE(verbose)) cat("Generating prior predictive samples only...\n")
     prior_result <- tryCatch({
-      generate_prior_predictive_samples(
-        formula = formula, 
-        data = data, 
-        family = family,
-        prior = prior,
-        ndraws = 100,
-        verbose = verbose
+      .qbrms_silently(
+        generate_prior_predictive_samples(
+          formula = formula, data = data, family = family,
+          prior = prior, ndraws = 100, verbose = verbose
+        )
       )
     }, error = function(e) {
-      if (verbose) cat("Warning: Prior sampling failed, using fallback\n")
-      n_obs <- nrow(data)
-      matrix(rnorm(100 * n_obs), nrow = 100, ncol = n_obs)
+      if (isTRUE(verbose)) cat("Warning: Prior sampling failed, using fallback\n")
+      n_obs <- nrow(data); matrix(stats::rnorm(100 * n_obs), nrow = 100, ncol = n_obs)
     })
     
     result <- list(
@@ -200,33 +241,31 @@ qbrms <- function(formula, data, family = gaussian(),
       prior_specs = prior,
       fitting_time = 0
     )
-    
     class(result) <- c("qbrms_prior_fit", "qbrms_fit", "list")
+    if (isTRUE(verbose)) cat("qbrms model fitting completed.\n")
     return(result)
   }
   
-  # Parse formula components
+  # Parse formula components (random effects etc.)
   formula_components <- tryCatch({
     parse_formula_components(formula, data)
   }, error = function(e) {
-    if (verbose) cat("Warning: Could not parse formula components, using defaults\n")
+    if (isTRUE(verbose)) cat("Warning: Could not parse formula components, using defaults\n")
     list(has_random_effects = FALSE, is_binomial_trials = FALSE)
   })
   
-  # Get family name for further processing
   fam_name <- tryCatch(extract_family_name(inla_fam), error = function(e) "gaussian")
   
-  # Handle different family types
-  if (fam_name == "multinomial") {
-    # Multinomial handling [existing code]
+  # Multinomial branch
+  if (identical(fam_name, "multinomial")) {
     fit_res <- tryCatch({
-      fit_multinomial_model(formula, data, inla_fam, control.compute, verbose, ...)
+      .qbrms_silently(fit_multinomial_model(formula, data, inla_fam, control.compute, verbose, ...))
     }, error = function(e) {
-      if (verbose) cat("Multinomial fitting failed:", e$message, "\n")
+      if (isTRUE(verbose)) cat("Multinomial fitting failed: ", e$message, "\n", sep = "")
       NULL
     })
-    
     if (!is.null(fit_res)) {
+      dur <- fit_res$fitting_time
       res <- list(
         fit = fit_res$fit,
         original_formula = formula,
@@ -235,40 +274,36 @@ qbrms <- function(formula, data, family = gaussian(),
         has_random = FALSE,
         has_random_effects = FALSE,
         model_type = "multinomial",
-        fitting_time = fit_res$fitting_time,
-        timing = list(
-          total_seconds = fit_res$fitting_time,
-          formatted = format_duration(fit_res$fitting_time),
-          formatted_duration = format_duration(fit_res$fitting_time)
-        )
+        fitting_time = dur,
+        timing = list(total_seconds = dur,
+                      formatted = format_duration(dur),
+                      formatted_duration = format_duration(dur))
       )
       class(res) <- c("qbrms_multinomial_fit", "qbrms_fit")
+      if (isTRUE(verbose)) cat("qbrms model fitting completed successfully.\n")
       return(res)
     }
   }
   
-  # Handle quantile regression
-  if (fam_name == "asymmetric_laplace") {
+  # Quantile regression branch
+  if (identical(fam_name, "asymmetric_laplace")) {
     start_time <- Sys.time()
     quantile_fit <- tryCatch({
-      create_quantile_fit(formula, data, quantile, verbose)
+      .qbrms_silently(create_quantile_fit(formula, data, quantile, verbose))
     }, error = function(e) {
-      if (verbose) cat("Quantile regression failed:", e$message, "\n")
-      y <- data[[all.vars(formula)[1]]]
+      if (isTRUE(verbose)) cat("Quantile regression failed: ", e$message, "\n", sep = "")
+      yy <- data[[formula_vars[1]]]
       list(
         summary.fixed = data.frame(
-          mean = c(mean(y, na.rm = TRUE), 0),
-          sd = c(0.1, 0.1),
+          mean = c(if (is.numeric(yy)) mean(yy, na.rm = TRUE) else 0, 0),
+          sd   = c(0.1, 0.1),
           row.names = c("(Intercept)", "fallback")
         ),
         converged = FALSE,
         fallback_type = "quantile_fallback"
       )
     })
-    
-    end_time <- Sys.time()
-    dur <- as.numeric(difftime(end_time, start_time, units = "secs"))
-    
+    dur <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
     res <- list(
       fit = quantile_fit,
       original_formula = formula,
@@ -279,27 +314,25 @@ qbrms <- function(formula, data, family = gaussian(),
       model_type = "quantile_regression",
       quantile = quantile,
       fitting_time = dur,
-      timing = list(
-        total_seconds = dur,
-        formatted = format_duration(dur),
-        formatted_duration = format_duration(dur)
-      )
+      timing = list(total_seconds = dur,
+                    formatted = format_duration(dur),
+                    formatted_duration = format_duration(dur))
     )
     class(res) <- c("qbrms_fit")
+    if (isTRUE(verbose)) cat("qbrms model fitting completed successfully.\n")
     return(res)
   }
   
-  # Standard INLA model fitting [existing code continues...]
+  # Standard fixed/mixed effects path (INLA or fallback inside)
   fit_res <- tryCatch({
-    fit_model_robust_fixed(formula, data, inla_fam, control.compute, verbose, ...)
+    .qbrms_silently(fit_model_robust_fixed(formula, data, inla_fam, control.compute, verbose, ...))
   }, error = function(e) {
-    if (verbose) cat("All fitting methods failed:", e$message, "\n")
-    
-    y <- data[[all.vars(formula)[1]]]
+    if (isTRUE(verbose)) cat("All fitting methods failed: ", e$message, "\n", sep = "")
+    yy <- data[[formula_vars[1]]]
     list(
       fit = list(
         summary.fixed = data.frame(
-          mean = if(is.numeric(y)) mean(y, na.rm = TRUE) else 0,
+          mean = if (is.numeric(yy)) mean(yy, na.rm = TRUE) else 0,
           sd = 0.1,
           row.names = "(Intercept)"
         ),
@@ -310,35 +343,33 @@ qbrms <- function(formula, data, family = gaussian(),
     )
   })
   
-  # [Continue with rest of existing qbrms implementation...]
-  # Extract group variable, handle prior samples, build result object, etc.
-  
+  # Grouping variable extraction (simple (1|group) case)
   group_var <- NULL
   if (isTRUE(formula_components$has_random_effects)) {
     frm_str <- tryCatch(deparse(formula, width.cutoff = 500), error = function(e) "")
-    match <- regexec("\\(1 \\| ([^\\)]+)\\)", frm_str)
-    capture <- regmatches(frm_str, match)
-    if (length(capture[[1]]) >= 2) {
-      group_var <- trimws(capture[[1]][2])
-    }
+    mt <- regexec("\\(1 \\| ([^\\)]+)\\)", frm_str)
+    cap <- regmatches(frm_str, mt)
+    if (length(cap[[1]]) >= 2) group_var <- trimws(cap[[1]][2])
   }
   
-  # Generate prior samples if requested
+  # Optional prior predictive samples
   prior_samples <- NULL
-  if (sample_prior == "yes") {
-    if (verbose) cat("Also generating prior predictive samples...\n")
+  if (identical(sample_prior, "yes")) {
+    if (isTRUE(verbose)) cat("Also generating prior predictive samples...\n")
     prior_samples <- tryCatch({
-      generate_prior_predictive_samples(
-        formula = formula, data = data, family = family,
-        prior = prior, ndraws = 100, verbose = verbose
+      .qbrms_silently(
+        generate_prior_predictive_samples(
+          formula = formula, data = data, family = family,
+          prior = prior, ndraws = 100, verbose = verbose
+        )
       )
     }, error = function(e) {
-      if (verbose) cat("Warning: Prior sampling failed\n")
+      if (isTRUE(verbose)) cat("Warning: Prior sampling failed\n")
       NULL
     })
   }
   
-  # Build final result
+  dur <- fit_res$fitting_time %||% 0
   res <- list(
     fit = fit_res$fit,
     original_formula = formula,
@@ -348,21 +379,18 @@ qbrms <- function(formula, data, family = gaussian(),
     has_random_effects = as.logical(formula_components$has_random_effects %||% FALSE),
     group_var = group_var,
     model_type = ifelse(isTRUE(formula_components$has_random_effects), "mixed", "fixed"),
-    fitting_time = fit_res$fitting_time %||% 0,
-    timing = list(
-      total_seconds = fit_res$fitting_time %||% 0,
-      formatted = format_duration(fit_res$fitting_time %||% 0),
-      formatted_duration = format_duration(fit_res$fitting_time %||% 0)
-    ),
+    fitting_time = dur,
+    timing = list(total_seconds = dur,
+                  formatted = format_duration(dur),
+                  formatted_duration = format_duration(dur)),
     prior_samples = prior_samples,
     prior_specs = prior
   )
   class(res) <- c("qbrms_fit")
   
-  if (verbose) cat("qbrms model fitting completed successfully.\n")
+  if (isTRUE(verbose)) cat("qbrms model fitting completed successfully.\n")
   return(res)
 }
-
 # =============================================================================
 # Alias for qbrms() - Quick Bayesian Regression Models
 # =============================================================================

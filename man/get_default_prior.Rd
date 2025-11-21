@@ -15,4 +15,3 @@ A default prior for that class
 \description{
 Get Default Prior for Parameter Class
 }
-\keyword{internal}

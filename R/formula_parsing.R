@@ -69,11 +69,11 @@ parse_brms_formula <- function(formula) {
       }
     }
     return(result)
-  } else if (inherits(formula, "brmsformula")) {
+  } else if (inherits(formula, "brmsformula") || inherits(formula, "qbrmsformula")) {
     return(list(
       response_formula = formula$formula,
-      distributional_formulas = list(),
-      is_distributional = FALSE
+      distributional_formulas = formula$dpars %||% list(),
+      is_distributional = !is.null(formula$dpars) && length(formula$dpars) > 0
     ))
   } else {
     return(list(
@@ -133,4 +133,35 @@ get_predictor_variables <- function(formula, data) {
     numeric_vars = numeric_vars,
     categorical_vars = categorical_vars
   ))
+}
+
+#' Sanitize Formula (Distributional Safety Catch)
+#'
+#' @description
+#' Checks if the input is a complex distributional formula (from bf()).
+#' If so, it extracts the main formula and warns the user that
+#' distributional parameters are ignored in this version.
+#'
+#' @param formula A formula object or a qbrmsformula list.
+#' @return A standard R formula object.
+#' @keywords internal
+sanitize_formula <- function(formula) {
+  # Check if it's a bf() object
+  if (inherits(formula, "brmsformula") || inherits(formula, "qbrmsformula")) {
+    
+    # Check for distributional parameters (sigma ~ x, etc.)
+    if (!is.null(formula$dpars) && length(formula$dpars) > 0) {
+      dpar_names <- names(formula$dpars)
+      warning("Distributional parameters (", paste(dpar_names, collapse = ", "), 
+              ") are not yet supported in this version of qbrms.\n",
+              "Proceeding with the main response formula only.", 
+              call. = FALSE)
+    }
+    
+    # Return only the main formula part to prevent downstream crashes
+    return(formula$formula)
+  }
+  
+  # If standard formula, return as is
+  return(formula)
 }

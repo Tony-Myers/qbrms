@@ -19,6 +19,8 @@ INLA with brms-like syntax. The package supports:
 \item Conditional effects plots
 \item Posterior predictive checks
 \item Summary methods compatible with brms
+\item Interactive model building with \code{\link{model_builder}}
+\item RStudio add-in for point-and-click model specification
 }
 }
 \seealso{

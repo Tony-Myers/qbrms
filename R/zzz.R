@@ -1,4 +1,14 @@
+# =============================================================================
 # R/zzz.R - Package startup and cleanup
+# =============================================================================
+
+.onLoad <- function(libname, pkgname) {
+  # Default to silent fits unless the user has explicitly set a preference.
+  # This does not change behaviour if users already have options(qbrms.verbose=…)
+  if (is.null(getOption("qbrms.verbose"))) {
+    options(qbrms.verbose = FALSE)
+  }
+}
 
 .onAttach <- function(libname, pkgname) {
   # Check for INLA availability

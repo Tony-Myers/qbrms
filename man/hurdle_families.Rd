@@ -11,18 +11,10 @@ hurdle_poisson(link = "log", link.hu = "logit")
 hurdle_negbinomial(link = "log", link.hu = "logit")
 }
 \arguments{
-\item{link}{Link function for count component (default: "log")}
+\item{link}{Link function for count component}
 
-\item{link.hu}{Link function for hurdle component (default: "logit")}
-}
-\value{
-A family object for use with qbrms()
+\item{link.hu}{Link function for hurdle component}
 }
 \description{
-Hurdle models for count data, separating zero vs non-zero process.
-}
-\details{
-Two-part models: first part models zero vs non-zero probability,
-second part models positive counts. Different from zero-inflation
-as zeros only come from the hurdle process.
+Hurdle Families for Two-Part Models
 }

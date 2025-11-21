@@ -10,5 +10,5 @@ list_extended_families()
 Data frame with family names, categories, and brief descriptions
 }
 \description{
-Returns a data frame of all available extended families with categories.
+List Available Extended Families
 }

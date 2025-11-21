@@ -81,42 +81,52 @@ prior_build_from_beliefs <- function(formula,
   
   # Identify predictors in RHS -------------------------------------------------
   f_terms <- all.vars(formula)
-  if (length(f_terms) < 2) stop("Formula must contain at least one predictor")
+  # FIX: Allow intercept-only models (length == 1)
+  if (length(f_terms) == 0) stop("Formula is empty or invalid")
+  
   resp <- f_terms[1L]
-  preds_all <- unique(f_terms[-1L])
+  
+  if (length(f_terms) > 1) {
+    preds_all <- unique(f_terms[-1L])
+  } else {
+    preds_all <- character(0)
+  }
   
   # Standardise if requested, update formula ----------------------------------
   used_preds <- preds_all
   data_out <- data
   frm_out  <- formula
   ref_x    <- list()
-  if (standardise) {
-    for (v in preds_all) {
-      if (is.numeric(data[[v]])) {
-        m <- mean(data[[v]], na.rm = TRUE)
-        s <- stats::sd(data[[v]], na.rm = TRUE)
-        data_out[[paste0(v, "_s")]] <- if (!is.finite(s) || s <= 0) data[[v]] - m else as.numeric((data[[v]] - m) / s)
-        ref_x[[v]] <- list(mean = 0, sd = if (!is.finite(s) || s <= 0) NA_real_ else 1, used = paste0(v, "_s"))
-      } else {
-        ref_x[[v]] <- list(mean = NA_real_, sd = NA_real_, used = v)
+  
+  if (length(preds_all) > 0) {
+    if (standardise) {
+      for (v in preds_all) {
+        if (is.numeric(data[[v]])) {
+          m <- mean(data[[v]], na.rm = TRUE)
+          s <- stats::sd(data[[v]], na.rm = TRUE)
+          data_out[[paste0(v, "_s")]] <- if (!is.finite(s) || s <= 0) data[[v]] - m else as.numeric((data[[v]] - m) / s)
+          ref_x[[v]] <- list(mean = 0, sd = if (!is.finite(s) || s <= 0) NA_real_ else 1, used = paste0(v, "_s"))
+        } else {
+          ref_x[[v]] <- list(mean = NA_real_, sd = NA_real_, used = v)
+        }
       }
-    }
-    rhs <- deparse(formula[[3L]])
-    for (v in preds_all) {
-      if (paste0(v, "_s") %in% names(data_out)) {
-        rhs <- gsub(paste0("\\b", v, "\\b"), paste0(v, "_s"), rhs)
-        used_preds[used_preds == v] <- paste0(v, "_s")
+      rhs <- deparse(formula[[3L]])
+      for (v in preds_all) {
+        if (paste0(v, "_s") %in% names(data_out)) {
+          rhs <- gsub(paste0("\\b", v, "\\b"), paste0(v, "_s"), rhs)
+          used_preds[used_preds == v] <- paste0(v, "_s")
+        }
       }
-    }
-    frm_out <- stats::as.formula(paste(deparse(formula[[2L]]), "~", rhs))
-  } else {
-    for (v in preds_all) {
-      if (is.numeric(data[[v]])) {
-        ref_x[[v]] <- list(mean = mean(data[[v]], na.rm = TRUE),
-                           sd   = stats::sd(data[[v]], na.rm = TRUE),
-                           used = v)
-      } else {
-        ref_x[[v]] <- list(mean = NA_real_, sd = NA_real_, used = v)
+      frm_out <- stats::as.formula(paste(deparse(formula[[2L]]), "~", rhs))
+    } else {
+      for (v in preds_all) {
+        if (is.numeric(data[[v]])) {
+          ref_x[[v]] <- list(mean = mean(data[[v]], na.rm = TRUE),
+                             sd   = stats::sd(data[[v]], na.rm = TRUE),
+                             used = v)
+        } else {
+          ref_x[[v]] <- list(mean = NA_real_, sd = NA_real_, used = v)
+        }
       }
     }
   }

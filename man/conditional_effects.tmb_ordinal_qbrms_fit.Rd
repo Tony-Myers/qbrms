@@ -25,25 +25,25 @@
 
 \item{effects}{Character vector of effect names (defaults to auto-detected)}
 
-\item{prob}{Confidence level (not used for ordinal, kept for consistency)}
+\item{prob}{Confidence level}
 
-\item{ndraws}{Number of draws (not used for ordinal, kept for consistency)}
+\item{ndraws}{Number of draws}
 
-\item{spaghetti}{Logical, not applicable for ordinal (kept for consistency)}
+\item{spaghetti}{Logical}
 
 \item{n_points}{Number of points for continuous predictors}
 
 \item{plot}{Logical, whether to return plots}
 
-\item{at}{Named list of conditioning values (mapped to conditions internally)}
+\item{at}{Named list of conditioning values}
 
-\item{seed}{Random seed (not used but kept for consistency)}
+\item{seed}{Random seed}
 
 \item{conditions}{Ordinal-specific conditions (for backwards compatibility)}
 
 \item{categorical}{Whether to show categorical plot (for backwards compatibility)}
 
-\item{resolution}{Grid resolution (for backwards compatibility, mapped to n_points)}
+\item{resolution}{Grid resolution (for backwards compatibility)}
 
 \item{...}{Additional arguments}
 }

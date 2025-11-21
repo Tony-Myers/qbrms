@@ -13,5 +13,5 @@ family_info(family_name)
 Character string with family information
 }
 \description{
-Returns documentation and usage information for a family.
+Get Family Documentation
 }
