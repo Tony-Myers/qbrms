@@ -6,12 +6,17 @@
 # Load required libraries
 library(testthat)
 
-# Conditionally load packages for testing
+# Conditionally load packages for testing with SAFETY CATCH
 if (requireNamespace("INLA", quietly = TRUE)) {
   # INLA-specific setup if available
-  # Set INLA to run in testing mode (faster, less precision)
-  INLA::inla.setOption(inla.mode = "experimental")
-  INLA::inla.setOption(num.threads = "1:1") # Single thread for reproducibility
+  # We wrap this in tryCatch because on some CRAN/CI runners (especially macOS),
+  # the package is installed but the binary is missing, which causes a crash here.
+  tryCatch({
+    INLA::inla.setOption(inla.mode = "experimental")
+    INLA::inla.setOption(num.threads = "1:1") # Single thread for reproducibility
+  }, error = function(e) {
+    message("INLA found but not functional (binary missing). Skipping configuration.")
+  })
 }
 
 # Set up testing environment
