@@ -16,3 +16,4 @@
 ^inst/tmb/ordinal/.*\.o$
 ^inst/tmb/ordinal/.*\.so$
 ^\.Rprofile$
+^cran-comments\.md$
