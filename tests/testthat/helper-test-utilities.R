@@ -1,4 +1,6 @@
-# tests/testthat/helper-test-utilities.R
+# =============================================================================
+# FILE: tests/testthat/helper-test-utilities.R
+# =============================================================================
 
 #' Skip if INLA is not available or broken
 #' @keywords internal
@@ -24,7 +26,8 @@ skip_if_no_inla <- function() {
 #' Create test fit object for use in tests
 #' @keywords internal
 create_test_fit <- function() {
-  skip_if_no_inla() # <--- Added safety check
+  # CRITICAL: Must skip if INLA is broken to avoid crash
+  skip_if_no_inla() 
   
   set.seed(123)
   test_data <- data.frame(
