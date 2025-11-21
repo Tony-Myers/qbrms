@@ -1,6 +1,7 @@
 Package: qbrms
 Title: Quick Bayesian Regression Models Using 'INLA' with 'brms' Syntax
-Version: 0.9
+Version: 1.0.0
+Date: 2025-11-21
 Authors@R: person(given = "Tony",
                   family = "Myers", 
                   role = c("aut", "cre"),
@@ -64,5 +65,5 @@ LinkingTo:
 Config/testthat/edition: 3
 URL: https://github.com/Tony-Myers/qbrms
 BugReports: https://github.com/Tony-Myers/qbrms/issues
-Additional_repositories: https://inla.r-inla-download.org/R/stable/
+Additional_repositories: https://inla.r-inla-download.org/R/stable/, https://bioconductor.org/packages/release/bioc/
 VignetteBuilder: knitr
