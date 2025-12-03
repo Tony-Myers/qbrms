@@ -13,6 +13,9 @@
 
 \item{...}{Additional arguments (unused)}
 }
+\value{
+Invisibly returns the input object \code{x}.
+}
 \description{
 Plot Method for Diagnostics
 }

@@ -6,6 +6,10 @@
 \usage{
 model_lab_addin()
 }
+\value{
+This function is called for its side effects (launching a Shiny
+gadget in RStudio). It returns \code{NULL} invisibly.
+}
 \description{
 Compare plausible families, run prior/posterior checks, plot conditional
 effects, compute diagnostics, and emit reproducible code. Does not load 'brms'.

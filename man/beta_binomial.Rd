@@ -10,7 +10,7 @@ beta_binomial(link = "logit")
 \item{link}{Link function for probability parameter (default: "logit")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Beta Binomial Family for Overdispersed Binary Data

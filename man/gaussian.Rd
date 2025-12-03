@@ -6,6 +6,9 @@
 \usage{
 gaussian()
 }
+\value{
+An object of class \code{"family"} representing the Gaussian distribution.
+}
 \description{
 Gaussian Family
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mixed_binomial_enhanced.R
 \name{qbrmb}
 \alias{qbrmb}
-\title{Enhanced Binomial Mixed Effects Modelling (Complete Version)}
+\title{Enhanced binomial mixed-effects modelling}
 \usage{
 qbrmb(
   formula,
@@ -19,31 +19,41 @@ qbrmb(
 )
 }
 \arguments{
-\item{formula}{Model formula with random effects (lme4 style)}
+\item{formula}{Model formula with random effects in lme4-style syntax.}
 
-\item{data}{Data frame containing variables}
+\item{data}{Data frame containing the variables in the model.}
 
-\item{family}{Model family (binomial by default)}
+\item{family}{Model family (currently \code{"binomial"} or \code{"bernoulli"};
+default \code{"binomial"}).}
 
-\item{strategy}{Fitting strategy: "auto", "enhanced", "aggressive", "minimal"}
+\item{strategy}{Fitting strategy: \code{"auto"}, \code{"enhanced"},
+\code{"aggressive"}, or \code{"minimal"}.}
 
-\item{regularisation_strength}{Regularisation strength (0-1, default 0.1)}
+\item{regularisation_strength}{Regularisation strength in the interval
+\eqn{[0, 1]} (default \code{0.1}).}
 
-\item{use_data_augmentation}{Logical; add pseudo-observations for stability}
+\item{use_data_augmentation}{Logical; if \code{TRUE}, add pseudo-observations
+for additional numerical stability.}
 
-\item{min_group_size}{Minimum group size before triggering warnings}
+\item{min_group_size}{Minimum group size before triggering diagnostic
+warnings.}
 
-\item{verbose}{Logical; show detailed diagnostics (default FALSE)}
+\item{verbose}{Logical; if \code{TRUE}, show detailed progress and
+diagnostics while fitting.}
 
-\item{diagnostics}{Logical; show diagnostic summary (default FALSE)}
+\item{diagnostics}{Logical; if \code{TRUE}, compute and store extended
+diagnostics in the returned object.}
 
-\item{silent}{Logical; suppress all output except errors (default FALSE)}
+\item{silent}{Logical; if \code{TRUE}, suppress printed output except
+errors.}
 
-\item{...}{Additional arguments passed to INLA}
+\item{...}{Additional arguments passed to \code{INLA::inla()}.}
 }
 \value{
-qbrmb_fit object
+An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}
+containing the fitted model, diagnostics and metadata.
 }
 \description{
-Enhanced Binomial Mixed Effects Modelling (Complete Version)
+Fits a regularised binomial (or Bernoulli) mixed-effects model using INLA,
+with enhanced diagnostics, stability checks and strategy selection.
 }

@@ -16,7 +16,7 @@ rw2(scale.model = "log", diagonal = 1e-06)
 \item{diagonal}{Diagonal precision matrix structure}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Random Walk Families

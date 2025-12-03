@@ -2,19 +2,38 @@
 % Please edit documentation in R/mixed_binomial_enhanced.R
 \name{qbrmb_aggressive}
 \alias{qbrmb_aggressive}
-\title{Aggressive regularisation (convenience)}
+\title{Aggressively regularised binomial mixed-effects model}
 \usage{
 qbrmb_aggressive(formula, data, verbose = FALSE, ...)
 }
 \arguments{
-\item{formula}{Model formula with random effects (lme4 style)}
+\item{formula}{Model formula with random effects (lme4-style).}
 
-\item{data}{Data frame containing variables}
+\item{data}{Data frame containing the variables in the model.}
 
-\item{verbose}{Logical; show detailed diagnostics}
+\item{verbose}{Logical; if \code{TRUE}, show detailed diagnostics.}
 
-\item{...}{Additional arguments passed to qbrmb}
+\item{...}{Additional arguments passed to \code{\link{qbrmb}}.}
+}
+\value{
+An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}.
 }
 \description{
-Aggressive regularisation (convenience)
+Convenience wrapper around \code{\link{qbrmb}} using the "aggressive"
+strategy with a higher default regularisation strength.
+}
+\examples{
+\donttest{
+if (requireNamespace("INLA", quietly = TRUE)) {
+  set.seed(123)
+  data <- data.frame(
+    y     = rbinom(100, 1, 0.2),
+    x     = rnorm(100),
+    group = factor(rep(1:10, each = 10))
+  )
+  # qbrmb_aggressive requires a mixed model with random intercepts
+  fit <- qbrmb_aggressive(y ~ x + (1 | group), data = data, verbose = FALSE)
+}
+}
+
 }

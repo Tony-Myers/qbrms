@@ -3,24 +3,39 @@
 # All functions included for standalone use
 # =============================================================================
 
-#' Enhanced Binomial Mixed Effects Modelling (Complete Version)
+#' Enhanced binomial mixed-effects modelling
 #'
-#' @param formula Model formula with random effects (lme4 style)
-#' @param data Data frame containing variables
-#' @param family Model family (binomial by default)
-#' @param strategy Fitting strategy: "auto", "enhanced", "aggressive", "minimal"
-#' @param regularisation_strength Regularisation strength (0-1, default 0.1)
-#' @param use_data_augmentation Logical; add pseudo-observations for stability
-#' @param min_group_size Minimum group size before triggering warnings
-#' @param verbose Logical; show detailed diagnostics (default FALSE)
-#' @param diagnostics Logical; show diagnostic summary (default FALSE)
-#' @param silent Logical; suppress all output except errors (default FALSE)
-#' @param ... Additional arguments passed to INLA
+#' Fits a regularised binomial (or Bernoulli) mixed-effects model using INLA,
+#' with enhanced diagnostics, stability checks and strategy selection.
 #'
-#' @return qbrmb_fit object
+#' @param formula Model formula with random effects in lme4-style syntax.
+#' @param data Data frame containing the variables in the model.
+#' @param family Model family (currently \code{"binomial"} or \code{"bernoulli"};
+#'   default \code{"binomial"}).
+#' @param strategy Fitting strategy: \code{"auto"}, \code{"enhanced"},
+#'   \code{"aggressive"}, or \code{"minimal"}.
+#' @param regularisation_strength Regularisation strength in the interval
+#'   \eqn{[0, 1]} (default \code{0.1}).
+#' @param use_data_augmentation Logical; if \code{TRUE}, add pseudo-observations
+#'   for additional numerical stability.
+#' @param min_group_size Minimum group size before triggering diagnostic
+#'   warnings.
+#' @param verbose Logical; if \code{TRUE}, show detailed progress and
+#'   diagnostics while fitting.
+#' @param diagnostics Logical; if \code{TRUE}, compute and store extended
+#'   diagnostics in the returned object.
+#' @param silent Logical; if \code{TRUE}, suppress printed output except
+#'   errors.
+#' @param ... Additional arguments passed to \code{INLA::inla()}.
+#'
+#' @return An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}
+#'   containing the fitted model, diagnostics and metadata.
+#'
+#' @name qbrmb
+#' @rdname qbrmb
 #' @export
-qbrmb <- function(formula, 
-                  data, 
+qbrmb <- function(formula,
+                  data,
                   family = "binomial",
                   strategy = "auto",
                   regularisation_strength = 0.1,
@@ -30,7 +45,6 @@ qbrmb <- function(formula,
                   diagnostics = FALSE,
                   silent = FALSE,
                   ...) {
-  
   start_time <- Sys.time()
   
   # Determine output level
@@ -942,76 +956,77 @@ print.qbrmb_fit <- function(x, digits = 2, ...) {
   invisible(x)
 }
 
-#' Summary method for qbrmb_fit objects
-#'
-#' @param object A qbrmb_fit object
-#' @param digits Number of digits to display
-#' @param show_diagnostics Logical; show diagnostic information
-#' @param ... Additional arguments passed to print
-#' @export
-summary.qbrmb_fit <- function(object, digits = 2, show_diagnostics = NULL, ...) {
-  
-  if (is.null(show_diagnostics)) {
-    show_diagnostics <- object$show_diagnostics_used %||% FALSE
-  }
-  
-  print(object, digits = digits)
-  
-  if (show_diagnostics) {
-    cat("\n", rep("=", 50), "\n")
-    cat("DIAGNOSTIC INFORMATION\n")
-    cat(rep("=", 50), "\n")
-    
-    if (!is.null(object$pre_diagnostics$problems) && 
-        length(object$pre_diagnostics$problems) > 0) {
-      cat("\nPre-fitting Issues:\n")
-      for (prob_name in names(object$pre_diagnostics$problems)) {
-        prob <- object$pre_diagnostics$problems[[prob_name]]
-        cat(sprintf("  [%s] %s\n", toupper(prob$severity), prob$description))
-      }
-    }
-    
-    if (!is.null(object$post_diagnostics) && 
-        length(object$post_diagnostics) > 0) {
-      cat("\nPost-fitting Diagnostics:\n")
-      for (diag_name in names(object$post_diagnostics)) {
-        diag <- object$post_diagnostics[[diag_name]]
-        cat(sprintf("  [%s] %s\n", toupper(diag$severity), diag$message))
-      }
-    }
-  }
-  
-  invisible(object)
-}
 
 # =============================================================================
 # CONVENIENCE FUNCTIONS
 # =============================================================================
 
-##' Regularised binomial mixed effects (convenience)
+# =============================================================================
+# Convenience wrappers for qbrmb
+# =============================================================================
+
+#' Regularised binomial mixed-effects (enhanced strategy)
 #'
-#' @param formula Model formula with random effects (lme4 style)
-#' @param data Data frame containing variables
-#' @param verbose Logical; show detailed diagnostics
-#' @param ... Additional arguments passed to qbrmb
+#' Convenience wrapper around \code{\link{qbrmb}} using the "enhanced"
+#' regularisation strategy and a stronger default regularisation strength.
+#'
+#' @param formula Model formula with random effects (lme4-style).
+#' @param data Data frame containing the variables in the model.
+#' @param verbose Logical; if \code{TRUE}, show detailed diagnostics.
+#' @param ... Additional arguments passed to \code{\link{qbrmb}}.
+#'
+#' @return An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}.
+#'
 #' @export
 qbrmb_regularised <- function(formula, data, verbose = FALSE, ...) {
-  qbrmb(formula = formula, data = data, strategy = "enhanced", 
-        regularisation_strength = 0.2, use_data_augmentation = TRUE,
-        verbose = verbose, ...)
+  qbrmb(
+    formula = formula,
+    data = data,
+    strategy = "enhanced",
+    regularisation_strength = 0.2,
+    use_data_augmentation = TRUE,
+    verbose = verbose,
+    ...
+  )
 }
 
-#' Aggressive regularisation (convenience)
+#' Aggressively regularised binomial mixed-effects model
 #'
-#' @param formula Model formula with random effects (lme4 style)
-#' @param data Data frame containing variables
-#' @param verbose Logical; show detailed diagnostics
-#' @param ... Additional arguments passed to qbrmb
-#' @export  
+#' Convenience wrapper around \code{\link{qbrmb}} using the "aggressive"
+#' strategy with a higher default regularisation strength.
+#'
+#' @param formula Model formula with random effects (lme4-style).
+#' @param data Data frame containing the variables in the model.
+#' @param verbose Logical; if \code{TRUE}, show detailed diagnostics.
+#' @param ... Additional arguments passed to \code{\link{qbrmb}}.
+#'
+#' @return An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}.
+#'
+#' @examples
+#' \donttest{
+#' if (requireNamespace("INLA", quietly = TRUE)) {
+#'   set.seed(123)
+#'   data <- data.frame(
+#'     y     = rbinom(100, 1, 0.2),
+#'     x     = rnorm(100),
+#'     group = factor(rep(1:10, each = 10))
+#'   )
+#'   # qbrmb_aggressive requires a mixed model with random intercepts
+#'   fit <- qbrmb_aggressive(y ~ x + (1 | group), data = data, verbose = FALSE)
+#' }
+#' }
+#'
+#' @export
 qbrmb_aggressive <- function(formula, data, verbose = FALSE, ...) {
-  qbrmb(formula = formula, data = data, strategy = "aggressive",
-        regularisation_strength = 0.4, use_data_augmentation = TRUE,
-        verbose = verbose, ...)
+  qbrmb(
+    formula = formula,
+    data = data,
+    strategy = "aggressive",
+    regularisation_strength = 0.4,
+    use_data_augmentation = TRUE,
+    verbose = verbose,
+    ...
+  )
 }
 
 # Add null coalescing operator if not available

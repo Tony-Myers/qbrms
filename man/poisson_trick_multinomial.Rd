@@ -6,6 +6,9 @@
 \usage{
 poisson_trick_multinomial()
 }
+\value{
+An internal family object for multinomial estimation via Poisson.
+}
 \description{
 Poisson Trick for Multinomial
 }

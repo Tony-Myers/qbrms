@@ -37,6 +37,12 @@ draw a mean line with a credible-interval ribbon.}
 
 \item{...}{Ignored.}
 }
+\value{
+An object of class \code{"qbrms_conditional_effects"} containing
+a list with one element per effect. Each element is a data frame with
+columns for the predictor values, point estimates (\code{estimate__}),
+and credible interval bounds (\code{lower__}, \code{upper__}).
+}
 \description{
 Conditional effects for qbrms Gaussian models
 }

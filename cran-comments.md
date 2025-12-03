@@ -1,6 +1,12 @@
 ## Resubmission
-This is a resubmission (1.0.1) to address feedback from Uwe Ligges.
-* Removed Bioconductor from 'Additional_repositories' field in DESCRIPTION, as requested.
+This is a resubmission (1.0.1) to address feedback from Uwe Ligges and Benjamin Altmann.
+
+Changes implemented:
+* Removed Bioconductor from 'Additional_repositories' field in DESCRIPTION (Uwe Ligges).
+* Added \value tags to all exported methods in .Rd files (Benjamin Altmann).
+* Replaced \dontrun with \donttest where appropriate in examples (Benjamin Altmann).
+* Removed code that modified the global environment (Benjamin Altmann).
+* Removed fixed seeds within functions (Benjamin Altmann).
 
 ## Test environments
 * Local OS X install, R 4.3.2

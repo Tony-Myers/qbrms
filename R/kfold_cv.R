@@ -246,7 +246,15 @@ kfold_cv <- function(object,
   out
 }
 
+#' Print Method for qbrms_kfold Objects
+#'
+#' @param x A qbrms_kfold object
+#' @param ... Additional arguments (unused)
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrms_kfold
 print.qbrms_kfold <- function(x, ...) {
   cat("qbrms K-fold cross-validation\n")
   cat("Family:", x$family_used, "\n")

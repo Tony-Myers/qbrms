@@ -695,9 +695,14 @@ model_builder <- function(data = NULL, response = NULL, predictors = NULL, quiet
 }
 
 #' Print Method for qbrms_model_spec
+#'
 #' @param x A qbrms_model_spec object
 #' @param ... Additional arguments (unused)
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrms_model_spec
 print.qbrms_model_spec <- function(x, ...) {
   cat("qbrms Model Specification\n")
   cat("=========================\n\n")

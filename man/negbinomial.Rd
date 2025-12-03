@@ -6,6 +6,9 @@
 \usage{
 negbinomial()
 }
+\value{
+An object of class \code{"family"} representing the Negative Binomial distribution.
+}
 \description{
 Negative Binomial Family (Alias)
 }

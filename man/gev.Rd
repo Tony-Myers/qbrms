@@ -17,7 +17,7 @@ gumbel(link = "identity", link.sigma = "log")
 \item{link.xi}{Link function for shape}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Generalized Extreme Value Family

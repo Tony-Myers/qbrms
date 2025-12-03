@@ -6,6 +6,9 @@
 \usage{
 poisson()
 }
+\value{
+An object of class \code{"family"} representing the Poisson distribution.
+}
 \description{
 Poisson Family
 }

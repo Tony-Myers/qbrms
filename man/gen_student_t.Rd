@@ -14,7 +14,7 @@ gen_student_t(link = "identity", link.sigma = "log", link.nu = "log")
 \item{link.nu}{Link function for degrees of freedom}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Generalized t Family

@@ -52,7 +52,9 @@ student_t_prior(
 \item{...}{Additional arguments.}
 }
 \value{
-A family object for use with qbrms()
+An object of class \code{"family"} specifying the Student-t distribution.
+
+An object of class \code{"family"} specifying the Student-t distribution.
 
 A family object or prior object depending on inputs.
 }
@@ -64,9 +66,8 @@ Functions that act as both family constructors (for \code{qbrm}) and prior
 specifications (for \code{prior}), depending on arguments.
 }
 \examples{
-\dontrun{
-# Robust regression
-fit <- qbrms(y ~ x, data = data, family = student_t())
-}
+# Create a Student-t family object
+fam <- student_t()
+print(fam$family)
 
 }

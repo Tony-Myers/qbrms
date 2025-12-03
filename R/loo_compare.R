@@ -112,7 +112,15 @@ loo_compare <- function(..., criterion = c("loo", "waic"), sort = TRUE) {
   out
 }
 
+#' Print Method for qbrms_loo_compare Objects
+#'
+#' @param x A qbrms_loo_compare object
+#' @param ... Additional arguments (unused)
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrms_loo_compare
 print.qbrms_loo_compare <- function(x, ...) {
   crit <- attr(x, "criterion") %||% "loo"
   cat(sprintf("Model comparison (%s; higher is better)\n\n", crit))

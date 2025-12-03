@@ -2,9 +2,7 @@
 % Please edit documentation in R/conditional_effects.R
 \name{conditional_effects_slices}
 \alias{conditional_effects_slices}
-\title{Discrete-slice conditional effects (brms-style) for qbrms
-Build point/interval summaries at a few values of a numeric moderator,
-plotted against the factor on the x-axis.}
+\title{Discrete-slice conditional effects (brms-style) for qbrms}
 \usage{
 conditional_effects_slices(
   object,
@@ -37,8 +35,12 @@ conditional_effects_slices(
 
 \item{...}{Additional arguments passed to prediction functions.}
 }
+\value{
+An object of class \code{"qbrms_conditional_effects"} containing
+a list with one element per effect. Each element is a data frame with
+columns for the predictor values, estimates, and credible intervals.
+}
 \description{
-Discrete-slice conditional effects (brms-style) for qbrms
 Build point/interval summaries at a few values of a numeric moderator,
 plotted against the factor on the x-axis.
 }

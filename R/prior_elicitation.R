@@ -40,7 +40,6 @@
 }
 
 # Public API ------------------------------------------------------------------
-
 #' Build priors from elicited beliefs (GLM-aware)
 #'
 #' @title Prior Build from Beliefs
@@ -57,6 +56,16 @@
 #' @param target_coverage Target coverage probability
 #' @param tune Whether to tune priors
 #' @param seed Random seed
+#'
+#' @return An object of class \code{"qbrms_prior_build"} containing:
+#' \itemize{
+#'   \item \code{priors}: A list of prior specifications.
+#'   \item \code{prior_code}: Character string of R code to reproduce the priors.
+#'   \item \code{formula}: The (possibly modified) model formula.
+#'   \item \code{data}: The (possibly standardised) data.
+#'   \item \code{diagnostics}: Prior predictive diagnostic information.
+#' }
+#'
 #' @export
 prior_build_from_beliefs <- function(formula,
                                      data,
@@ -323,45 +332,6 @@ prior_build_from_beliefs <- function(formula,
   out
 }
 
-#' @export
-print.qbrms_prior_build <- function(x, digits = 3, ...) {
-  cat("Prior build from elicited beliefs (link-aware)\n")
-  cat("  Family:", x$reference$family, " Link:", x$reference$link, "\n")
-  cat("  Standardised predictors:", if (isTRUE(x$reference$standardised)) "yes" else "no", "\n")
-  cat(sprintf("  Intercept centre (response scale): %s\n",
-              format(round(x$reference$outcome_location, digits), nsmall = digits)))
-  cat("\nSuggested priors:\n")
-  df <- x$summary
-  for (i in seq_len(nrow(df))) {
-    row <- df[i, ]
-    if (row$class == "Intercept") {
-      cat(sprintf("  Intercept ~ Normal(mean=%s, sd=%s)\n",
-                  format(round(row$mean, digits), nsmall = digits),
-                  format(round(row$sd,   digits), nsmall = digits)))
-    } else if (identical(row$dist, "student_t")) {
-      cat(sprintf("  %s: b ~ Student-t(df=%s, mean=%s, scale=%s)\n",
-                  row$term,
-                  format(row$df, nsmall = 0),
-                  format(round(row$mean, digits), nsmall = digits),
-                  format(round(row$sd,   digits), nsmall = digits)))
-    } else {
-      cat(sprintf("  %s: b ~ Normal(mean=%s, sd=%s)\n",
-                  row$term,
-                  format(round(row$mean, digits), nsmall = digits),
-                  format(round(row$sd,   digits), nsmall = digits)))
-    }
-  }
-  if (!is.null(x$diagnostics)) {
-    cat("\nPrior predictive coverage of the user-declared plausible outcome range:\n")
-    pb <- x$diagnostics$plausible_bounds
-    cov_str <- if (is.finite(x$diagnostics$plausible_coverage))
-      format(round(x$diagnostics$plausible_coverage, 3), nsmall = 3) else "NA"
-    cat(sprintf("  Range [%s, %s]   coverage = %s   verdict = %s\n",
-                as.character(pb[["lower"]]), as.character(pb[["upper"]]),
-                cov_str, x$diagnostics$verdict$status))
-  }
-  invisible(x)
-}
 
 if (!exists("%||%")) {
   `%||%` <- function(a, b) if (!is.null(a)) a else b
@@ -427,7 +397,11 @@ prior_code <- function(build,
 #'
 #' @param x A qbrms_prior_code object
 #' @param ... Additional arguments passed to cat
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrms_prior_code
 print.qbrms_prior_code <- function(x, ...) {
   cat(as.character(x), sep = "\n")
   invisible(x)
@@ -436,7 +410,28 @@ print.qbrms_prior_code <- function(x, ...) {
 # ---------------------------------------------------------------------------
 # Pretty printer for qbrms_prior_build
 # ---------------------------------------------------------------------------
-
+#' Print method for qbrms_prior_build objects
+#'
+#' Nicely formats the result of \code{prior_build_from_beliefs()}, showing the
+#' elicited beliefs, implied prior distributions, and (optionally) the
+#' corresponding prior code.
+#'
+#' @param x An object of class \code{"qbrms_prior_build"} as returned by
+#'   \code{\link{prior_build_from_beliefs}}.
+#' @param digits Integer scalar giving the number of decimal places to display
+#'   for numeric summaries (default: \code{3}).
+#' @param show_data Logical; if \code{TRUE}, print a compact summary of the
+#'   elicitation data used to construct the priors.
+#' @param show_code Logical; if \code{TRUE}, print the corresponding prior code
+#'   that can be copied into a modelling script.
+#' @param code_object_name Character string giving the name that will be used
+#'   for the prior object in the displayed code (default: \code{"priors"}).
+#' @param max_terms Integer scalar giving the maximum number of individual terms
+#'   to display before truncating the printed output (default: \code{12}).
+#' @param ... Currently ignored. Included for method compatibility.
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
 print.qbrms_prior_build <- function(x,
                                     digits = 3,

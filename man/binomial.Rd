@@ -6,6 +6,9 @@
 \usage{
 binomial()
 }
+\value{
+An object of class \code{"family"} representing the Binomial distribution.
+}
 \description{
 Binomial Family
 }

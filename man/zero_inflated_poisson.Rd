@@ -15,7 +15,7 @@ zip()
 \item{link.zi}{Link function for zero-inflation (default: "logit")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Zero-Inflated Poisson Family

@@ -11,6 +11,10 @@ conditional_effects(object, ...)
 
 \item{...}{Passed to methods.}
 }
+\value{
+An object of class \code{"qbrms_conditional_effects"} containing
+conditional effect estimates. The structure is method-dependent.
+}
 \description{
 Compute one-dimensional conditional effects / marginal fitted values as a
 predictor varies while other covariates are held fixed (typically at means /

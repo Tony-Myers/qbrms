@@ -2,11 +2,11 @@
 % Please edit documentation in R/conditional_effects.R
 \name{.qbrms__generate_spaghetti_draws_corrected}
 \alias{.qbrms__generate_spaghetti_draws_corrected}
-\title{Generate spaghetti draws with proper correlation structure}
+\title{Generate spaghetti draws}
 \usage{
 .qbrms__generate_spaghetti_draws_corrected(object, Xgrid, V_used, ndraws)
 }
 \description{
-Generate spaghetti draws with proper correlation structure
+Generate spaghetti draws
 }
 \keyword{internal}

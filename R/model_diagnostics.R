@@ -684,9 +684,14 @@ diagnose_model <- function(model, checks = "all", verbose = TRUE) {
   cat("\n")
 }
 #' Print Method for Diagnostics
+#'
 #' @param x A qbrms_diagnostics object
 #' @param ... Additional arguments (unused)
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrms_diagnostics
 print.qbrms_diagnostics <- function(x, ...) {
   
   cat("\nModel Diagnostics Results\n")
@@ -715,10 +720,15 @@ print.qbrms_diagnostics <- function(x, ...) {
 }
 
 #' Plot Method for Diagnostics
+#'
 #' @param x A qbrms_diagnostics object
 #' @param which Character vector specifying which plots to show
 #' @param ... Additional arguments (unused)
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method plot qbrms_diagnostics
 plot.qbrms_diagnostics <- function(x, which = "all", ...) {
   
   available_plots <- names(x$plots)

@@ -31,7 +31,10 @@ qbrm <- function(formula, data, family = gaussian(), prior = NULL,
   }
   
   # Check for potential issues with binomial mixed effects models
-  if (extract_family_name(family) == "binomial") {
+  # Note: We use tryCatch to safely check family name in case of complex objects
+  fam_name <- tryCatch(extract_family_name(family), error = function(e) "unknown")
+  
+  if (fam_name == "binomial") {
     diagnosis <- .diagnose_binomial_issues(formula, data, verbose)
     
     if (diagnosis$has_issues) {
@@ -49,31 +52,14 @@ qbrm <- function(formula, data, family = gaussian(), prior = NULL,
     cat("Starting qbrms model fitting...\n")
   }
   
-  # Set required global variables to prevent internal qbrms errors
-  old_verbose <- if (exists("verbose", envir = .GlobalEnv)) get("verbose", envir = .GlobalEnv) else NULL
-  old_sample_prior <- if (exists("sample_prior", envir = .GlobalEnv)) get("sample_prior", envir = .GlobalEnv) else NULL
-  
-  
-  # Ensure we clean up even if there's an error
-  on.exit({
-    if (is.null(old_verbose)) {
-      if (exists("verbose", envir = .GlobalEnv)) rm("verbose", envir = .GlobalEnv)
-    } else {
-    }
-    
-    if (is.null(old_sample_prior)) {
-      if (exists("sample_prior", envir = .GlobalEnv)) rm("sample_prior", envir = .GlobalEnv)
-    } else {
-    }
-  })
-  
-  # Call qbrms with all required parameters
+  # Call qbrms directly (it handles its own safety internally)
   result <- qbrms(
     formula = formula, 
     data = data, 
     family = family, 
     prior = prior,
     sample_prior = sample_prior,
+    verbose = verbose,
     ...
   )
   
@@ -82,41 +68,6 @@ qbrm <- function(formula, data, family = gaussian(), prior = NULL,
   }
   
   return(result)
-}
-
-
-#' Completely safe qbrms call with all parameters
-#' 
-#' A safe wrapper for qbrms that handles errors and cleans up global variables.
-#'
-#' @param formula Model formula
-#' @param data Dataset
-#' @param family Model family (default: gaussian())
-#' @param prior Prior specifications
-#' @param sample_prior Sample prior specifications (default: "no")
-#' @param ... Additional arguments passed to qbrms
-#' 
-#' @return A qbrms_fit object or an error message
-#' @export
-qbrm_safe <- function(formula, data, family = gaussian(), prior = NULL, 
-                      sample_prior = "no", ...) {
-  
-  # Set all required global variables to prevent internal errors
-  
-  on.exit({
-    if (exists("verbose", envir = .GlobalEnv)) rm("verbose", envir = .GlobalEnv)
-    if (exists("sample_prior", envir = .GlobalEnv)) rm("sample_prior", envir = .GlobalEnv)
-  })
-  
-  # Call qbrms with all required parameters
-  qbrms(
-    formula = formula, 
-    data = data, 
-    family = family, 
-    prior = prior,
-    sample_prior = sample_prior,
-    ...
-  )
 }
 
 #' Internal function to diagnose binomial issues
@@ -137,8 +88,6 @@ qbrm_safe <- function(formula, data, family = gaussian(), prior = NULL,
   # Check success rate for binary outcomes
   if (is.numeric(y) && all(y %in% c(0, 1))) {
     success_rate <- mean(y, na.rm = TRUE)
-    issues <- c(issues, paste("Success rate:", round(success_rate * 100, 1), "%"))
-    
     # Flag if very unbalanced
     if (success_rate < 0.1 || success_rate > 0.9) {
       has_issues <- TRUE
@@ -208,8 +157,8 @@ qbrms_binomial_regularised <- function(formula, data, regularise = TRUE,
   
   if (!regularise) {
     if (verbose) cat("Using standard qbrms fitting...\n")
-    return(qbrm_safe(formula = formula, data = data, family = binomial(), 
-                     sample_prior = sample_prior, ...))
+    return(qbrms(formula = formula, data = data, family = binomial(), 
+                 sample_prior = sample_prior, verbose = verbose, ...))
   }
   
   if (verbose) cat("Using regularised binomial fitting...\n")
@@ -230,13 +179,6 @@ qbrms_binomial_regularised <- function(formula, data, regularise = TRUE,
     cat("  - Regularising priors applied\n")
   }
   
-  # Set required global variables to prevent internal errors
-  
-  on.exit({
-    if (exists("verbose", envir = .GlobalEnv)) rm("verbose", envir = .GlobalEnv)
-    if (exists("sample_prior", envir = .GlobalEnv)) rm("sample_prior", envir = .GlobalEnv)
-  })
-  
   # Fit the model with error handling
   tryCatch({
     if (verbose) cat("Starting regularised qbrms fitting...\n")
@@ -247,6 +189,7 @@ qbrms_binomial_regularised <- function(formula, data, regularise = TRUE,
       family = binomial(),
       prior = reg_priors,
       sample_prior = sample_prior,
+      verbose = verbose,
       ...
     )
     
@@ -269,8 +212,8 @@ qbrms_binomial_regularised <- function(formula, data, regularise = TRUE,
     }
     
     # Fall back to standard approach
-    return(qbrm_safe(formula = formula, data = data, family = binomial(), 
-                     sample_prior = sample_prior, ...))
+    return(qbrms(formula = formula, data = data, family = binomial(), 
+                 sample_prior = sample_prior, verbose = verbose, ...))
   })
 }
 

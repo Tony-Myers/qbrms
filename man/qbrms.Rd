@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_fitting.R
 \name{qbrms}
 \alias{qbrms}
-\title{Drop random-effect terms from a formula}
+\title{Quick Bayesian Regression Models with Automatic Routing}
 \usage{
 qbrms(
   formula,
@@ -36,25 +36,20 @@ qbrms(
 \item{...}{Additional arguments passed to fitting functions}
 }
 \value{
-A qbrms_fit object with model results, or routed to appropriate specialist function
+An object of class \code{"qbrms_fit"} (or \code{"qbrmO_fit"} for ordinal models).
+The object is a list containing:
+\itemize{
+\item \code{fit}: The internal model fit (INLA or TMB object).
+\item \code{model_type}: String indicating the type of model fitted.
+\item \code{data}: The data used for fitting.
+\item \code{original_formula}: The formula used.
+\item \code{prior_samples}: Prior predictive samples (if requested).
+}
 }
 \description{
 Enhanced qbrms interface with automatic routing to specialised implementations.
 Supports ordinal regression via TMB, quantile regression, and all standard INLA families.
 }
-\details{
-Removes any "(... | ...)" blocks from the RHS and keeps a syntactically
-valid formula. Cleans up dangling '+' and ensures there is at least "~ 1"
-if all terms are removed.
-}
 \seealso{
 \code{\link{qbrmO}} for direct ordinal model fitting
 }
-\keyword{Automatic}
-\keyword{Bayesian}
-\keyword{Models}
-\keyword{Quick}
-\keyword{Regression}
-\keyword{Routing}
-\keyword{internal}
-\keyword{with}

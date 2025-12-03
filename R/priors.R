@@ -1,5 +1,5 @@
 # =============================================================================
-# Prior Specification Functions for qbrms
+# R/priors.R
 # =============================================================================
 
 #' Prior Distribution Specifications
@@ -76,27 +76,12 @@ beta_prior <- function(alpha = 1, beta = 1) {
 #' @return A family object or prior object depending on inputs.
 #' @export
 student_t <- function(link_or_df = "identity", location = 0, scale = 1, link = NULL, link.sigma = "log", link.nu = "log", ...) {
-  # 1. Check for explicit link argument (Family usage)
   if (!is.null(link)) {
-    return(structure(list(
-      family = "student_t", 
-      link = link, 
-      link.sigma = link.sigma, 
-      link.nu = link.nu
-    ), class = "family"))
+    return(structure(list(family = "student_t", link = link, link.sigma = link.sigma, link.nu = link.nu), class = "family"))
   }
-  
-  # 2. Check if first arg is character (Family usage)
   if (is.character(link_or_df)) {
-    return(structure(list(
-      family = "student_t", 
-      link = link_or_df, 
-      link.sigma = link.sigma, 
-      link.nu = link.nu
-    ), class = "family"))
+    return(structure(list(family = "student_t", link = link_or_df, link.sigma = link.sigma, link.nu = link.nu), class = "family"))
   }
-  
-  # 3. Otherwise behave as Prior
   structure(list(
     distribution = "student_t",
     parameters = list(df = link_or_df, location = location, scale = scale)
@@ -117,17 +102,12 @@ student_t_prior <- function(link_or_df = 3, location = 0, scale = 1, link.sigma 
 #' @return A family object or prior object depending on inputs.
 #' @export
 lognormal <- function(meanlog_or_link = "identity", sdlog = 1, link = NULL, ...) {
-  # 1. Explicit link
   if (!is.null(link)) {
     return(structure(list(family = "lognormal", link = link), class = "family"))
   }
-  
-  # 2. First arg is character (link)
   if (is.character(meanlog_or_link)) {
     return(structure(list(family = "lognormal", link = meanlog_or_link), class = "family"))
   }
-  
-  # 3. Prior
   if (sdlog <= 0) stop("Lognormal sdlog must be positive")
   structure(list(
     distribution = "lognormal",
@@ -138,11 +118,7 @@ lognormal <- function(meanlog_or_link = "identity", sdlog = 1, link = NULL, ...)
 #' @rdname lognormal
 #' @export
 lognormal_prior <- function(meanlog_or_link = 0, sdlog = 1) {
-  if (sdlog <= 0) stop("Lognormal sdlog must be positive")
-  structure(list(
-    distribution = "lognormal",
-    parameters = list(meanlog = meanlog_or_link, sdlog = sdlog)
-  ), class = "qbrms_prior_dist")
+  lognormal(meanlog_or_link, sdlog)
 }
 
 #' Exponential Distribution (Prior or Family)
@@ -155,11 +131,9 @@ exponential <- function(rate_or_link = "log", link = NULL, ...) {
   if (!is.null(link)) {
     return(structure(list(family = "exponential", link = link), class = "family"))
   }
-  
   if (is.character(rate_or_link)) {
     return(structure(list(family = "exponential", link = rate_or_link), class = "family"))
   }
-  
   if (rate_or_link <= 0) stop("Rate parameter must be positive")
   structure(list(
     distribution = "exponential",
@@ -170,11 +144,7 @@ exponential <- function(rate_or_link = "log", link = NULL, ...) {
 #' @rdname exponential
 #' @export
 prior_exponential <- function(rate_or_link = 1) {
-  if (rate_or_link <= 0) stop("Rate parameter must be positive")
-  structure(list(
-    distribution = "exponential",
-    parameters = list(rate = rate_or_link)
-  ), class = "qbrms_prior_dist")
+  exponential(rate_or_link)
 }
 
 #' Gamma Distribution (Prior or Family)
@@ -188,11 +158,9 @@ gamma <- function(shape_or_link = "log", rate = 1, link = NULL, ...) {
   if (!is.null(link)) {
     return(structure(list(family = "gamma", link = link), class = "family"))
   }
-  
   if (is.character(shape_or_link)) {
     return(structure(list(family = "gamma", link = shape_or_link), class = "family"))
   }
-  
   gamma_prior(shape_or_link, rate)
 }
 
@@ -222,11 +190,9 @@ prior <- function(prior, class = "b", coef = NULL, group = NULL) {
     return(structure(list(prior = prior, class = class, coef = coef, group = group), 
                      class = "qbrms_prior_spec"))
   }
-  
   if (!inherits(prior, "qbrms_prior_dist")) {
     stop("prior must be a distribution object created by normal(), student_t(), etc.")
   }
-  
   structure(list(
     distribution = prior$distribution,
     parameters = prior$parameters,
@@ -248,33 +214,37 @@ c.qbrms_prior_spec <- function(...) {
 #' Print Prior Distribution Objects
 #' @param x A qbrms_prior_dist object
 #' @param ... Unused
+#' @return Invisibly returns \code{x}.
 #' @export
 print.qbrms_prior_dist <- function(x, ...) {
   params <- x$parameters
   param_str <- paste(names(params), "=", params, collapse = ", ")
   cat(sprintf("%s(%s)\n", x$distribution, param_str))
+  invisible(x)
 }
 
 #' Print Prior Specification Objects  
 #' @param x A qbrms_prior_spec object
 #' @param ... Unused
+#' @return Invisibly returns \code{x}.
 #' @export
 print.qbrms_prior_spec <- function(x, ...) {
   if (!is.null(x$prior) && is.character(x$prior)) {
     cat(sprintf("prior(prior = \"%s\", class = \"%s\")\n", x$prior, x$class))
     return(invisible(x))
   }
-  
   params <- x$parameters
   param_str <- paste(names(params), "=", params, collapse = ", ")
   coef_str <- if (!is.null(x$coef)) paste0(", coef = ", x$coef) else ""
   cat(sprintf("prior(%s(%s), class = %s%s)\n", 
               x$distribution, param_str, x$class, coef_str))
+  invisible(x)
 }
 
 #' Print Prior List Objects
 #' @param x A qbrms_prior_list object
 #' @param ... Unused
+#' @return Invisibly returns \code{x}.
 #' @export
 print.qbrms_prior_list <- function(x, ...) {
   cat("Prior specifications:\n")
@@ -282,6 +252,7 @@ print.qbrms_prior_list <- function(x, ...) {
     cat(sprintf("%d. ", i))
     print(x[[i]])
   }
+  invisible(x)
 }
 
 #' Default Priors for qbrms Models

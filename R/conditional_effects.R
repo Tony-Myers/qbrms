@@ -11,11 +11,14 @@
 #' @importFrom stats contrasts<-
 #' @param object A model object.
 #' @param ... Passed to methods.
+#'
+#' @return An object of class \code{"qbrms_conditional_effects"} containing
+#'   conditional effect estimates. The structure is method-dependent.
+#'
 #' @export
 conditional_effects <- function(object, ...) {
   UseMethod("conditional_effects")
 }
-
 # ---- Internal utilities ------------------------------------------------------
 
 .qbrms__ref_row <- function(dat) {
@@ -158,8 +161,10 @@ conditional_effects <- function(object, ...) {
 }
 
 #' Discrete-slice conditional effects (brms-style) for qbrms
+#'
 #' Build point/interval summaries at a few values of a numeric moderator,
 #' plotted against the factor on the x-axis.
+#'
 #' @param object A qbrms_fit object.
 #' @param effects Character vector specifying effects to plot. If NULL, all numeric predictors are used.
 #' @param slices Named list of variables and values at which to slice the data.
@@ -169,6 +174,11 @@ conditional_effects <- function(object, ...) {
 #' @param at Named list of values at which to fix other predictors.
 #' @param seed Random seed for reproducibility.
 #' @param ... Additional arguments passed to prediction functions.
+#'
+#' @return An object of class \code{"qbrms_conditional_effects"} containing
+#'   a list with one element per effect. Each element is a data frame with
+#'   columns for the predictor values, estimates, and credible intervals.
+#'
 #' @export
 conditional_effects_slices <- function(
     object,
@@ -316,7 +326,6 @@ conditional_effects_slices <- function(
 
 
 # ---- Method for qbrms fits (Gaussian) ---------------------------------------
-
 #' Conditional effects for qbrms Gaussian models
 #'
 #' @param object A qbrms fit object (Gaussian).
@@ -330,8 +339,14 @@ conditional_effects_slices <- function(
 #' @param seed Optional integer seed for reproducibility.
 #' @param prob Interval probability for ribbons (default 0.95).
 #' @param ... Ignored.
+#'
+#' @return An object of class \code{"qbrms_conditional_effects"} containing
+#'   a list with one element per effect. Each element is a data frame with
+#'   columns for the predictor values, point estimates (\code{estimate__}),
+#'   and credible interval bounds (\code{lower__}, \code{upper__}).
+#'
 #' @export
-#' @export
+#' @method conditional_effects qbrms_fit
 conditional_effects.qbrms_fit <- function(
     object,
     effects  = NULL,
@@ -418,7 +433,7 @@ conditional_effects.qbrms_fit <- function(
       rownames(newd) <- NULL
     }
     
-    # ----- Build fixed-effects design FIRST (order matters) -----------------
+  
     f_raw   <- object$original_formula
     f_fixed <- .qbrms__remove_random_effects(f_raw)
     
@@ -448,7 +463,6 @@ conditional_effects.qbrms_fit <- function(
     # Grid design using identical terms and contrasts as the fit
     Xgrid <- stats::model.matrix(tt, newd, contrasts.arg = ctr_list)
     
-    # Sanitised copy for any helper that inspects $fit$formula/$fit$call
     obj2 <- object
     obj2$original_formula <- f_fixed
     if (!is.null(obj2$fit) && (is.list(obj2$fit) || is.environment(obj2$fit))) {
@@ -544,7 +558,7 @@ conditional_effects.qbrms_fit <- function(
 
 # ---- Helper functions------------------------
 
-#' Generate spaghetti draws with proper correlation structure
+#' Generate spaghetti draws 
 #' @keywords internal
 .qbrms__generate_spaghetti_draws_corrected <- function(object, Xgrid, V_used, ndraws) {
   
@@ -647,7 +661,7 @@ conditional_effects.qbrms_fit <- function(
     Xtrain  <- stats::model.matrix(tt, df)              # design used at fit time
     contrs  <- attr(Xtrain, "contrasts")
     
-    # Use the identical design (we could also rebuild with contrasts.arg = contrs)
+    # Use the identical design 
     X <- Xtrain
     
     # 2) Align to the fitted fixed effects
@@ -656,7 +670,7 @@ conditional_effects.qbrms_fit <- function(
     if (is.null(bnames)) return(NULL)
     
     common <- intersect(bnames, colnames(X))
-    if (length(common) < 2L) return(NULL)              # not enough parameters to form correlations
+    if (length(common) < 2L) return(NULL)   
     X_aligned <- X[, common, drop = FALSE]
     
     # 3) Compute (X'X)^{-1} robustly
@@ -795,6 +809,28 @@ conditional_effects.qbrms_fit <- function(
 }
 
 # ---- Plot method ------------------------------------------------------------
+#' Plot conditional effects for qbrms models
+#'
+#' Plot method for objects returned by \code{\link{conditional_effects}} and
+#' related helpers. For a single effect, this produces either a spaghetti plot
+#' of draws or a ribbon / slice plot of summary statistics. For multiple effects
+#' it can combine the plots using \pkg{patchwork} if available.
+#'
+#' @param x An object of class \code{"qbrms_conditional_effects"}, typically the
+#'   result of \code{\link{conditional_effects}} or
+#'   \code{\link{conditional_effects_slices}}.
+#' @param ... Currently ignored. Included for future extensions and method
+#'   compatibility.
+#'
+#' @return
+#'   For a single effect, a \code{ggplot2} object.
+#'   For multiple effects, either
+#'   \itemize{
+#'     \item a \pkg{patchwork} object combining the individual plots (if the
+#'       \pkg{patchwork} package is installed), or
+#'     \item a named list of \code{ggplot2} objects otherwise.
+#'   }
+#'
 #' @export
 plot.qbrms_conditional_effects <- function(x, ...) {
   if (!length(x)) stop("Empty conditional effects object.")

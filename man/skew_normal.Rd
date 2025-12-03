@@ -6,6 +6,9 @@
 \usage{
 skew_normal()
 }
+\value{
+An object of class \code{"family"} representing the Skew Normal distribution.
+}
 \description{
 Skew Normal Family
 }

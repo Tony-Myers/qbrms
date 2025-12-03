@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments (unused)}
 }
+\value{
+Invisibly returns the input object \code{x}.
+}
 \description{
 Print Method for qbrms_model_spec
 }

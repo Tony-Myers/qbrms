@@ -1,12 +1,14 @@
 # =============================================================================
 # R/addin_model_lab.R
 # =============================================================================
-
 #' qbrms Model Lab (RStudio Add-in)
 #'
 #' @description
 #' Compare plausible families, run prior/posterior checks, plot conditional
 #' effects, compute diagnostics, and emit reproducible code. Does not load 'brms'.
+#'
+#' @return This function is called for its side effects (launching a Shiny
+#'   gadget in RStudio). It returns \code{NULL} invisibly.
 #'
 #' @importFrom graphics hist barplot
 #' @export

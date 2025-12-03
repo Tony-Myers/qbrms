@@ -83,9 +83,14 @@ bf <- function(formula, ..., flist = NULL, family = NULL, nl = FALSE) {
 }
 
 #' Print method for qbrms formulas
+#'
 #' @param x A qbrmsformula object
 #' @param ... Unused
+#'
+#' @return Invisibly returns the input object \code{x}.
+#'
 #' @export
+#' @method print qbrmsformula
 print.qbrmsformula <- function(x, ...) {
   cat("qbrms Formula:\n")
   print(x$formula)

@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments passed to cat}
 }
+\value{
+Invisibly returns the input object \code{x}.
+}
 \description{
 Print method for qbrms_prior_code objects
 }

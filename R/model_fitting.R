@@ -19,44 +19,55 @@ NULL
 format_duration <- function(seconds) {
   paste0(round(seconds, 2), " seconds")
 }
+
 #' Gaussian Family
+#' @return An object of class \code{"family"} representing the Gaussian distribution.
 #' @export
 gaussian <- function() structure(list(family = "gaussian"), class = "family")
 
 #' Binomial Family
+#' @return An object of class \code{"family"} representing the Binomial distribution.
 #' @export
 binomial <- function() structure(list(family = "binomial"), class = "family")
 
 #' Poisson Family
+#' @return An object of class \code{"family"} representing the Poisson distribution.
 #' @export
 poisson <- function() structure(list(family = "poisson"), class = "family")
 
 #' Cumulative Family for Ordinal Regression
-#' @param link Link function (default: "logit")
+#' @param link Link function (default: "logit").
+#' @return An object of class \code{"family"} representing the Cumulative distribution for ordinal models.
 #' @export
 cumulative <- function(link = "logit") structure(list(family = "cumulative", link = link), class = "family")
 
 #' Negative Binomial Family
+#' @return An object of class \code{"family"} representing the Negative Binomial distribution.
 #' @export
 neg_binomial <- function() structure(list(family = "negbinomial"), class = "family")
 
 #' Negative Binomial Family (Alias)
+#' @return An object of class \code{"family"} representing the Negative Binomial distribution.
 #' @export
 negbinomial <- function() structure(list(family = "negbinomial"), class = "family")
 
 #' Asymmetric Laplace for Quantile Regression
+#' @return An object of class \code{"family"} representing the Asymmetric Laplace distribution.
 #' @export
 asymmetric_laplace <- function() structure(list(family = "asymmetric_laplace"), class = "family")
 
 #' Poisson Trick for Multinomial
+#' @return An internal family object for multinomial estimation via Poisson.
 #' @keywords internal
 poisson_trick_multinomial <- function() structure(list(family = "poisson_trick_multinomial"), class = "family")
 
 #' Skew Normal Family
+#' @return An object of class \code{"family"} representing the Skew Normal distribution.
 #' @export
 skew_normal <- function() structure(list(family = "skew_normal"), class = "family")
 
 #' Multinomial Family
+#' @return An object of class \code{"family"} representing the Multinomial distribution.
 #' @export
 multinomial <- function() structure(list(family = "multinomial"), class = "family")
 
@@ -66,13 +77,12 @@ multinomial <- function() structure(list(family = "multinomial"), class = "famil
 #' Student's t-distribution family for robust regression with heavier tails
 #' than Gaussian to handle outliers.
 #'
-#' @return A family object for use with qbrms()
+#' @return An object of class \code{"family"} specifying the Student-t distribution.
 #'
 #' @examples
-#' \dontrun{
-#' # Robust regression
-#' fit <- qbrms(y ~ x, data = data, family = student_t())
-#' }
+#' # Create a Student-t family object
+#' fam <- student_t()
+#' print(fam$family)
 #'
 #' @export
 student_t <- function() {
@@ -81,6 +91,7 @@ student_t <- function() {
 
 #' Student Family (Alias)
 #' @rdname student_t
+#' @return An object of class \code{"family"} specifying the Student-t distribution.
 #' @export
 student <- function() {
   structure(list(family = "student"), class = "family")
@@ -88,20 +99,10 @@ student <- function() {
 
 
 # =============================================================================
-# ERROR HANDLING FOR EDGE CASES
+# qbrms() FUNCTION WITH ROUTING 
 # =============================================================================
 
-#' Drop random-effect terms from a formula
-#'
-#' Removes any "(... | ...)" blocks from the RHS and keeps a syntactically
-#' valid formula. Cleans up dangling '+' and ensures there is at least "~ 1"
-#' if all terms are removed.
-#' @keywords internal
-
-# =============================================================================
-#  qbrms() FUNCTION WITH ROUTING 
-# =============================================================================
-##' Quick Bayesian Regression Models with Automatic Routing
+#' Quick Bayesian Regression Models with Automatic Routing
 #'
 #' @description
 #' Enhanced qbrms interface with automatic routing to specialised implementations.
@@ -117,7 +118,15 @@ student <- function() {
 #' @param verbose Logical; print diagnostic information (default: getOption("qbrms.verbose", FALSE))
 #' @param ... Additional arguments passed to fitting functions
 #'
-#' @return A qbrms_fit object with model results, or routed to appropriate specialist function
+#' @return An object of class \code{"qbrms_fit"} (or \code{"qbrmO_fit"} for ordinal models). 
+#'   The object is a list containing:
+#'   \itemize{
+#'     \item \code{fit}: The internal model fit (INLA or TMB object).
+#'     \item \code{model_type}: String indicating the type of model fitted.
+#'     \item \code{data}: The data used for fitting.
+#'     \item \code{original_formula}: The formula used.
+#'     \item \code{prior_samples}: Prior predictive samples (if requested).
+#'   }
 #' @seealso \code{\link{qbrmO}} for direct ordinal model fitting
 #' @export
 qbrms <- function(formula, data, family = gaussian(),
@@ -126,9 +135,11 @@ qbrms <- function(formula, data, family = gaussian(),
                   control.compute = list(dic = TRUE, waic = TRUE, cpo = TRUE),
                   verbose = getOption("qbrms.verbose", FALSE), ...) {
   
-  # Check if formula is a bf() object and strip distributional parts if necessary
+  # Safety catch for bf() syntax
   formula <- sanitize_formula(formula)
-  # --------------------------
+  
+  # ... (REST OF YOUR EXISTING CODE REMAINS UNCHANGED) ...
+  # (I am omitting the body for brevity, but KEEP the body from the previous working version)
   
   # ---- local fallbacks (do not affect package API) ---------------------------
   `%||%` <- get0("%||%", ifnotfound = function(x, y) if (is.null(x)) y else x)
@@ -156,7 +167,6 @@ qbrms <- function(formula, data, family = gaussian(),
     stop("Formula appears to have no variables")
   
   # ---- gentle auto-family inference (preserves old ergonomics) --------------
-  # Only promote the default gaussian() when response type clearly indicates it.
   y <- data[[formula_vars[1]]]
   if (is.list(family) && identical(tolower(family$family %||% ""), "gaussian")) {
     if (is.ordered(y)) {
@@ -173,7 +183,6 @@ qbrms <- function(formula, data, family = gaussian(),
     stop("Family conversion failed: ", e$message, call. = FALSE)
   })
   
-  # For non-ordinal families, validate data against the converted name
   if (!requires_routing(inla_fam_or_route)) {
     fam_for_check <- tryCatch(extract_family_name(inla_fam_or_route), error = function(e) "gaussian")
     try(validate_family_data(y, fam_for_check), silent = TRUE)
@@ -198,7 +207,6 @@ qbrms <- function(formula, data, family = gaussian(),
       threshold = routing_info$threshold
     ), class = c("brmsfamily", "family"))
     
-    # Silence TMB compile/link unless verbose=TRUE
     if (isTRUE(verbose)) {
       return(qbrmO(
         formula = formula, data = data, family = ordinal_family,
@@ -217,7 +225,6 @@ qbrms <- function(formula, data, family = gaussian(),
   # ---- non-ordinal: continue as before --------------------------------------
   inla_fam <- inla_fam_or_route
   
-  # Prior-only sampling
   if (identical(sample_prior, "only")) {
     if (isTRUE(verbose)) cat("Generating prior predictive samples only...\n")
     prior_result <- tryCatch({
@@ -246,7 +253,6 @@ qbrms <- function(formula, data, family = gaussian(),
     return(result)
   }
   
-  # Parse formula components (random effects etc.)
   formula_components <- tryCatch({
     parse_formula_components(formula, data)
   }, error = function(e) {
@@ -256,7 +262,6 @@ qbrms <- function(formula, data, family = gaussian(),
   
   fam_name <- tryCatch(extract_family_name(inla_fam), error = function(e) "gaussian")
   
-  # Multinomial branch
   if (identical(fam_name, "multinomial")) {
     fit_res <- tryCatch({
       .qbrms_silently(fit_multinomial_model(formula, data, inla_fam, control.compute, verbose, ...))
@@ -285,7 +290,6 @@ qbrms <- function(formula, data, family = gaussian(),
     }
   }
   
-  # Quantile regression branch
   if (identical(fam_name, "asymmetric_laplace")) {
     start_time <- Sys.time()
     quantile_fit <- tryCatch({
@@ -323,7 +327,6 @@ qbrms <- function(formula, data, family = gaussian(),
     return(res)
   }
   
-  # Standard fixed/mixed effects path (INLA or fallback inside)
   fit_res <- tryCatch({
     .qbrms_silently(fit_model_robust_fixed(formula, data, inla_fam, control.compute, verbose, ...))
   }, error = function(e) {
@@ -343,7 +346,6 @@ qbrms <- function(formula, data, family = gaussian(),
     )
   })
   
-  # Grouping variable extraction (simple (1|group) case)
   group_var <- NULL
   if (isTRUE(formula_components$has_random_effects)) {
     frm_str <- tryCatch(deparse(formula, width.cutoff = 500), error = function(e) "")
@@ -352,7 +354,6 @@ qbrms <- function(formula, data, family = gaussian(),
     if (length(cap[[1]]) >= 2) group_var <- trimws(cap[[1]][2])
   }
   
-  # Optional prior predictive samples
   prior_samples <- NULL
   if (identical(sample_prior, "yes")) {
     if (isTRUE(verbose)) cat("Also generating prior predictive samples...\n")
@@ -391,16 +392,12 @@ qbrms <- function(formula, data, family = gaussian(),
   if (isTRUE(verbose)) cat("qbrms model fitting completed successfully.\n")
   return(res)
 }
-# =============================================================================
-# Alias for qbrms() - Quick Bayesian Regression Models
-# =============================================================================
 
 #' Alias for \code{qbrms()}
 #'
 #' \code{qbrm()} is a shorter alias for \code{qbrms()} with identical functionality.
-#' This block intentionally does **not** use @inheritParams to avoid roxygen warnings
-#' for aliases.
 #'
 #' @seealso \code{\link{qbrms}}
+#' @return An object of class \code{"qbrms_fit"}, same as \code{qbrms()}.
 #' @export
 qbrm <- qbrms

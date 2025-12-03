@@ -47,6 +47,16 @@ prior_build_from_beliefs(
 
 \item{seed}{Random seed}
 }
+\value{
+An object of class \code{"qbrms_prior_build"} containing:
+\itemize{
+\item \code{priors}: A list of prior specifications.
+\item \code{prior_code}: Character string of R code to reproduce the priors.
+\item \code{formula}: The (possibly modified) model formula.
+\item \code{data}: The (possibly standardised) data.
+\item \code{diagnostics}: Prior predictive diagnostic information.
+}
+}
 \description{
 Build priors from elicited beliefs (GLM-aware)
 }

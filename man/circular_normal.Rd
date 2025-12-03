@@ -15,7 +15,7 @@ von_mises(link = "tan_half", link.kappa = "log")
 \item{link.kappa}{Link function for concentration}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Circular Normal Family for Directional Data

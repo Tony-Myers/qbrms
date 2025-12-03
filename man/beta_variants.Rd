@@ -16,6 +16,9 @@ logitbeta(link = "logit")
 \arguments{
 \item{link}{Link function (default: "logit")}
 }
+\value{
+A family object of class \code{"family"}.
+}
 \description{
 Alternative Beta Parameterizations
 }

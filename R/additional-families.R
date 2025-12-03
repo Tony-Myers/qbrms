@@ -18,7 +18,7 @@ NULL
 #' Simplex Family for Compositional Data
 #' @param link Link function for the mean (default: "logit")
 #' @param link.precision Link function for precision parameter (default: "log")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 simplex <- function(link = "logit", link.precision = "log") {
   structure(list(
@@ -30,7 +30,7 @@ simplex <- function(link = "logit", link.precision = "log") {
 
 #' Beta Binomial Family for Overdispersed Binary Data
 #' @param link Link function for probability parameter (default: "logit")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 beta_binomial <- function(link = "logit") {
   structure(list(
@@ -41,6 +41,7 @@ beta_binomial <- function(link = "logit") {
 
 #' Alternative Beta Parameterizations
 #' @param link Link function (default: "logit")
+#' @return A family object of class \code{"family"}.
 #' @name beta_variants
 NULL
 
@@ -69,7 +70,7 @@ logitbeta <- function(link = "logit") {
 #' Zero-Inflated Poisson Family
 #' @param link Link function for mean (default: "log")
 #' @param link.zi Link function for zero-inflation (default: "logit")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 zero_inflated_poisson <- function(link = "log", link.zi = "logit") {
   structure(list(
@@ -87,7 +88,7 @@ zip <- function() {
 #' Zero-Inflated Negative Binomial Family
 #' @param link Link function for mean (default: "log")
 #' @param link.zi Link function for zero-inflation (default: "logit")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 zero_inflated_negbinomial <- function(link = "log", link.zi = "logit") {
   structure(list(
@@ -106,6 +107,7 @@ zinb <- function(link = "log", link.zi = "logit") {
 #' Hurdle Families for Two-Part Models
 #' @param link Link function for count component
 #' @param link.hu Link function for hurdle component
+#' @return A family object of class \code{"family"}.
 #' @name hurdle_families
 NULL
 
@@ -132,7 +134,7 @@ hurdle_negbinomial <- function(link = "log", link.hu = "logit") {
 #' Gamma family (GLM-style)
 #' @description Gamma family constructor to avoid conflict with base::gamma.
 #' @param link Link function (default: "log")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @name Gamma_family
 #' @rdname Gamma_family
 #' @aliases Gamma
@@ -148,7 +150,7 @@ Gamma <- function(link = "log") {
 #' Weibull Survival Family
 #' @param link Link function for scale (default: "log")
 #' @param link.shape Link function for shape (default: "log")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 weibull <- function(link = "log", link.shape = "log") {
   structure(list(
@@ -162,7 +164,7 @@ weibull <- function(link = "log", link.shape = "log") {
 #' @param link Link function for location
 #' @param link.sigma Link function for scale
 #' @param link.xi Link function for shape
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 gev <- function(link = "identity", link.sigma = "log", link.xi = "identity") {
   structure(list(
@@ -186,7 +188,7 @@ gumbel <- function(link = "identity", link.sigma = "log") {
 #' Circular Normal Family for Directional Data
 #' @param link Link function for mean direction
 #' @param link.kappa Link function for concentration
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 circular_normal <- function(link = "tan_half", link.kappa = "log") {
   structure(list(
@@ -209,7 +211,7 @@ von_mises <- function(link = "tan_half", link.kappa = "log") {
 #' Laplace (Double Exponential) Family
 #' @param link Link function for location
 #' @param link.sigma Link function for scale
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 laplace <- function(link = "identity", link.sigma = "log") {
   structure(list(family = "laplace", link = link, link.sigma = link.sigma), class = "family")
@@ -225,7 +227,7 @@ double_exponential <- function(link = "identity", link.sigma = "log") {
 #' @param link Link function for location
 #' @param link.sigma Link function for scale
 #' @param link.nu Link function for degrees of freedom
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 gen_student_t <- function(link = "identity", link.sigma = "log", link.nu = "log") {
   structure(list(
@@ -243,7 +245,7 @@ gen_student_t <- function(link = "identity", link.sigma = "log", link.nu = "log"
 #' Random Walk Families
 #' @param scale.model Scaling model for precision
 #' @param diagonal Diagonal precision matrix structure
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @name random_walk_families
 NULL
 
@@ -270,7 +272,7 @@ rw2 <- function(scale.model = "log", diagonal = 1e-6) {
 #' IID Random Effects
 #' @param scale.model Scaling model for precision
 #' @param diagonal Diagonal precision matrix structure
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 iid <- function(scale.model = "log", diagonal = 1e-6) {
   structure(list(
@@ -283,7 +285,7 @@ iid <- function(scale.model = "log", diagonal = 1e-6) {
 #' Beta Family Constructor (Capital B)
 #' @param link Link function (default: "logit")
 #' @param link.phi Link function for precision (default: "log")
-#' @return A family object
+#' @return A family object of class \code{"family"}.
 #' @export
 Beta <- function(link = "logit", link.phi = "log") {
   valid_links <- c("logit", "probit", "cloglog", "cauchit", "log", "identity")

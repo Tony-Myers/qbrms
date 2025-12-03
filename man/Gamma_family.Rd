@@ -11,7 +11,7 @@ Gamma(link = "log")
 \item{link}{Link function (default: "log")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Gamma family constructor to avoid conflict with base::gamma.

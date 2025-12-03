@@ -40,12 +40,12 @@ qbrm(
 \item{...}{Additional arguments passed to qbrms().}
 }
 \value{
+An object of class \code{"qbrms_fit"}, same as \code{qbrms()}.
+
 A qbrms_fit object with model results.
 }
 \description{
 \code{qbrm()} is a shorter alias for \code{qbrms()} with identical functionality.
-This block intentionally does \strong{not} use @inheritParams to avoid roxygen warnings
-for aliases.
 
 Enhanced interface to qbrms with all required parameters and built-in diagnostics.
 }

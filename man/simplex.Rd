@@ -12,7 +12,7 @@ simplex(link = "logit", link.precision = "log")
 \item{link.precision}{Link function for precision parameter (default: "log")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Simplex Family for Compositional Data

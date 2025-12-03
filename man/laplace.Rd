@@ -15,7 +15,7 @@ double_exponential(link = "identity", link.sigma = "log")
 \item{link.sigma}{Link function for scale}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Laplace (Double Exponential) Family

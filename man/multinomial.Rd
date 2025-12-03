@@ -6,6 +6,9 @@
 \usage{
 multinomial()
 }
+\value{
+An object of class \code{"family"} representing the Multinomial distribution.
+}
 \description{
 Multinomial Family
 }

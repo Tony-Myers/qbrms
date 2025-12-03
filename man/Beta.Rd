@@ -14,7 +14,7 @@ Beta(link = "logit", link.phi = "log")
 \item{link.phi}{Link function for precision parameter (default: "log")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 
 A family object for use with qbrms()
 }

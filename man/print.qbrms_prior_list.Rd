@@ -11,6 +11,9 @@
 
 \item{...}{Unused}
 }
+\value{
+Invisibly returns \code{x}.
+}
 \description{
 Print Prior List Objects
 }

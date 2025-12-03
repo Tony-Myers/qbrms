@@ -7,7 +7,10 @@
 cumulative(link = "logit")
 }
 \arguments{
-\item{link}{Link function (default: "logit")}
+\item{link}{Link function (default: "logit").}
+}
+\value{
+An object of class \code{"family"} representing the Cumulative distribution for ordinal models.
 }
 \description{
 Cumulative Family for Ordinal Regression

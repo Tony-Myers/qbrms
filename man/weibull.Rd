@@ -12,7 +12,7 @@ weibull(link = "log", link.shape = "log")
 \item{link.shape}{Link function for shape (default: "log")}
 }
 \value{
-A family object
+A family object of class \code{"family"}.
 }
 \description{
 Weibull Survival Family

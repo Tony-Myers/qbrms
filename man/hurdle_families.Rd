@@ -15,6 +15,9 @@ hurdle_negbinomial(link = "log", link.hu = "logit")
 
 \item{link.hu}{Link function for hurdle component}
 }
+\value{
+A family object of class \code{"family"}.
+}
 \description{
 Hurdle Families for Two-Part Models
 }

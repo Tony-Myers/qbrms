@@ -6,8 +6,9 @@
 #'
 #' @description
 #' A comprehensive, step-by-step assistant for Bayesian model building with qbrms.
-#' Designed for users who need guidance on family selection, prior specification,
-#' and model comparison.
+#'
+#' @return No return value. This function launches an interactive Shiny gadget 
+#'   for model building and code generation.
 #'
 #' @export
 model_workflow_addin <- function() {

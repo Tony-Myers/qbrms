@@ -2,19 +2,23 @@
 % Please edit documentation in R/mixed_binomial_enhanced.R
 \name{qbrmb_regularised}
 \alias{qbrmb_regularised}
-\title{Regularised binomial mixed effects (convenience)}
+\title{Regularised binomial mixed-effects (enhanced strategy)}
 \usage{
 qbrmb_regularised(formula, data, verbose = FALSE, ...)
 }
 \arguments{
-\item{formula}{Model formula with random effects (lme4 style)}
+\item{formula}{Model formula with random effects (lme4-style).}
 
-\item{data}{Data frame containing variables}
+\item{data}{Data frame containing the variables in the model.}
 
-\item{verbose}{Logical; show detailed diagnostics}
+\item{verbose}{Logical; if \code{TRUE}, show detailed diagnostics.}
 
-\item{...}{Additional arguments passed to qbrmb}
+\item{...}{Additional arguments passed to \code{\link{qbrmb}}.}
+}
+\value{
+An object of class \code{c("qbrmb_fit", "qbrms_fit", "list")}.
 }
 \description{
-Regularised binomial mixed effects (convenience)
+Convenience wrapper around \code{\link{qbrmb}} using the "enhanced"
+regularisation strategy and a stronger default regularisation strength.
 }
